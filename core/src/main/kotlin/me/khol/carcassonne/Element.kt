@@ -1,6 +1,6 @@
 package me.khol.carcassonne
 
-sealed class Element<P : Element.Position> {
+sealed class Element<P : Position> {
 
     object Field : Element<Position.SplitEdge>()
     object Road : Element<Position.Edge>()
@@ -12,26 +12,5 @@ sealed class Element<P : Element.Position> {
     object RiverEnd : Element<Position.Edge>()
     object CropCircle : Element<Position.Center>()
 
-    sealed interface Position {
-
-        object Center : Position
-
-        enum class Edge : Position {
-            Top,
-            Right,
-            Bottom,
-            Left,
-        }
-
-        enum class SplitEdge : Position {
-            TopLeft,
-            TopRight,
-            RightTop,
-            RightBottom,
-            BottomRight,
-            BottomLeft,
-            LeftBottom,
-            LeftTop,
-        }
-    }
+    override fun toString(): String = javaClass.simpleName
 }
