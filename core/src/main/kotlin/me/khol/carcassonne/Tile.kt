@@ -1,6 +1,7 @@
 package me.khol.carcassonne
 
 data class Tile(
+    val name: String,
     val edges: Edges,
     val elements: Elements,
 ) {
