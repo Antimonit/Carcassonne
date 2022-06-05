@@ -54,9 +54,7 @@ interface Positions<T : Position> {
 
         private constructor(value: Position.Edge) : this(setOf(value))
 
-        operator fun plus(
-            other: Positions<Position.Edge>,
-        ) = Edge(value + other.value)
+        operator fun plus(other: Edge) = Edge(value + other.value)
 
         companion object {
             val Top = Edge(Position.Edge.Top)
@@ -74,9 +72,7 @@ interface Positions<T : Position> {
 
         private constructor(value: Position.SplitEdge) : this(setOf(value))
 
-        operator fun plus(
-            other: Positions<Position.SplitEdge>,
-        ) = SplitEdge(value + other.value)
+        operator fun plus(other: SplitEdge) = SplitEdge(value + other.value)
 
         companion object {
             val TopLeft = SplitEdge(Position.SplitEdge.TopLeft)
