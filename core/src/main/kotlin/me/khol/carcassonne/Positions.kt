@@ -52,7 +52,7 @@ interface Positions<T : Position> {
         override val value: Set<Position.Edge>,
     ) : Positions<Position.Edge> {
 
-        constructor(value: Position.Edge) : this(setOf(value))
+        private constructor(value: Position.Edge) : this(setOf(value))
 
         operator fun plus(
             other: Positions<Position.Edge>,
@@ -72,7 +72,7 @@ interface Positions<T : Position> {
         override val value: Set<Position.SplitEdge>,
     ) : Positions<Position.SplitEdge> {
 
-        constructor(value: Position.SplitEdge) : this(setOf(value))
+        private constructor(value: Position.SplitEdge) : this(setOf(value))
 
         operator fun plus(
             other: Positions<Position.SplitEdge>,
