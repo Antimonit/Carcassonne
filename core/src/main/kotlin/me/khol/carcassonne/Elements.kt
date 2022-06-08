@@ -14,7 +14,7 @@ fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder().
 
 private class ElementsBuilder : MutableElements {
 
-    private val map = mutableMapOf<Element<*>, List<*>>().withDefault { emptyList<Any>() }
+    private val map: MutableMap<Element<*>, List<*>> = mutableMapOf()
 
     override fun <P : Position, Set : Positions<P>> add(key: Element<P>, vararg positions: Set) {
         map[key] = positions.toList()
@@ -22,7 +22,7 @@ private class ElementsBuilder : MutableElements {
 
     override fun <P : Position, Set : Positions<P>> get(key: Element<P>): List<Set> {
         @Suppress("UNCHECKED_CAST")
-        return map.getValue(key) as List<Set>
+        return map.getOrDefault(key, emptyList<Set>()) as List<Set>
     }
 
     override fun toString() = map.toString()
