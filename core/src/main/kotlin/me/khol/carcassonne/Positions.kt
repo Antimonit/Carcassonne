@@ -68,13 +68,23 @@ interface Positions<T : Position> {
 
     class SplitEdge private constructor(
         override val value: Set<Position.SplitEdge>,
+        private val connectedCities: Set<Edge>,
     ) : Positions<Position.SplitEdge> {
 
-        private constructor(value: Position.SplitEdge) : this(setOf(value))
+        private constructor(value: Position.SplitEdge) : this(setOf(value), emptySet())
 
-        operator fun plus(other: SplitEdge) = SplitEdge(value + other.value)
+        operator fun plus(other: SplitEdge) = SplitEdge(
+            value + other.value,
+            connectedCities + other.connectedCities,
+        )
+
+        fun connectedToCities(vararg cities: Edge) = SplitEdge(value, cities.toSet())
+
+        fun connectedToCities(cities: Set<Edge>) = SplitEdge(value, cities)
 
         companion object {
+            val None = SplitEdge(emptySet(), emptySet())
+
             val TopLeft = SplitEdge(Position.SplitEdge.TopLeft)
             val TopRight = SplitEdge(Position.SplitEdge.TopRight)
             val RightTop = SplitEdge(Position.SplitEdge.RightTop)
