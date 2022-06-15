@@ -12,14 +12,16 @@ val H = Tile(
     name = "H",
     edges = Edges(top = Field, right = City, bottom = Field, left = City),
     elements = elements {
+        val cityLeft = Positions.city { left }
+        val cityRight = Positions.city { right }
         add(
             Element.Field,
-            Positions.splitEdges { Top + Bottom },
+            Positions.field(cityLeft, cityRight) { top + bottom },
         )
         add(
             Element.City,
-            Positions.Edge.Left,
-            Positions.Edge.Right,
+            cityLeft,
+            cityRight,
         )
     },
 )

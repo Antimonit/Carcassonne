@@ -14,15 +14,15 @@ val W = Tile(
     elements = elements {
         add(
             Element.Road,
-            Positions.Edge.Right,
-            Positions.Edge.Bottom,
-            Positions.Edge.Left
+            Positions.road { right },
+            Positions.road { bottom },
+            Positions.road { left },
         )
         add(
             Element.Field,
-            Positions.splitEdges { LeftTop + Top + RightTop },
-            Positions.splitEdges { RightBottom + BottomRight },
-            Positions.splitEdges { LeftBottom + BottomLeft },
+            Positions.field { leftTop + top + rightTop },
+            Positions.field { rightBottom + bottomRight },
+            Positions.field { leftBottom + bottomLeft },
         )
     },
 )

@@ -24,22 +24,22 @@ internal class TileTest {
     @MethodSource
     fun `tile edges match tile elements`(tile: Tile) {
         expectThat(tile) {
-            checkMatches(tile.edges.top, Position.Edge.Top, Positions.SplitEdge.Top)
-            checkMatches(tile.edges.right, Position.Edge.Right, Positions.SplitEdge.Right)
-            checkMatches(tile.edges.bottom, Position.Edge.Bottom, Positions.SplitEdge.Bottom)
-            checkMatches(tile.edges.left, Position.Edge.Left, Positions.SplitEdge.Left)
+            checkMatches(tile.edges.top, Position.Edge.Top, Positions.field { top })
+            checkMatches(tile.edges.right, Position.Edge.Right, Positions.field { right })
+            checkMatches(tile.edges.bottom, Position.Edge.Bottom, Positions.field { bottom })
+            checkMatches(tile.edges.left, Position.Edge.Left, Positions.field { left })
 
-            checkDuplicateEdge<Position.SplitEdge, Positions.SplitEdge>(Element.Field)
-            checkDuplicateEdge<Position.Edge, Positions.Edge>(Element.Road)
-            checkDuplicateEdge<Position.Edge, Positions.Edge>(Element.City)
-            checkDuplicateEdge<Position.Edge, Positions.Edge>(Element.River)
+            checkDuplicateEdge(Element.Field)
+            checkDuplicateEdge(Element.Road)
+            checkDuplicateEdge(Element.City)
+            checkDuplicateEdge(Element.River)
         }
     }
 
     private fun Assertion.Builder<Tile>.checkMatches(
         tileEdge: Tile.Edge,
         edge: Position.Edge,
-        splitEdges: Positions.SplitEdge,
+        splitEdges: Positions.Field,
     ) = with("since $edge edge is $tileEdge", { elements }) {
         when (tileEdge) {
             Tile.Edge.Field -> {
@@ -71,8 +71,8 @@ internal class TileTest {
     }
 
     private fun <P : Position, PS : Positions<P>> Assertion.Builder<Tile>.checkDuplicateEdge(
-        field: Element<P>,
-    ) = get { elements.get<P, PS>(field) }
+        field: Element<P, PS>,
+    ) = get { elements[field] }
         .describedAs { "No $field edge declared multiple times" }
         .get { map { it.value }.flatten().groupingBy { it }.eachCount().entries }
         .describedAs { "$this" }

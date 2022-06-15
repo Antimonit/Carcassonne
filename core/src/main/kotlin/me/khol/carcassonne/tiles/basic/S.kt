@@ -1,5 +1,6 @@
 package me.khol.carcassonne.tiles.basic
 
+import me.khol.carcassonne.Boon
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.Positions
 import me.khol.carcassonne.Tile
@@ -12,19 +13,19 @@ val S = Tile(
     name = "S",
     edges = Edges(top = City, right = City, bottom = Road, left = City),
     elements = elements {
+        val city = Positions.city(Boon.City.CoatOfArms) { top + right + left }
         add(
             Element.Field,
-            Positions.SplitEdge.BottomLeft,
-            Positions.SplitEdge.BottomRight,
+            Positions.field(city) { bottomLeft },
+            Positions.field(city) { bottomRight },
         )
         add(
             Element.Road,
-            Positions.Edge.Bottom,
+            Positions.road { bottom },
         )
         add(
             Element.City,
-            Positions.edges { Top + Right + Left },
+            city,
         )
     },
 )
-// TODO: Add Coat of Arms

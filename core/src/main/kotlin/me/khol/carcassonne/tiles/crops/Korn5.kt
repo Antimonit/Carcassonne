@@ -12,15 +12,17 @@ val Korn5 = Tile(
     name = "Korn5",
     edges = Edges(top = City, right = Field, bottom = City, left = Field),
     elements = elements {
+        val cityTop = Positions.city { top }
+        val cityBottom = Positions.city { bottom }
         add(
             Element.Field,
-            Positions.SplitEdge.Left,
-            Positions.SplitEdge.Right,
+            Positions.field(cityTop, cityBottom) { left },
+            Positions.field(cityTop, cityBottom) { right },
         )
         add(
             Element.City,
-            Positions.Edge.Top,
-            Positions.Edge.Bottom,
+            cityTop,
+            cityBottom,
         )
         add(
             Element.CropCircle,

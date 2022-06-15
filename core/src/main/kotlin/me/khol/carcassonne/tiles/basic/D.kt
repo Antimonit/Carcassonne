@@ -13,18 +13,19 @@ val D = Tile(
     name = "D",
     edges = Edges(top = City, right = Road, bottom = Field, left = Road),
     elements = elements {
+        val city = Positions.city { top }
         add(
             Element.Field,
-            Positions.splitEdges { LeftTop + RightTop },
-            Positions.splitEdges { LeftBottom + RightBottom + Bottom },
+            Positions.field(city) { leftTop + rightTop },
+            Positions.field { leftBottom + rightBottom + bottom },
         )
         add(
             Element.City,
-            Positions.Edge.Top,
+            city,
         )
         add(
             Element.Road,
-            Positions.edges { Left + Right },
+            Positions.road { left + right },
         )
     },
 )

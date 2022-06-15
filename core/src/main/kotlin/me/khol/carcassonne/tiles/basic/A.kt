@@ -14,11 +14,11 @@ val A = Tile(
     elements = elements {
         add(
             Element.Field,
-            Positions.SplitEdge.All,
+            Positions.field { all },
         )
         add(
             Element.Road,
-            Positions.Edge.Bottom,
+            Positions.road { bottom },
         )
         add(
             Element.Monastery,

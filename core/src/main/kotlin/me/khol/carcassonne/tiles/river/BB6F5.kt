@@ -12,18 +12,19 @@ val BB6F5 = Tile(
     name = "BB6F5",
     edges = Edges(top = City, right = City, bottom = River, left = River),
     elements = elements {
+        val city = Positions.city { top + right }
         add(
             Element.Field,
-            Positions.splitEdges { LeftTop + BottomRight },
-            Positions.splitEdges { LeftBottom + BottomLeft },
+            Positions.field(city) { leftTop + bottomRight },
+            Positions.field { leftBottom + bottomLeft },
         )
         add(
             Element.City,
-            Positions.edges { Top + Right },
+            city,
         )
         add(
             Element.River,
-            Positions.edges { Left + Bottom },
+            Positions.edges { left + bottom },
         )
     },
 )
