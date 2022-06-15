@@ -1,8 +1,9 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.tiles.basic.*
-import me.khol.carcassonne.tiles.crops.*
-import me.khol.carcassonne.tiles.river.*
+import me.khol.carcassonne.tiles.basicTileset
+import me.khol.carcassonne.tiles.cropsTileset
+import me.khol.carcassonne.tiles.innsTileset
+import me.khol.carcassonne.tiles.riverTileset
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 import strikt.api.Assertion
@@ -15,9 +16,9 @@ internal class TileTest {
     companion object {
         @JvmStatic
         fun `tile edges match tile elements`() =
-            setOf(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X) +
-                setOf(BB6F1, BB6F2, BB6F3, BB6F4, BB6F5, BB6F6, BB6F7, BB6F8, BB6F9, BB6F10, BB6F11, BB6F12) +
-                setOf(Korn1, Korn2, Korn3, Korn4, Korn5, Korn6)
+            listOf(basicTileset, riverTileset, innsTileset, cropsTileset)
+                .flatMap { it.tileCounts }
+                .map { it.tile }
     }
 
     @ParameterizedTest
