@@ -1,7 +1,7 @@
 package me.khol.carcassonne.tiles.crops
 
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.Positions
+import me.khol.carcassonne.ElementGroup
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.Tile.Edge.City
 import me.khol.carcassonne.Tile.Edge.Field
@@ -13,10 +13,10 @@ val Korn3 = Tile(
     name = "Korn3",
     edges = Edges(top = City, right = Field, bottom = Road, left = Field),
     elements = elements {
-        val city = Positions.city { top }
+        val city = ElementGroup.city { top }
         add(
             Element.Field,
-            Positions.field(city) { left + right + bottom },
+            ElementGroup.field(city) { left + right + bottom },
         )
         add(
             Element.City,
@@ -24,11 +24,11 @@ val Korn3 = Tile(
         )
         add(
             Element.Road,
-            Positions.road { bottom },
+            ElementGroup.road { bottom },
         )
         add(
             Element.CropCircle,
-            Positions.Center,
+            ElementGroup.Center,
         )
     },
 )
