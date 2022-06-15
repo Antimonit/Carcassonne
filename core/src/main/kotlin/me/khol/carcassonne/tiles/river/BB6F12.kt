@@ -1,7 +1,7 @@
 package me.khol.carcassonne.tiles.river
 
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.Positions
+import me.khol.carcassonne.ElementGroup
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.Tile.Edge.Field
 import me.khol.carcassonne.Tile.Edge.River
@@ -14,15 +14,15 @@ val BB6F12 = Tile(
     elements = elements {
         add(
             Element.Field,
-            Positions.field { all },
+            ElementGroup.field { all },
         )
         add(
             Element.River,
-            Positions.edges { bottom },
+            ElementGroup.edges { bottom },
         )
         add(
             Element.RiverEnd,
-            Positions.Center,
+            ElementGroup.Center,
         )
     },
 )

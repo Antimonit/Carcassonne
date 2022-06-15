@@ -32,9 +32,9 @@ package me.khol.carcassonne
  *
  * This approach might be more comfortable in some situations but is less type-safe.
  */
-interface Positions<T : Position> {
+interface ElementGroup<P : Position> {
 
-    val value: Set<T>
+    val value: Set<P>
 
     companion object {
 
@@ -51,14 +51,14 @@ interface Positions<T : Position> {
             with(City.Builder.Companion, block).build(boons.toSet())
     }
 
-    object Center : Positions<Position.Center> {
+    object Center : ElementGroup<Position.Center> {
 
         override val value = setOf(Position.Center)
     }
 
     class Edge private constructor(
         override val value: Set<Position.Edge>,
-    ) : Positions<Position.Edge> {
+    ) : ElementGroup<Position.Edge> {
 
         class Builder private constructor(private val value: Set<Position.Edge>) {
 
@@ -83,7 +83,7 @@ interface Positions<T : Position> {
     class City private constructor(
         override val value: Set<Position.Edge>,
         val boons: Set<Boon.City>,
-    ) : Positions<Position.Edge> {
+    ) : ElementGroup<Position.Edge> {
 
         class Builder private constructor(private val value: Set<Position.Edge>) {
 
@@ -107,7 +107,7 @@ interface Positions<T : Position> {
     class Road private constructor(
         override val value: Set<Position.Edge>,
         val boons: Set<Boon.Road>,
-    ) : Positions<Position.Edge> {
+    ) : ElementGroup<Position.Edge> {
 
         class Builder private constructor(private val value: Set<Position.Edge>) {
 
@@ -131,7 +131,7 @@ interface Positions<T : Position> {
     class Field private constructor(
         override val value: Set<Position.SplitEdge>,
         val connectedCities: Set<City>,
-    ) : Positions<Position.SplitEdge> {
+    ) : ElementGroup<Position.SplitEdge> {
 
         class Builder private constructor(private val value: Set<Position.SplitEdge>) {
 

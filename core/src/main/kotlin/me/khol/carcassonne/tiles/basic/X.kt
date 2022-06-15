@@ -1,7 +1,7 @@
 package me.khol.carcassonne.tiles.basic
 
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.Positions
+import me.khol.carcassonne.ElementGroup
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.Tile.Edge.Road
 import me.khol.carcassonne.Tile.Edges
@@ -13,17 +13,17 @@ val X = Tile(
     elements = elements {
         add(
             Element.Road,
-            Positions.road { top },
-            Positions.road { right },
-            Positions.road { bottom },
-            Positions.road { left },
+            ElementGroup.road { top },
+            ElementGroup.road { right },
+            ElementGroup.road { bottom },
+            ElementGroup.road { left },
         )
         add(
             Element.Field,
-            Positions.field { leftTop + topLeft },
-            Positions.field { topRight + rightTop },
-            Positions.field { rightBottom + bottomRight },
-            Positions.field { leftBottom + bottomLeft },
+            ElementGroup.field { leftTop + topLeft },
+            ElementGroup.field { topRight + rightTop },
+            ElementGroup.field { rightBottom + bottomRight },
+            ElementGroup.field { leftBottom + bottomLeft },
         )
     },
 )

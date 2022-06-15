@@ -1,7 +1,7 @@
 package me.khol.carcassonne.tiles.crops
 
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.Positions
+import me.khol.carcassonne.ElementGroup
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.Tile.Edge.City
 import me.khol.carcassonne.Tile.Edges
@@ -13,12 +13,12 @@ val Korn6 = Tile(
     elements = elements {
         add(
             Element.City,
-            Positions.city { left + top },
-            Positions.city { right + bottom },
+            ElementGroup.city { left + top },
+            ElementGroup.city { right + bottom },
         )
         add(
             Element.CropCircle,
-            Positions.Center,
+            ElementGroup.Center,
         )
     },
 )
