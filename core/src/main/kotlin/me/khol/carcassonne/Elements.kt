@@ -17,7 +17,7 @@ private class ElementsBuilder : MutableElements {
     private val map: MutableMap<Element<*>, List<*>> = mutableMapOf()
 
     override fun <P : Position, Set : Positions<P>> add(key: Element<P>, vararg positions: Set) {
-        map[key] = positions.toList()
+        map[key] = get(key) + positions.toList()
     }
 
     override fun <P : Position, Set : Positions<P>> get(key: Element<P>): List<Set> {
