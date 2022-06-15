@@ -13,17 +13,17 @@ val X = Tile(
     elements = elements {
         add(
             Element.Road,
-            Positions.Edge.Top,
-            Positions.Edge.Right,
-            Positions.Edge.Bottom,
-            Positions.Edge.Left
+            Positions.road { top },
+            Positions.road { right },
+            Positions.road { bottom },
+            Positions.road { left },
         )
         add(
             Element.Field,
-            Positions.splitEdges { LeftTop + TopLeft },
-            Positions.splitEdges { TopRight + RightTop },
-            Positions.splitEdges { RightBottom + BottomRight },
-            Positions.splitEdges { LeftBottom + BottomLeft },
+            Positions.field { leftTop + topLeft },
+            Positions.field { topRight + rightTop },
+            Positions.field { rightBottom + bottomRight },
+            Positions.field { leftBottom + bottomLeft },
         )
     },
 )

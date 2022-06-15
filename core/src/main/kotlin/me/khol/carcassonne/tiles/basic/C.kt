@@ -1,5 +1,6 @@
 package me.khol.carcassonne.tiles.basic
 
+import me.khol.carcassonne.Boon
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.Positions
 import me.khol.carcassonne.Tile
@@ -13,7 +14,7 @@ val C = Tile(
     elements = elements {
         add(
             Element.City,
-            Positions.Edge.All,
+            Positions.city(Boon.City.CoatOfArms) { all },
         )
         add(
             Element.Monastery,
@@ -21,4 +22,3 @@ val C = Tile(
         )
     },
 )
-// TODO: Add Coat of Arms

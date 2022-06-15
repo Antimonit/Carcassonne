@@ -14,14 +14,14 @@ val Korn1 = Tile(
     elements = elements {
         add(
             Element.Field,
-            Positions.splitEdges { LeftTop + Top + RightTop },
-            Positions.splitEdges { LeftBottom + BottomLeft },
-            Positions.splitEdges { RightBottom + BottomRight },
+            Positions.field { leftTop + top + rightTop },
+            Positions.field { leftBottom + bottomLeft },
+            Positions.field { rightBottom + bottomRight },
         )
         add(
             Element.Road,
-            Positions.Edge.Right,
-            Positions.edges { Left + Bottom },
+            Positions.road { right },
+            Positions.road { left + bottom },
         )
         add(
             Element.CropCircle,

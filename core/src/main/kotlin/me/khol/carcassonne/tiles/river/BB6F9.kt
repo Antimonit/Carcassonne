@@ -14,17 +14,17 @@ val BB6F9 = Tile(
     elements = elements {
         add(
             Element.Field,
-            Positions.splitEdges { TopLeft + LeftTop },
-            Positions.splitEdges { TopRight + RightTop + BottomLeft + LeftBottom },
-            Positions.splitEdges { BottomRight + RightBottom },
+            Positions.field { topLeft + leftTop },
+            Positions.field { topRight + rightTop + bottomLeft + leftBottom },
+            Positions.field { bottomRight + rightBottom },
         )
         add(
             Element.Road,
-            Positions.edges { Top + Left },
+            Positions.road { top + left },
         )
         add(
             Element.River,
-            Positions.edges { Right + Bottom },
+            Positions.edges { right + bottom },
         )
     },
 )

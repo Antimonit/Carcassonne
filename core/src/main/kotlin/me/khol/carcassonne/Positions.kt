@@ -38,9 +38,17 @@ interface Positions<T : Position> {
 
     companion object {
 
-        fun edges(block: Edge.Companion.() -> Edge): Edge = with(Edge, block)
+        fun edges(block: Edge.Builder.Companion.() -> Edge.Builder): Edge =
+            with(Edge.Builder.Companion, block).build()
 
-        fun splitEdges(block: SplitEdge.Companion.() -> SplitEdge): SplitEdge = with(SplitEdge, block)
+        fun field(vararg connectedCities: City, block: Field.Builder.Companion.() -> Field.Builder): Field =
+            with(Field.Builder.Companion, block).build(*connectedCities)
+
+        fun road(vararg boons: Boon.Road, block: Road.Builder.Companion.() -> Road.Builder): Road =
+            with(Road.Builder.Companion, block).build(boons.toSet())
+
+        fun city(vararg boons: Boon.City, block: City.Builder.Companion.() -> City.Builder): City =
+            with(City.Builder.Companion, block).build(boons.toSet())
     }
 
     object Center : Positions<Position.Center> {
@@ -52,54 +60,106 @@ interface Positions<T : Position> {
         override val value: Set<Position.Edge>,
     ) : Positions<Position.Edge> {
 
-        private constructor(value: Position.Edge) : this(setOf(value))
+        class Builder private constructor(private val value: Set<Position.Edge>) {
 
-        operator fun plus(other: Edge) = Edge(value + other.value)
+            private constructor(value: Position.Edge) : this(setOf(value))
 
-        companion object {
-            val Top = Edge(Position.Edge.Top)
-            val Right = Edge(Position.Edge.Right)
-            val Bottom = Edge(Position.Edge.Bottom)
-            val Left = Edge(Position.Edge.Left)
+            operator fun plus(other: Builder) = Builder(value + other.value)
 
-            val All = Top + Right + Bottom + Left
+            fun build() = Edge(value)
+
+            companion object {
+                val top = Builder(Position.Edge.Top)
+                val right = Builder(Position.Edge.Right)
+                val bottom = Builder(Position.Edge.Bottom)
+                val left = Builder(Position.Edge.Left)
+
+                val all = top + right + bottom + left
+            }
         }
     }
 
-    class SplitEdge private constructor(
+
+    class City private constructor(
+        override val value: Set<Position.Edge>,
+        val boons: Set<Boon.City>,
+    ) : Positions<Position.Edge> {
+
+        class Builder private constructor(private val value: Set<Position.Edge>) {
+
+            private constructor(value: Position.Edge) : this(setOf(value))
+
+            operator fun plus(other: Builder) = Builder(value + other.value)
+
+            fun build(boons: Set<Boon.City>) = City(value, boons)
+
+            companion object {
+                val top = Builder(Position.Edge.Top)
+                val right = Builder(Position.Edge.Right)
+                val bottom = Builder(Position.Edge.Bottom)
+                val left = Builder(Position.Edge.Left)
+
+                val all = top + right + bottom + left
+            }
+        }
+    }
+
+    class Road private constructor(
+        override val value: Set<Position.Edge>,
+        val boons: Set<Boon.Road>,
+    ) : Positions<Position.Edge> {
+
+        class Builder private constructor(private val value: Set<Position.Edge>) {
+
+            private constructor(value: Position.Edge) : this(setOf(value))
+
+            operator fun plus(other: Builder) = Builder(value + other.value)
+
+            fun build(boons: Set<Boon.Road>) = Road(value, boons)
+
+            companion object {
+                val top = Builder(Position.Edge.Top)
+                val right = Builder(Position.Edge.Right)
+                val bottom = Builder(Position.Edge.Bottom)
+                val left = Builder(Position.Edge.Left)
+
+                val all = top + right + bottom + left
+            }
+        }
+    }
+
+    class Field private constructor(
         override val value: Set<Position.SplitEdge>,
-        private val connectedCities: Set<Edge>,
+        val connectedCities: Set<City>,
     ) : Positions<Position.SplitEdge> {
 
-        private constructor(value: Position.SplitEdge) : this(setOf(value), emptySet())
+        class Builder private constructor(private val value: Set<Position.SplitEdge>) {
 
-        operator fun plus(other: SplitEdge) = SplitEdge(
-            value + other.value,
-            connectedCities + other.connectedCities,
-        )
+            private constructor(value: Position.SplitEdge) : this(setOf(value))
 
-        fun connectedToCities(vararg cities: Edge) = SplitEdge(value, cities.toSet())
+            operator fun plus(other: Builder) = Builder(value + other.value)
 
-        fun connectedToCities(cities: Set<Edge>) = SplitEdge(value, cities)
+            fun build(vararg connectedCities: City) = Field(value, connectedCities.toSet())
 
-        companion object {
-            val None = SplitEdge(emptySet(), emptySet())
+            companion object {
+                val none = Builder(emptySet())
 
-            val TopLeft = SplitEdge(Position.SplitEdge.TopLeft)
-            val TopRight = SplitEdge(Position.SplitEdge.TopRight)
-            val RightTop = SplitEdge(Position.SplitEdge.RightTop)
-            val RightBottom = SplitEdge(Position.SplitEdge.RightBottom)
-            val BottomRight = SplitEdge(Position.SplitEdge.BottomRight)
-            val BottomLeft = SplitEdge(Position.SplitEdge.BottomLeft)
-            val LeftBottom = SplitEdge(Position.SplitEdge.LeftBottom)
-            val LeftTop = SplitEdge(Position.SplitEdge.LeftTop)
+                val topLeft = Builder(Position.SplitEdge.TopLeft)
+                val topRight = Builder(Position.SplitEdge.TopRight)
+                val rightTop = Builder(Position.SplitEdge.RightTop)
+                val rightBottom = Builder(Position.SplitEdge.RightBottom)
+                val bottomRight = Builder(Position.SplitEdge.BottomRight)
+                val bottomLeft = Builder(Position.SplitEdge.BottomLeft)
+                val leftBottom = Builder(Position.SplitEdge.LeftBottom)
+                val leftTop = Builder(Position.SplitEdge.LeftTop)
 
-            val Top = TopLeft + TopRight
-            val Right = RightTop + RightBottom
-            val Bottom = BottomRight + BottomLeft
-            val Left = LeftBottom + LeftTop
+                val top = topLeft + topRight
+                val right = rightTop + rightBottom
+                val bottom = bottomRight + bottomLeft
+                val left = leftBottom + leftTop
 
-            val All = Top + Right + Bottom + Left
+                val all = top + right + bottom + left
+            }
         }
     }
 }

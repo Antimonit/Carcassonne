@@ -13,7 +13,7 @@ val B = Tile(
     elements = elements {
         add(
             Element.Field,
-            Positions.SplitEdge.All,
+            Positions.field { all },
         )
         add(
             Element.Monastery,

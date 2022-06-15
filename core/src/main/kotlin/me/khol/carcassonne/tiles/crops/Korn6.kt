@@ -13,8 +13,8 @@ val Korn6 = Tile(
     elements = elements {
         add(
             Element.City,
-            Positions.edges { Left + Top },
-            Positions.edges { Right + Bottom },
+            Positions.city { left + top },
+            Positions.city { right + bottom },
         )
         add(
             Element.CropCircle,

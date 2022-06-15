@@ -14,12 +14,12 @@ val V = Tile(
     elements = elements {
         add(
             Element.Road,
-            Positions.edges { Bottom + Left }
+            Positions.road { bottom + left },
         )
         add(
             Element.Field,
-            Positions.splitEdges { LeftBottom + BottomLeft },
-            Positions.splitEdges { LeftTop + Top + Right + BottomRight },
+            Positions.field { leftBottom + bottomLeft },
+            Positions.field { leftTop + top + right + bottomRight },
         )
     },
 )

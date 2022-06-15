@@ -14,12 +14,12 @@ val BB6F7 = Tile(
     elements = elements {
         add(
             Element.Field,
-            Positions.splitEdges { TopLeft + LeftTop },
-            Positions.splitEdges { TopRight + Right + Bottom + LeftBottom },
+            Positions.field { topLeft + leftTop },
+            Positions.field { topRight + right + bottom + leftBottom },
         )
         add(
             Element.River,
-            Positions.edges { Top + Left },
+            Positions.edges { top + left },
         )
     },
 )

@@ -2,27 +2,27 @@ package me.khol.carcassonne
 
 interface Elements {
 
-    operator fun <P : Position, Set : Positions<P>> get(key: Element<P>): List<Set>
+    operator fun <P : Position, Set : Positions<P>> get(key: Element<P, Set>): List<Set>
 }
 
 interface MutableElements : Elements {
 
-    fun <P : Position, Set : Positions<P>> add(key: Element<P>, vararg positions: Set)
+    fun <P : Position, Set : Positions<P>> add(key: Element<P, Set>, vararg positions: Set)
 }
 
 fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder().apply(builder)
 
 private class ElementsBuilder : MutableElements {
 
-    private val map: MutableMap<Element<*>, List<*>> = mutableMapOf()
+    private val map: MutableMap<Element<*, *>, List<*>> = mutableMapOf()
 
-    override fun <P : Position, Set : Positions<P>> add(key: Element<P>, vararg positions: Set) {
+    override fun <P : Position, Set : Positions<P>> add(key: Element<P, Set>, vararg positions: Set) {
         map[key] = get(key) + positions.toList()
     }
 
-    override fun <P : Position, Set : Positions<P>> get(key: Element<P>): List<Set> {
+    override fun <P : Position, Set : Positions<P>> get(key: Element<P, Set>): List<Set> {
         @Suppress("UNCHECKED_CAST")
-        return map.getValue(key) as List<Set>? ?: emptyList()
+        return map.getOrDefault(key, emptyList<P>()) as List<Set>
     }
 
     override fun toString() = map.toString()
