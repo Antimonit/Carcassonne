@@ -5,14 +5,19 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
 }
-
-include(":core")
 
 dependencyResolutionManagement {
     repositories {
+        google()
         mavenCentral()
     }
 }
+
+include(
+    ":core",
+    ":ui:android",
+    ":ui:desktop",
+    ":ui:common"
+)
