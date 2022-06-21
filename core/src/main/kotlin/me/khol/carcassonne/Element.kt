@@ -2,6 +2,7 @@ package me.khol.carcassonne
 
 sealed class Element<P : Position, G : ElementGroup<P>> {
 
+    // TODO: Replace the first generic type with _ after updating to Kotlin 1.7.0
     object Field : Element<Position.SplitEdge, ElementGroup.Field>()
     object Road : Element<Position.Edge, ElementGroup.Road>()
     object City : Element<Position.Edge, ElementGroup.City>()
