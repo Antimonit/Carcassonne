@@ -5,7 +5,7 @@ plugins {
 dependencies {
     testImplementation(platform(libs.junit.bom))
     testImplementation(libs.junit.jupiter)
-    testImplementation("io.strikt:strikt-core:0.35.1")
+    testImplementation(libs.strikt.core)
 }
 
 tasks.test {
