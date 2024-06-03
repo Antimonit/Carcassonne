@@ -1,18 +1,20 @@
 rootProject.name = "Carcassonne"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
     repositories {
-        gradlePluginPortal()
         google()
         mavenCentral()
-        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
     }
 }
 
 include(":core")
-
-dependencyResolutionManagement {
-    repositories {
-        mavenCentral()
-    }
-}
+include(":composeApp")
