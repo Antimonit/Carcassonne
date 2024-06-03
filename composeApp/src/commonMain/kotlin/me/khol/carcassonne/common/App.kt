@@ -5,13 +5,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import getPlatform
 import me.khol.carcassonne.common.Tile.Edge.*
 import me.khol.carcassonne.common.Tile.Edges
 
 @Composable
 fun App() {
     var text by remember { mutableStateOf("Hello, World!") }
-    val platformName = getPlatformName()
+    val platformName = getPlatform().name
 
     PanningWindow {
         Board(
