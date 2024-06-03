@@ -1,7 +1,7 @@
 [versions]
 # https://github.com/JetBrains/kotlin/releases
 kotlin = "2.0.0"
-agp = "8.2.0"
+agp = "8.4.0"
 androidx-activityCompose = "1.9.0"
 androidx-appcompat = "1.6.1"
 androidx-constraintlayout = "2.1.4"
