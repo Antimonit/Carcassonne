@@ -1,6 +1,10 @@
 [versions]
 # https://github.com/JetBrains/kotlin/releases
 kotlin = "2.1.20"
+# https://mvnrepository.com/artifact/com.android.tools.build/gradle
+android = "8.9.1"
+# https://github.com/JetBrains/compose-multiplatform/releases
+compose-multiplatform = "1.7.3"
 # https://github.com/junit-team/junit5/releases
 junit = "5.12.1"
 # https://github.com/robfletcher/strikt/releases
@@ -16,3 +20,9 @@ strikt-core = { module = "io.strikt:strikt-core", version.ref = "strikt" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-application = { id = "com.android.application", version.ref = "android" }
+android-library = { id = "com.android.library", version.ref = "android" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
