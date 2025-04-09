@@ -1,8 +1,13 @@
 [versions]
 # https://github.com/JetBrains/kotlin/releases
 kotlin = "2.1.20"
+# https://github.com/junit-team/junit5/releases
+junit = "5.12.1"
 
 [libraries]
+# https://junit.org/junit5/docs/current/user-guide/
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
