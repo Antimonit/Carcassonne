@@ -1,15 +1,12 @@
 package me.khol.carcassonne.ui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
@@ -21,11 +18,11 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
+import me.khol.carcassonne.PlacedTile
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.basic.D
-import me.khol.carcassonne.ui.tile.TileSurface
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toDrawable
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -63,6 +60,8 @@ object BoardScope {
 @Composable
 fun Board(
     board: Board,
+    currentTile: Tile?,
+    onPlaceTile: (Coordinates, PlacedTile) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     BoardLayout(
@@ -76,14 +75,22 @@ fun Board(
                     .coordinates(coordinates)
             )
         }
-        board.openSpaces.forEach { coordinates ->
-            Surface(
-                color = Color.Black.copy(alpha = 0.12f),
-                shape = RoundedCornerShape(4.dp),
-                modifier = Modifier
-                    .coordinates(coordinates)
-                    .padding(4.dp)
-            ) {
+        currentTile?.let { tile ->
+            val openSpaces = board.possibleSpacesForTile(tile)
+            openSpaces.forEach { (coordinates, rotations) ->
+                val placedTile = rotations.first()
+                @OptIn(ExperimentalMaterialApi::class)
+                Surface(
+                    onClick = {
+                        onPlaceTile(coordinates, placedTile)
+                    },
+                    color = Color.Black.copy(alpha = 0.12f),
+                    shape = RoundedCornerShape(4.dp),
+                    modifier = Modifier
+                        .coordinates(coordinates)
+                        .padding(4.dp)
+                ) {
+                }
             }
         }
     }
@@ -131,8 +138,8 @@ private fun BoardPreview() {
                     .placeTile(coordinates = Coordinates(1, 0), tile = RotatedTile(D, Rotation.ROTATE_180))
                     .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(D, Rotation.ROTATE_0))
                     .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(D, Rotation.ROTATE_180)),
-                modifier = Modifier
-                    .background(Color.Gray)
+                currentTile = D,
+                onPlaceTile = { coordinates, tile -> },
             )
         }
     }
