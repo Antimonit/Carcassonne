@@ -1,5 +1,8 @@
 package me.khol.carcassonne
 
+/**
+ * Clockwise rotation.
+ */
 enum class Rotation {
     ROTATE_0,
     ROTATE_90,

@@ -24,3 +24,9 @@ interface Position {
         LeftTop,
     }
 }
+
+fun Position.Edge.rotate(rotation: Rotation): Position.Edge =
+    Position.Edge.entries[(ordinal + rotation.ordinal) % Position.Edge.entries.size]
+
+fun Position.SplitEdge.rotate(rotation: Rotation): Position.SplitEdge =
+    Position.SplitEdge.entries[(ordinal + rotation.ordinal * 2) % Position.SplitEdge.entries.size]
