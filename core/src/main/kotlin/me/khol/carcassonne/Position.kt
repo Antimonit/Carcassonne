@@ -2,9 +2,7 @@ package me.khol.carcassonne
 
 interface Position {
 
-    object Center : Position {
-        override fun toString(): String = javaClass.simpleName
-    }
+    data object Center : Position
 
     enum class Edge : Position {
         Top,
