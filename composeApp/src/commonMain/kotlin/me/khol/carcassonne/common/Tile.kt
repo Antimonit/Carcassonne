@@ -1,12 +1,10 @@
 package me.khol.carcassonne.common
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
@@ -20,32 +18,39 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.PathOperation
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.drawscope.DrawStyle
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.ScaleFactor
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import me.khol.carcassonne.common.tile.Rotation
+import me.khol.carcassonne.common.tile.TileSurface
+import org.jetbrains.compose.resources.imageResource
+import kotlin.math.min
 
-data class Tile(
+// TODO: This is probably needed only if we draw vector tiles ourselves
+@Deprecated("Unnecessary")
+data class VectorTile(
     val edges: Edges,
 ) {
 
@@ -64,10 +69,21 @@ data class Tile(
     )
 }
 
-data class PlacedTile(
+data class GridPosition(
     val x: Int,
     val y: Int,
-    val tile: Tile,
+)
+
+data class PlacedVectorTile(
+    val position: GridPosition,
+    val tile: VectorTile,
+    val rotation: Rotation,
+)
+
+data class PlacedTile(
+    val position: GridPosition,
+    val tile: HiResTile,
+    val rotation: Rotation,
 )
 
 private val tileSize = 128.dp
@@ -85,32 +101,52 @@ fun Tile(
 }
 
 @Composable
-private fun TileSurface(
+fun Tile(
+    placedTile: PlacedVectorTile,
     modifier: Modifier = Modifier,
-    contents: @Composable () -> Unit,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    val isHovered by interactionSource.collectIsHoveredAsState()
-    val elevation by animateDpAsState(if (isHovered) 4.dp else 1.dp)
-    val scale by animateFloatAsState(if (isHovered) 1.1f else 1f)
-
-    Surface(
-        modifier = modifier
-            .zIndexOnHover()
-            .size(tileSize)
-            .padding(2.dp)
-            .hoverable(interactionSource = interactionSource)
-            .scale(scale),
-        elevation = elevation,
-        shape = RoundedCornerShape(4.dp),
+    TileSurface(
+        modifier = modifier,
     ) {
-        contents()
+        VectorTileContents(placedTile)
     }
 }
+
 
 @Composable
 private fun TileContents(
     placedTile: PlacedTile,
+) {
+    Image(
+        bitmap = imageResource(placedTile.tile.drawable),
+        contentDescription = null,
+        contentScale = object : ContentScale {
+            private fun computeFillWidth(srcSize: Size, dstSize: Size): Float =
+                dstSize.width / (srcSize.width - 120)
+
+            private fun computeFillHeight(srcSize: Size, dstSize: Size): Float =
+                dstSize.height / (srcSize.height - 120)
+
+            private fun computeFillMinDimension(srcSize: Size, dstSize: Size): Float {
+                val widthScale = computeFillWidth(srcSize, dstSize)
+                val heightScale = computeFillHeight(srcSize, dstSize)
+                return min(widthScale, heightScale)
+            }
+
+            override fun computeScaleFactor(srcSize: Size, dstSize: Size): ScaleFactor =
+                computeFillMinDimension(srcSize, dstSize).let {
+                    ScaleFactor(it, it)
+                }
+        },
+        filterQuality = FilterQuality.High,
+        modifier = Modifier
+            .rotate(placedTile.rotation.degrees)
+    )
+}
+
+@Composable
+private fun VectorTileContents(
+    placedTile: PlacedVectorTile,
 ) {
     val imageVector = remember { tileImageVector() }
     Image(imageVector, null, Modifier.size(tileSize))
@@ -160,7 +196,7 @@ private fun TileContents(
         Circle(0, -1, tile.edges.top.color)
         Circle(0, 1, tile.edges.bottom.color)
         Text(
-            text = "[${placedTile.x}, ${placedTile.y}]",
+            text = "[${placedTile.position.x}, ${placedTile.position.y}]",
             modifier = Modifier.align(Alignment.Center),
         )
     }
@@ -216,12 +252,12 @@ class DifferenceShape : Shape {
     }
 }
 
-val Tile.Edge.color: Color
+val VectorTile.Edge.color: Color
     get() = when (this) {
-        Tile.Edge.Field -> colorField
-        Tile.Edge.Road -> colorRoad
-        Tile.Edge.City -> colorCity
-        Tile.Edge.River -> colorRiver
+        VectorTile.Edge.Field -> colorField
+        VectorTile.Edge.Road -> colorRoad
+        VectorTile.Edge.City -> colorCity
+        VectorTile.Edge.River -> colorRiver
     }
 
 val colorField = Color(0.2f, 0.8f, 0.2f)
