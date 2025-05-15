@@ -43,7 +43,7 @@ class Board(
                     left?.let { rotatedTile.rotatedEdges.left == it },
                     right?.let { rotatedTile.rotatedEdges.right == it },
                 ).all { it }
-            }.map { PlacedTile(centerSpace, it) }
+            }.map { PlacedTile(it, centerSpace) }
 
             if (satisfiedRotations.isNotEmpty()) {
                 put(centerSpace, satisfiedRotations)

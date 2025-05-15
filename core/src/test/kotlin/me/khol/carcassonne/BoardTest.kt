@@ -22,11 +22,11 @@ internal class BoardTest {
                     Coordinates(x = +1, y = +0),
                 )
                 get { values.flatten() }.containsExactlyInAnyOrder(
-                    PlacedTile(Coordinates(x = +0, y = -1), RotatedTile(newTile, Rotation.ROTATE_0)),
-                    PlacedTile(Coordinates(x = +0, y = -1), RotatedTile(newTile, Rotation.ROTATE_90)),
-                    PlacedTile(Coordinates(x = +0, y = -1), RotatedTile(newTile, Rotation.ROTATE_270)),
-                    PlacedTile(Coordinates(x = -1, y = +0), RotatedTile(newTile, Rotation.ROTATE_270)),
-                    PlacedTile(Coordinates(x = +1, y = +0), RotatedTile(newTile, Rotation.ROTATE_90)),
+                    PlacedTile(RotatedTile(newTile, Rotation.ROTATE_0), Coordinates(x = +0, y = -1)),
+                    PlacedTile(RotatedTile(newTile, Rotation.ROTATE_90), Coordinates(x = +0, y = -1)),
+                    PlacedTile(RotatedTile(newTile, Rotation.ROTATE_270), Coordinates(x = +0, y = -1)),
+                    PlacedTile(RotatedTile(newTile, Rotation.ROTATE_270), Coordinates(x = -1, y = +0)),
+                    PlacedTile(RotatedTile(newTile, Rotation.ROTATE_90), Coordinates(x = +1, y = +0)),
                 )
             }
     }
