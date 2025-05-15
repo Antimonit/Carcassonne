@@ -16,9 +16,11 @@ fun Board(
     ) {
         val tileSize = 128.dp
         tiles.forEach { tile ->
+            // TODO: Create a custom Layout that handles the offset
             Tile(
                 placedTile = tile,
-                modifier = Modifier.offset(tileSize * tile.x, tileSize * tile.y)
+                modifier = Modifier
+                    .offset(tileSize * tile.position.x, tileSize * tile.position.y)
             )
         }
     }

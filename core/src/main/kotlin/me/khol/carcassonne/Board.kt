@@ -2,10 +2,19 @@ package me.khol.carcassonne
 
 import me.khol.carcassonne.tiles.basic.D
 
+interface Feature {
+    class Field : Feature
+    class City : Feature
+    class Road : Feature
+    class Monastery : Feature
+    class Garden : Feature
+}
+
 class Board {
 
     private val tiles: MutableMap<Coordinates, RotatedTile> = mutableMapOf()
     private val openSpaces: MutableSet<Coordinates> = mutableSetOf()
+    private val features: MutableSet<Feature> = mutableSetOf()
 
     fun get(coordinates: Coordinates): RotatedTile? = tiles[coordinates]
 
@@ -17,6 +26,8 @@ class Board {
                 openSpaces.add(side)
             }
         }
+        tile.rotatedEdges
+        val fields: List<ElementGroup.Field> = tile.tile.elements.get(Element.Field)
     }
 
     fun possibleSpacesForTile(tile: Tile): Map<Coordinates, List<PlacedTile>> = buildMap {

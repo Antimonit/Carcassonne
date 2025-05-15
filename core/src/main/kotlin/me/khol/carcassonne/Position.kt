@@ -1,5 +1,12 @@
 package me.khol.carcassonne
 
+/**
+ * Defines where on a tile an [Element] is placed.
+ *
+ * Does not define the relationship between elements, which is defined via [ElementGroup].
+ *
+ * TODO: Rename to ElementPosition?
+ */
 interface Position {
 
     fun rotate(rotation: Rotation): Position

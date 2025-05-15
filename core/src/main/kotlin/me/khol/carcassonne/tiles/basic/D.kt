@@ -14,6 +14,7 @@ val D = Tile(
     edges = Edges(top = City, right = Road, bottom = Field, left = Road),
     elements = elements {
         val city = ElementGroup.city { top }
+
         add(
             Element.Field,
             ElementGroup.field(city) { leftTop + rightTop },
