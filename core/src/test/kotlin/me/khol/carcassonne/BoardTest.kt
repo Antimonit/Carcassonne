@@ -30,4 +30,20 @@ internal class BoardTest {
                 )
             }
     }
+
+    @Test
+    fun `placing a tile updates open spaces`() {
+        val board = Board(startingTile = D)
+        val newTile = F
+        board.set(Coordinates(x = 0, y = -1), RotatedTile(newTile, Rotation.ROTATE_0))
+        expectThat(board)
+            .get { possibleSpacesForTile(newTile) }
+            .get { keys }
+            .containsExactlyInAnyOrder(
+                Coordinates(x = 0, y = 1),
+                Coordinates(x = -1, y = -1),
+                Coordinates(x = 1, y = -1),
+                Coordinates(x = 0, y = -2),
+            )
+    }
 }
