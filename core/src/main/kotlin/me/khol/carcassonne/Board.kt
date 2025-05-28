@@ -27,7 +27,7 @@ class Board(
     }
 
     fun possibleSpacesForTile(tile: Tile): Map<Coordinates, List<PlacedTile>> = buildMap {
-        val rotatedTiles: List<RotatedTile> = Rotation.values().map { rotation ->
+        val rotatedTiles: List<RotatedTile> = Rotation.entries.map { rotation ->
             RotatedTile(tile, rotation)
         }
         openSpaces.forEach { centerSpace ->
