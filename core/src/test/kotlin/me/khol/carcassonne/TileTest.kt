@@ -44,26 +44,26 @@ internal class TileTest {
     ) = with("since $edge edge is $tileEdge", { elements }) {
         when (tileEdge) {
             Tile.Edge.Field -> {
-                getElements(Element.Field).anyContainsAll(splitEdges.value)
-                getElements(Element.Field).anyContainsAll(splitEdges.value)
+                getElements(Element.Field).anyContainsAll(splitEdges.positions)
+                getElements(Element.Field).anyContainsAll(splitEdges.positions)
                 getElements(Element.Road).noneContainsAny(edge)
                 getElements(Element.City).noneContainsAny(edge)
                 getElements(Element.River).noneContainsAny(edge)
             }
             Tile.Edge.Road -> {
-                getElements(Element.Field).and { splitEdges.value.forEach { anyContainsAll(it) } }
+                getElements(Element.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
                 getElements(Element.Road).anyContainsAll(edge)
                 getElements(Element.City).noneContainsAny(edge)
                 getElements(Element.River).noneContainsAny(edge)
             }
             Tile.Edge.City -> {
-                getElements(Element.Field).and { splitEdges.value.forEach { noneContainsAny(it) } }
+                getElements(Element.Field).and { splitEdges.positions.forEach { noneContainsAny(it) } }
                 getElements(Element.Road).noneContainsAny(edge)
                 getElements(Element.City).anyContainsAll(edge)
                 getElements(Element.River).noneContainsAny(edge)
             }
             Tile.Edge.River -> {
-                getElements(Element.Field).and { splitEdges.value.forEach { anyContainsAll(it) } }
+                getElements(Element.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
                 getElements(Element.Road).noneContainsAny(edge)
                 getElements(Element.City).noneContainsAny(edge)
                 getElements(Element.River).anyContainsAll(edge)
@@ -75,7 +75,7 @@ internal class TileTest {
         field: Element<P, G>,
     ) = get { elements[field] }
         .describedAs { "No $field edge declared multiple times" }
-        .get { map { it.value }.flatten().groupingBy { it }.eachCount().entries }
+        .get { map { it.positions }.flatten().groupingBy { it }.eachCount().entries }
         .describedAs { "$this" }
         .none { get { value }.isGreaterThan(1) }
 }
