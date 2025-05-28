@@ -88,10 +88,10 @@ interface ElementGroup<P : Position> {
         }
     }
 
-@ConsistentCopyVisibility
+    @ConsistentCopyVisibility
     data class City private constructor(
-    override val positions: Set<Position.Edge>,
-    val boons: Set<Boon.City>,
+        override val positions: Set<Position.Edge>,
+        val boons: Set<Boon.City>,
     ) : ElementGroup<Position.Edge> {
 
         override fun rotate(rotation: Rotation) = City(
