@@ -1,29 +1,40 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.tiles.basic.D
-
-class Board(
-    startingTile: Tile,
+@ConsistentCopyVisibility
+data class Board private constructor(
+    private val tiles: Map<Coordinates, RotatedTile>,
+    private val openSpaces: Set<Coordinates>,
 ) {
 
-    private val tiles: MutableMap<Coordinates, RotatedTile> = mutableMapOf()
-    private val openSpaces: MutableSet<Coordinates> = mutableSetOf(Coordinates(0, 0))
+    companion object {
+        val empty = Board(
+            tiles = emptyMap(),
+            openSpaces = setOf(Coordinates(0, 0)),
+        )
 
-    init {
-        set(Coordinates(0, 0), RotatedTile(startingTile, Rotation.ROTATE_0))
+        fun starting(
+            startingTile: Tile,
+        ) = empty.placeTile(
+            coordinates = Coordinates(0, 0),
+            tile = RotatedTile(startingTile, Rotation.ROTATE_0),
+        )
     }
 
-    fun get(coordinates: Coordinates): RotatedTile? = tiles[coordinates]
+    fun getTile(coordinates: Coordinates): RotatedTile? = tiles[coordinates]
 
-    fun set(coordinates: Coordinates, tile: RotatedTile) {
-        require(coordinates in openSpaces)
-        tiles[coordinates] = tile
-        openSpaces -= coordinates
-        coordinates.neighbors.forEach { side ->
-            if (!tiles.containsKey(side)) {
-                openSpaces.add(side)
-            }
+    fun placeTile(coordinates: Coordinates, tile: RotatedTile): Board {
+        require(coordinates in openSpaces) {
+            "Cannot place tile ${tile.tile.name} at $coordinates as it is not connected to the rest of the board."
         }
+
+        return copy(
+            tiles = tiles + (coordinates to tile),
+            openSpaces = openSpaces
+                - coordinates
+                + coordinates.neighbors.filterNot { side ->
+                    tiles.containsKey(side)
+                },
+        )
     }
 
     fun possibleSpacesForTile(tile: Tile): Map<Coordinates, List<PlacedTile>> = buildMap {
@@ -31,10 +42,10 @@ class Board(
             RotatedTile(tile, rotation)
         }
         openSpaces.forEach { centerSpace ->
-            val top = this@Board.get(centerSpace.top)?.rotatedEdges?.bottom
-            val right = this@Board.get(centerSpace.right)?.rotatedEdges?.left
-            val bottom = this@Board.get(centerSpace.bottom)?.rotatedEdges?.top
-            val left = this@Board.get(centerSpace.left)?.rotatedEdges?.right
+            val top = getTile(centerSpace.top)?.rotatedEdges?.bottom
+            val right = getTile(centerSpace.right)?.rotatedEdges?.left
+            val bottom = getTile(centerSpace.bottom)?.rotatedEdges?.top
+            val left = getTile(centerSpace.left)?.rotatedEdges?.right
 
             val satisfiedRotations = rotatedTiles.filter { rotatedTile ->
                 listOfNotNull(

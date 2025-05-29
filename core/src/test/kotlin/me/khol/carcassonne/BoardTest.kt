@@ -11,7 +11,7 @@ internal class BoardTest {
 
     @Test
     fun `possible spaces for a tile`() {
-        val board = Board(startingTile = D)
+        val board = Board.starting(startingTile = D)
         val newTile = A
         expectThat(board)
             .get { possibleSpacesForTile(newTile) }
@@ -33,10 +33,10 @@ internal class BoardTest {
 
     @Test
     fun `placing a tile updates open spaces`() {
-        val board = Board(startingTile = D)
+        val board = Board.starting(startingTile = D)
         val newTile = F
-        board.set(Coordinates(x = 0, y = -1), RotatedTile(newTile, Rotation.ROTATE_0))
-        expectThat(board)
+        val newBoard = board.placeTile(Coordinates(x = 0, y = -1), RotatedTile(newTile, Rotation.ROTATE_0))
+        expectThat(newBoard)
             .get { possibleSpacesForTile(newTile) }
             .get { keys }
             .containsExactlyInAnyOrder(
