@@ -16,14 +16,8 @@ class ElementsBuilderTest {
             )
         }
         val singleStep = elements {
-            add(
-                Element.City,
-                ElementGroup.city { left },
-            )
-            add(
-                Element.City,
-                ElementGroup.city { right },
-            )
+            city { left }
+            city { right }
         }
         expectThat(twoStep).isEqualTo(singleStep)
     }

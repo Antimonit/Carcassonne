@@ -41,20 +41,10 @@ class RotatedTileTest {
                 name = "D",
                 edges = Edges(top = Road, right = City, bottom = Road, left = Field),
                 elements = elements {
-                    val city = ElementGroup.city { right }
-                    add(
-                        Element.Field,
-                        ElementGroup.field(city) { topRight + bottomRight },
-                        ElementGroup.field { topLeft + bottomLeft + left },
-                    )
-                    add(
-                        Element.City,
-                        city,
-                    )
-                    add(
-                        Element.Road,
-                        ElementGroup.road { top + bottom },
-                    )
+                    val city = city { right }
+                    field(city) { topRight + bottomRight }
+                    field { topLeft + bottomLeft + left }
+                    road { top + bottom }
                 },
             )
         )
