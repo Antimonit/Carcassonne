@@ -42,17 +42,17 @@ data class Board private constructor(
             RotatedTile(tile, rotation)
         }
         openSpaces.forEach { centerSpace ->
-            val top = getTile(centerSpace.top)?.rotatedEdges?.bottom
-            val right = getTile(centerSpace.right)?.rotatedEdges?.left
-            val bottom = getTile(centerSpace.bottom)?.rotatedEdges?.top
-            val left = getTile(centerSpace.left)?.rotatedEdges?.right
+            val top = getTile(centerSpace.top)?.edges?.bottom
+            val right = getTile(centerSpace.right)?.edges?.left
+            val bottom = getTile(centerSpace.bottom)?.edges?.top
+            val left = getTile(centerSpace.left)?.edges?.right
 
             val satisfiedRotations = rotatedTiles.filter { rotatedTile ->
                 listOfNotNull(
-                    top?.let { rotatedTile.rotatedEdges.top == it },
-                    bottom?.let { rotatedTile.rotatedEdges.bottom == it },
-                    left?.let { rotatedTile.rotatedEdges.left == it },
-                    right?.let { rotatedTile.rotatedEdges.right == it },
+                    top?.let { rotatedTile.edges.top == it },
+                    bottom?.let { rotatedTile.edges.bottom == it },
+                    left?.let { rotatedTile.edges.left == it },
+                    right?.let { rotatedTile.edges.right == it },
                 ).all { it }
             }.map { PlacedTile(it, centerSpace) }
 

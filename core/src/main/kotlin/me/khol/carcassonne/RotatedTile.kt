@@ -6,7 +6,7 @@ data class RotatedTile(
 ) {
     private val rotatedTile: Tile by lazy { asTile() }
 
-    val rotatedEdges: Tile.Edges
+    val edges: Tile.Edges
         get() = rotatedTile.edges
 }
 
