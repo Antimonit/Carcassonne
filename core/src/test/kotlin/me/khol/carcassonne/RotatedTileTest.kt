@@ -11,34 +11,32 @@ import strikt.assertions.isEqualTo
 
 class RotatedTileTest {
 
+    private val tile = D
+
     @Test
     fun `check rotation by 0 degrees is idempotent`() {
-        val tile = D
-        val original = RotatedTile(tile, Rotation.ROTATE_0)
-        expectThat(original).get { rotatedTile }.isEqualTo(tile)
+        val original = RotatedTile(tile, Rotation.ROTATE_0).asTile()
+        expectThat(original).isEqualTo(tile)
     }
 
     @Test
     fun `check rotation by 90 + 270 degrees is idempotent`() {
-        val tile = D
-        val by90 = RotatedTile(tile, Rotation.ROTATE_90)
-        val by360 = RotatedTile(by90.rotatedTile, Rotation.ROTATE_270)
-        expectThat(by360).get { rotatedTile }.isEqualTo(tile)
+        val by90 = RotatedTile(tile, Rotation.ROTATE_90).asTile()
+        val by360 = RotatedTile(by90, Rotation.ROTATE_270).asTile()
+        expectThat(by360).isEqualTo(tile)
     }
 
     @Test
     fun `check rotation by 180 + 180 degrees is idempotent`() {
-        val tile = D
-        val by180 = RotatedTile(tile, Rotation.ROTATE_180)
-        val by360 = RotatedTile(by180.rotatedTile, Rotation.ROTATE_180)
-        expectThat(by360).get { rotatedTile }.isEqualTo(tile)
+        val by180 = RotatedTile(tile, Rotation.ROTATE_180).asTile()
+        val by360 = RotatedTile(by180, Rotation.ROTATE_180).asTile()
+        expectThat(by360).isEqualTo(tile)
     }
 
     @Test
     fun `check rotation by 90 degrees`() {
-        val tile = D
-        val original = RotatedTile(tile, Rotation.ROTATE_90)
-        expectThat(original).get { rotatedTile }.isEqualTo(
+        val original = RotatedTile(tile, Rotation.ROTATE_90).asTile()
+        expectThat(original).isEqualTo(
             Tile(
                 name = "D",
                 edges = Edges(top = Road, right = City, bottom = Road, left = Field),
