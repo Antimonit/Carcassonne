@@ -9,7 +9,7 @@ interface Elements {
 
 interface MutableElements : Elements {
 
-    fun <P : Position, G : ElementGroup<P>> add(key: Element<P, G>, vararg positions: G)
+    fun <P : Position, G : ElementGroup<P>> add(key: Element<P, G>, group: G)
 }
 
 fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
@@ -19,55 +19,55 @@ fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
 
 fun MutableElements.field(vararg connectedCities: ElementGroup.City, block: ElementGroup.Field.Builder.Companion.() -> ElementGroup.Field.Builder): ElementGroup.Field {
     val field = ElementGroup.field(connectedCities = connectedCities, block = block)
-    add(key = Element.Field, field)
+    add(key = Element.Field, group = field)
     return field
 }
 
 fun MutableElements.road(vararg boons: Boon.Road, block: ElementGroup.Road.Builder.Companion.() -> ElementGroup.Road.Builder): ElementGroup.Road {
     val road = ElementGroup.road(boons = boons, block = block)
-    add(key = Element.Road, road)
+    add(key = Element.Road, group = road)
     return road
 }
 
 fun MutableElements.city(vararg boons: Boon.City, block: ElementGroup.City.Builder.Companion.() -> ElementGroup.City.Builder): ElementGroup.City {
     val city = ElementGroup.city(boons = boons, block = block)
-    add(key = Element.City, city)
+    add(key = Element.City, group = city)
     return city
 }
 
 fun MutableElements.monastery(): ElementGroup.Center {
     val monastery = ElementGroup.Center
-    add(key = Element.Monastery, monastery)
+    add(key = Element.Monastery, group = monastery)
     return monastery
 }
 
 fun MutableElements.garden(): ElementGroup.Center {
     val garden = ElementGroup.Center
-    add(key = Element.Garden, garden)
+    add(key = Element.Garden, group = garden)
     return garden
 }
 
 fun MutableElements.riverStart(): ElementGroup.Center {
     val riverStart = ElementGroup.Center
-    add(key = Element.RiverStart, riverStart)
+    add(key = Element.RiverStart, group = riverStart)
     return riverStart
 }
 
 fun MutableElements.river(block: ElementGroup.Edge.Builder.Companion.() -> ElementGroup.Edge.Builder): ElementGroup.Edge {
     val river = ElementGroup.edges(block = block)
-    add(key = Element.River, river)
+    add(key = Element.River, group = river)
     return river
 }
 
 fun MutableElements.riverEnd(): ElementGroup.Center {
     val riverEnd = ElementGroup.Center
-    add(key = Element.RiverEnd, riverEnd)
+    add(key = Element.RiverEnd, group = riverEnd)
     return riverEnd
 }
 
 fun MutableElements.cropCircle(): ElementGroup.Center {
     val cropCircle = ElementGroup.Center
-    add(key = Element.CropCircle, cropCircle)
+    add(key = Element.CropCircle, group = cropCircle)
     return cropCircle
 }
 
@@ -75,8 +75,8 @@ private data class ElementsBuilder(
     private val map: MutableMap<Element<*, *>, List<ElementGroup<*>>>
 ) : MutableElements {
 
-    override fun <P : Position, G : ElementGroup<P>> add(key: Element<P, G>, vararg positions: G) {
-        map[key] = get(key) + positions.toList()
+    override fun <P : Position, G : ElementGroup<P>> add(key: Element<P, G>, group: G) {
+        map[key] = get(key) + group
     }
 
     override fun <P : Position, G : ElementGroup<P>> get(key: Element<P, G>): List<G> {
