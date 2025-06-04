@@ -10,3 +10,14 @@ data class Coordinates(
     val right: Coordinates by lazy { copy(x = x + 1) }
     val neighbors: List<Coordinates> by lazy { listOf(top, bottom, left, right) }
 }
+
+/**
+ * Used by Monastery and Garden features.
+ */
+fun Coordinates.surroundingCoordinates(): List<Coordinates> {
+    return (-1..1).map { xOffset ->
+        (-1..1).map { yOffset ->
+            copy(x = x + xOffset, y = y + yOffset)
+        }
+    }.flatten()
+}
