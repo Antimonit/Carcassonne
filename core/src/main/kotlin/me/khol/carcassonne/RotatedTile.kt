@@ -8,6 +8,9 @@ data class RotatedTile(
 
     val edges: Tile.Edges
         get() = rotatedTile.edges
+
+    val elements: Elements
+        get() = rotatedTile.elements
 }
 
 fun RotatedTile.asTile(): Tile =
