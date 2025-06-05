@@ -20,6 +20,7 @@ interface Feature {
 
     data class Field(
         val fields: Set<PlacedFieldGroup>,
+        val connectedCities: Set<City>,
     ) : Feature
 
     data class City(
