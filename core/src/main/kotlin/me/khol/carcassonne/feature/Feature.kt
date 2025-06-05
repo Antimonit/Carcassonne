@@ -24,7 +24,14 @@ interface Feature {
 
     data class City(
         val cities: Set<PlacedCityGroup>,
-    ) : Feature
+        val isFinished: Boolean,
+    ) : Feature {
+
+        val hasCathedral: Boolean
+            get() = cities.any { it.elementGroup.boons.contains(Boon.City.Cathedral) }
+        val coatOfArms: Int
+            get() = cities.count { it.elementGroup.boons.contains(Boon.City.CoatOfArms) }
+    }
 
     data class Road(
         val roads: Set<PlacedRoadGroup>,
