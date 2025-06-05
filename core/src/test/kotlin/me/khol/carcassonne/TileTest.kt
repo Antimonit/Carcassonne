@@ -30,10 +30,10 @@ internal class TileTest {
             checkMatches(tile.edges.bottom, Position.Edge.Bottom, ElementGroup.field { bottom })
             checkMatches(tile.edges.left, Position.Edge.Left, ElementGroup.field { left })
 
-            checkDuplicateEdge(Element.Field)
-            checkDuplicateEdge(Element.Road)
-            checkDuplicateEdge(Element.City)
-            checkDuplicateEdge(Element.River)
+            checkDuplicateEdge(ElementKey.Field)
+            checkDuplicateEdge(ElementKey.Road)
+            checkDuplicateEdge(ElementKey.City)
+            checkDuplicateEdge(ElementKey.River)
         }
     }
 
@@ -44,37 +44,37 @@ internal class TileTest {
     ) = with("since $edge edge is $tileEdge", { elements }) {
         when (tileEdge) {
             Tile.Edge.Field -> {
-                getElements(Element.Field).anyContainsAll(splitEdges.positions)
-                getElements(Element.Field).anyContainsAll(splitEdges.positions)
-                getElements(Element.Road).noneContainsAny(edge)
-                getElements(Element.City).noneContainsAny(edge)
-                getElements(Element.River).noneContainsAny(edge)
+                getElements(ElementKey.Field).anyContainsAll(splitEdges.positions)
+                getElements(ElementKey.Field).anyContainsAll(splitEdges.positions)
+                getElements(ElementKey.Road).noneContainsAny(edge)
+                getElements(ElementKey.City).noneContainsAny(edge)
+                getElements(ElementKey.River).noneContainsAny(edge)
             }
             Tile.Edge.Road -> {
-                getElements(Element.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
-                getElements(Element.Road).anyContainsAll(edge)
-                getElements(Element.City).noneContainsAny(edge)
-                getElements(Element.River).noneContainsAny(edge)
+                getElements(ElementKey.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
+                getElements(ElementKey.Road).anyContainsAll(edge)
+                getElements(ElementKey.City).noneContainsAny(edge)
+                getElements(ElementKey.River).noneContainsAny(edge)
             }
             Tile.Edge.City -> {
-                getElements(Element.Field).and { splitEdges.positions.forEach { noneContainsAny(it) } }
-                getElements(Element.Road).noneContainsAny(edge)
-                getElements(Element.City).anyContainsAll(edge)
-                getElements(Element.River).noneContainsAny(edge)
+                getElements(ElementKey.Field).and { splitEdges.positions.forEach { noneContainsAny(it) } }
+                getElements(ElementKey.Road).noneContainsAny(edge)
+                getElements(ElementKey.City).anyContainsAll(edge)
+                getElements(ElementKey.River).noneContainsAny(edge)
             }
             Tile.Edge.River -> {
-                getElements(Element.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
-                getElements(Element.Road).noneContainsAny(edge)
-                getElements(Element.City).noneContainsAny(edge)
-                getElements(Element.River).anyContainsAll(edge)
+                getElements(ElementKey.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
+                getElements(ElementKey.Road).noneContainsAny(edge)
+                getElements(ElementKey.City).noneContainsAny(edge)
+                getElements(ElementKey.River).anyContainsAll(edge)
             }
         }
     }
 
     private fun <P : Position, G : ElementGroup<P>> Assertion.Builder<Tile>.checkDuplicateEdge(
-        field: Element<P, G>,
-    ) = get { elements[field] }
-        .describedAs { "No $field edge declared multiple times" }
+        key: ElementKey<P, G>,
+    ) = get { elements.get(key) }
+        .describedAs { "No $key edge declared multiple times" }
         .get { map { it.positions }.flatten().groupingBy { it }.eachCount().entries }
         .describedAs { "$this" }
         .none { get { value }.isGreaterThan(1) }

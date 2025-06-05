@@ -4,13 +4,13 @@ interface Position {
 
     /**
      * Elements that do not touch the tile edge.
-     * E.g. [Element.Monastery], [Element.Garden].
+     * E.g. [ElementKey.Monastery], [ElementKey.Garden].
      */
     data object Center : Position
 
     /**
      * Elements that have at most one element per tile edge.
-     * E.g. [Element.Road], [Element.City].
+     * E.g. [ElementKey.Road], [ElementKey.City].
      */
     sealed interface Edge : Position {
         data object Top : Edge
@@ -28,7 +28,7 @@ interface Position {
 
     /**
      * Elements that have up to two separate elements per tile edge.
-     * E.g. [Element.Field].
+     * E.g. [ElementKey.Field].
      */
     sealed interface SplitEdge : Position {
         data object TopLeft : SplitEdge

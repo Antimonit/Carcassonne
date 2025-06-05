@@ -29,6 +29,6 @@ infix fun <T : Iterable<Iterable<E>>, E> Builder<T>.noneContainsAny(elements: Co
     }
 
 
-fun <P : Position, G : ElementGroup<P>> Builder<Elements>.getElements(element: Element<P, G>): Builder<List<Set<P>>> =
-    get { get(element).map { it.positions } }.describedAs { "${element.javaClass.simpleName} elements $this" }
+fun <P : Position, G : ElementGroup<P>> Builder<Elements>.getElements(key: ElementKey<P, G>): Builder<List<Set<P>>> =
+    get { get(key).map { it.positions } }.describedAs { "${key.javaClass.simpleName} elements $this" }
 
