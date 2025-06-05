@@ -6,6 +6,7 @@ import me.khol.carcassonne.Tile.Edges
 import me.khol.carcassonne.city
 import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
+import me.khol.carcassonne.garden
 
 val EH = Tile(
     name = "EH",
@@ -16,5 +17,6 @@ val EH = Tile(
         val cityBottom = city { bottom }
         val cityLeft = city { left }
         field(cityTop, cityRight, cityBottom, cityLeft) { none }
+        garden()
     },
 )
