@@ -37,7 +37,12 @@ interface Feature {
 
     data class Monastery(
         val monastery: PlacedMonasteryGroup,
-    ) : Feature
+        val neighborCount: Int,
+    ) : Feature {
+
+        val isFinished: Boolean
+            get() = neighborCount == 9
+    }
 
     data class Garden(
         val garden: PlacedGardenGroup,
