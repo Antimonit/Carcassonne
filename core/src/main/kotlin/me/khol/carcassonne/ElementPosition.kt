@@ -48,3 +48,23 @@ interface ElementPosition {
             all[(all.indexOf(this) + rotation.ordinal * 2) % all.size]
     }
 }
+
+fun Position.Edge.oppositeEdge(): Position.Edge =
+    when (this) {
+        Position.Edge.Top -> Position.Edge.Bottom
+        Position.Edge.Right -> Position.Edge.Left
+        Position.Edge.Bottom -> Position.Edge.Top
+        Position.Edge.Left -> Position.Edge.Right
+    }
+
+fun Position.SplitEdge.oppositeEdge(): Position.SplitEdge =
+    when (this) {
+        Position.SplitEdge.TopLeft -> Position.SplitEdge.BottomLeft
+        Position.SplitEdge.TopRight -> Position.SplitEdge.BottomRight
+        Position.SplitEdge.RightTop -> Position.SplitEdge.LeftTop
+        Position.SplitEdge.RightBottom -> Position.SplitEdge.LeftBottom
+        Position.SplitEdge.BottomLeft -> Position.SplitEdge.TopLeft
+        Position.SplitEdge.BottomRight -> Position.SplitEdge.TopRight
+        Position.SplitEdge.LeftTop -> Position.SplitEdge.RightTop
+        Position.SplitEdge.LeftBottom -> Position.SplitEdge.RightBottom
+    }
