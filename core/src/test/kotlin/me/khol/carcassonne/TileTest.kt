@@ -25,10 +25,10 @@ internal class TileTest {
     @MethodSource
     fun `tile edges match tile elements`(tile: Tile) {
         expectThat(tile) {
-            checkMatches(tile.edges.top, Position.Edge.Top, ElementGroup.field { top })
-            checkMatches(tile.edges.right, Position.Edge.Right, ElementGroup.field { right })
-            checkMatches(tile.edges.bottom, Position.Edge.Bottom, ElementGroup.field { bottom })
-            checkMatches(tile.edges.left, Position.Edge.Left, ElementGroup.field { left })
+            checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.field { top })
+            checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.field { right })
+            checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.field { bottom })
+            checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.field { left })
 
             checkDuplicateEdge(ElementKey.Field)
             checkDuplicateEdge(ElementKey.Road)
@@ -39,7 +39,7 @@ internal class TileTest {
 
     private fun Assertion.Builder<Tile>.checkMatches(
         tileEdge: Tile.Edge,
-        edge: Position.Edge,
+        edge: ElementPosition.Edge,
         splitEdges: ElementGroup.Field,
     ) = with("since $edge edge is $tileEdge", { elements }) {
         when (tileEdge) {
@@ -71,7 +71,7 @@ internal class TileTest {
         }
     }
 
-    private fun <P : Position, G : ElementGroup<P>> Assertion.Builder<Tile>.checkDuplicateEdge(
+    private fun <P : ElementPosition, G : ElementGroup<P>> Assertion.Builder<Tile>.checkDuplicateEdge(
         key: ElementKey<P, G>,
     ) = get { elements.get(key) }
         .describedAs { "No $key edge declared multiple times" }

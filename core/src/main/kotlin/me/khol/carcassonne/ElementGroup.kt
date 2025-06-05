@@ -32,7 +32,7 @@ package me.khol.carcassonne
  *
  * This approach might be more comfortable in some situations but is less type-safe.
  */
-interface ElementGroup<P : Position> {
+interface ElementGroup<P : ElementPosition> {
 
     val positions: Set<P>
 
@@ -53,35 +53,35 @@ interface ElementGroup<P : Position> {
             with(City.Builder.Companion, block).build(boons.toSet())
     }
 
-    data object Center : ElementGroup<Position.Center> {
+    data object Center : ElementGroup<ElementPosition.Center> {
 
-        override val positions = setOf(Position.Center)
+        override val positions = setOf(ElementPosition.Center)
 
         override fun rotate(rotation: Rotation) = this
     }
 
     @ConsistentCopyVisibility
     data class Edge private constructor(
-        override val positions: Set<Position.Edge>,
-    ) : ElementGroup<Position.Edge> {
+        override val positions: Set<ElementPosition.Edge>,
+    ) : ElementGroup<ElementPosition.Edge> {
 
         override fun rotate(rotation: Rotation) = Edge(
             positions = positions.map { it.rotate(rotation) }.toSet(),
         )
 
-        class Builder private constructor(private val value: Set<Position.Edge>) {
+        class Builder private constructor(private val value: Set<ElementPosition.Edge>) {
 
-            private constructor(value: Position.Edge) : this(setOf(value))
+            private constructor(value: ElementPosition.Edge) : this(setOf(value))
 
             operator fun plus(other: Builder) = Builder(value + other.value)
 
             fun build() = Edge(value)
 
             companion object {
-                val top = Builder(Position.Edge.Top)
-                val right = Builder(Position.Edge.Right)
-                val bottom = Builder(Position.Edge.Bottom)
-                val left = Builder(Position.Edge.Left)
+                val top = Builder(ElementPosition.Edge.Top)
+                val right = Builder(ElementPosition.Edge.Right)
+                val bottom = Builder(ElementPosition.Edge.Bottom)
+                val left = Builder(ElementPosition.Edge.Left)
 
                 val all = top + right + bottom + left
             }
@@ -90,28 +90,28 @@ interface ElementGroup<P : Position> {
 
     @ConsistentCopyVisibility
     data class City private constructor(
-        override val positions: Set<Position.Edge>,
+        override val positions: Set<ElementPosition.Edge>,
         val boons: Set<Boon.City>,
-    ) : ElementGroup<Position.Edge> {
+    ) : ElementGroup<ElementPosition.Edge> {
 
         override fun rotate(rotation: Rotation) = City(
             positions = positions.map { it.rotate(rotation) }.toSet(),
             boons = boons,
         )
 
-        class Builder private constructor(private val value: Set<Position.Edge>) {
+        class Builder private constructor(private val value: Set<ElementPosition.Edge>) {
 
-            private constructor(value: Position.Edge) : this(setOf(value))
+            private constructor(value: ElementPosition.Edge) : this(setOf(value))
 
             operator fun plus(other: Builder) = Builder(value + other.value)
 
             fun build(boons: Set<Boon.City>) = City(value, boons)
 
             companion object {
-                val top = Builder(Position.Edge.Top)
-                val right = Builder(Position.Edge.Right)
-                val bottom = Builder(Position.Edge.Bottom)
-                val left = Builder(Position.Edge.Left)
+                val top = Builder(ElementPosition.Edge.Top)
+                val right = Builder(ElementPosition.Edge.Right)
+                val bottom = Builder(ElementPosition.Edge.Bottom)
+                val left = Builder(ElementPosition.Edge.Left)
 
                 val all = top + right + bottom + left
             }
@@ -120,28 +120,28 @@ interface ElementGroup<P : Position> {
 
     @ConsistentCopyVisibility
     data class Road private constructor(
-        override val positions: Set<Position.Edge>,
+        override val positions: Set<ElementPosition.Edge>,
         val boons: Set<Boon.Road>,
-    ) : ElementGroup<Position.Edge> {
+    ) : ElementGroup<ElementPosition.Edge> {
 
         override fun rotate(rotation: Rotation) = Road(
             positions = positions.map { it.rotate(rotation) }.toSet(),
             boons = boons,
         )
 
-        class Builder private constructor(private val value: Set<Position.Edge>) {
+        class Builder private constructor(private val value: Set<ElementPosition.Edge>) {
 
-            private constructor(value: Position.Edge) : this(setOf(value))
+            private constructor(value: ElementPosition.Edge) : this(setOf(value))
 
             operator fun plus(other: Builder) = Builder(value + other.value)
 
             fun build(boons: Set<Boon.Road>) = Road(value, boons)
 
             companion object {
-                val top = Builder(Position.Edge.Top)
-                val right = Builder(Position.Edge.Right)
-                val bottom = Builder(Position.Edge.Bottom)
-                val left = Builder(Position.Edge.Left)
+                val top = Builder(ElementPosition.Edge.Top)
+                val right = Builder(ElementPosition.Edge.Right)
+                val bottom = Builder(ElementPosition.Edge.Bottom)
+                val left = Builder(ElementPosition.Edge.Left)
 
                 val all = top + right + bottom + left
             }
@@ -150,18 +150,18 @@ interface ElementGroup<P : Position> {
 
     @ConsistentCopyVisibility
     data class Field private constructor(
-        override val positions: Set<Position.SplitEdge>,
+        override val positions: Set<ElementPosition.SplitEdge>,
         val connectedCities: Set<City>,
-    ) : ElementGroup<Position.SplitEdge> {
+    ) : ElementGroup<ElementPosition.SplitEdge> {
 
         override fun rotate(rotation: Rotation) = Field(
             positions = positions.map { it.rotate(rotation) }.toSet(),
             connectedCities = connectedCities.map { it.rotate(rotation) }.toSet(),
         )
 
-        class Builder private constructor(private val value: Set<Position.SplitEdge>) {
+        class Builder private constructor(private val value: Set<ElementPosition.SplitEdge>) {
 
-            private constructor(value: Position.SplitEdge) : this(setOf(value))
+            private constructor(value: ElementPosition.SplitEdge) : this(setOf(value))
 
             operator fun plus(other: Builder) = Builder(value + other.value)
 
@@ -170,14 +170,14 @@ interface ElementGroup<P : Position> {
             companion object {
                 val none = Builder(emptySet())
 
-                val topLeft = Builder(Position.SplitEdge.TopLeft)
-                val topRight = Builder(Position.SplitEdge.TopRight)
-                val rightTop = Builder(Position.SplitEdge.RightTop)
-                val rightBottom = Builder(Position.SplitEdge.RightBottom)
-                val bottomRight = Builder(Position.SplitEdge.BottomRight)
-                val bottomLeft = Builder(Position.SplitEdge.BottomLeft)
-                val leftBottom = Builder(Position.SplitEdge.LeftBottom)
-                val leftTop = Builder(Position.SplitEdge.LeftTop)
+                val topLeft = Builder(ElementPosition.SplitEdge.TopLeft)
+                val topRight = Builder(ElementPosition.SplitEdge.TopRight)
+                val rightTop = Builder(ElementPosition.SplitEdge.RightTop)
+                val rightBottom = Builder(ElementPosition.SplitEdge.RightBottom)
+                val bottomRight = Builder(ElementPosition.SplitEdge.BottomRight)
+                val bottomLeft = Builder(ElementPosition.SplitEdge.BottomLeft)
+                val leftBottom = Builder(ElementPosition.SplitEdge.LeftBottom)
+                val leftTop = Builder(ElementPosition.SplitEdge.LeftTop)
 
                 val top = topLeft + topRight
                 val right = rightTop + rightBottom

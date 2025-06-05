@@ -1,18 +1,18 @@
 package me.khol.carcassonne
 
-interface Position {
+interface ElementPosition {
 
     /**
      * Elements that do not touch the tile edge.
      * E.g. [ElementKey.Monastery], [ElementKey.Garden].
      */
-    data object Center : Position
+    data object Center : ElementPosition
 
     /**
      * Elements that have at most one element per tile edge.
      * E.g. [ElementKey.Road], [ElementKey.City].
      */
-    sealed interface Edge : Position {
+    sealed interface Edge : ElementPosition {
         data object Top : Edge
         data object Right : Edge
         data object Bottom : Edge
@@ -30,7 +30,7 @@ interface Position {
      * Elements that have up to two separate elements per tile edge.
      * E.g. [ElementKey.Field].
      */
-    sealed interface SplitEdge : Position {
+    sealed interface SplitEdge : ElementPosition {
         data object TopLeft : SplitEdge
         data object TopRight : SplitEdge
         data object RightTop : SplitEdge

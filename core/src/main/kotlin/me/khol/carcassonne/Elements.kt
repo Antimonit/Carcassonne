@@ -2,14 +2,14 @@ package me.khol.carcassonne
 
 interface Elements {
 
-    operator fun <P : Position, G : ElementGroup<P>> get(key: ElementKey<P, G>): List<G>
+    operator fun <P : ElementPosition, G : ElementGroup<P>> get(key: ElementKey<P, G>): List<G>
 
     fun rotate(rotation: Rotation): Elements
 }
 
 interface MutableElements : Elements {
 
-    fun <P : Position, G : ElementGroup<P>> add(key: ElementKey<P, G>, group: G)
+    fun <P : ElementPosition, G : ElementGroup<P>> add(key: ElementKey<P, G>, group: G)
 }
 
 fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
@@ -75,11 +75,11 @@ private data class ElementsBuilder(
     private val map: MutableMap<ElementKey<*, *>, List<ElementGroup<*>>>
 ) : MutableElements {
 
-    override fun <P : Position, G : ElementGroup<P>> add(key: ElementKey<P, G>, group: G) {
+    override fun <P : ElementPosition, G : ElementGroup<P>> add(key: ElementKey<P, G>, group: G) {
         map[key] = get(key) + group
     }
 
-    override fun <P : Position, G : ElementGroup<P>> get(key: ElementKey<P, G>): List<G> {
+    override fun <P : ElementPosition, G : ElementGroup<P>> get(key: ElementKey<P, G>): List<G> {
         @Suppress("UNCHECKED_CAST")
         return map.getOrDefault(key, emptyList<G>()) as List<G>
     }
