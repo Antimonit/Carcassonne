@@ -1,15 +1,19 @@
 package me.khol.carcassonne
 
-@ConsistentCopyVisibility
-data class Board private constructor(
-    private val tiles: Map<Coordinates, RotatedTile>,
-    private val openSpaces: Set<Coordinates>,
+data class Board(
+    val tiles: Map<Coordinates, RotatedTile>,
 ) {
+
+    val openSpaces: Set<Coordinates> = tiles.keys
+        .flatMap { it.neighbors }
+        .plus(Coordinates(0, 0))
+        .distinct()
+        .minus(tiles.keys)
+        .toSet()
 
     companion object {
         val empty = Board(
             tiles = emptyMap(),
-            openSpaces = setOf(Coordinates(0, 0)),
         )
 
         fun starting(
@@ -30,13 +34,8 @@ data class Board private constructor(
             "Cannot place tile ${tile.tile.name} at $coordinates as it does not match edges with one or more neighbords"
         }
 
-        return copy(
+        return Board(
             tiles = tiles + (coordinates to tile),
-            openSpaces = openSpaces
-                - coordinates
-                + coordinates.neighbors.filterNot { side ->
-                    tiles.containsKey(side)
-                },
         )
     }
 
