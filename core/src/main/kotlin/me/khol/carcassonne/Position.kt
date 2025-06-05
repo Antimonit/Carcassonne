@@ -2,17 +2,11 @@ package me.khol.carcassonne
 
 interface Position {
 
-    fun rotate(rotation: Rotation): Position
-
     /**
      * Elements that do not touch the tile edge.
      * E.g. [Element.Monastery], [Element.Garden].
      */
-    data object Center : Position {
-
-        override fun rotate(rotation: Rotation): Center =
-            this
-    }
+    data object Center : Position
 
     /**
      * Elements that have at most one element per tile edge.
@@ -28,7 +22,7 @@ interface Position {
             private val all = listOf(Top, Right, Bottom, Left)
         }
 
-        override fun rotate(rotation: Rotation): Edge =
+        fun rotate(rotation: Rotation): Edge =
             all[(all.indexOf(this) + rotation.ordinal) % all.size]
     }
 
@@ -50,7 +44,7 @@ interface Position {
             private val all = listOf(TopLeft, TopRight, RightTop, RightBottom, BottomRight, BottomLeft, LeftBottom, LeftTop)
         }
 
-        override fun rotate(rotation: Rotation): SplitEdge =
+        fun rotate(rotation: Rotation): SplitEdge =
             all[(all.indexOf(this) + rotation.ordinal * 2) % all.size]
     }
 }
