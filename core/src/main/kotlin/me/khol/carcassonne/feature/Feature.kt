@@ -54,5 +54,10 @@ interface Feature {
 
     data class Garden(
         val garden: PlacedGardenGroup,
-    ) : Feature
+        val neighborCount: Int,
+    ) : Feature {
+
+        val isFinished: Boolean
+            get() = neighborCount == 9
+    }
 }
