@@ -10,10 +10,10 @@ import me.khol.carcassonne.field
 
 val H = Tile(
     name = "H",
-    edges = Edges(top = Field, right = City, bottom = Field, left = City),
+    edges = Edges(top = City, right = Field, bottom = City, left = Field),
     elements = elements {
-        val cityLeft = city { left }
-        val cityRight = city { right }
-        field(cityLeft, cityRight) { top + bottom }
+        val cityTop = city { top }
+        val cityBottom = city { bottom }
+        field(cityTop, cityBottom) { left + right }
     },
 )
