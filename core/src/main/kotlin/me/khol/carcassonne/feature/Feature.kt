@@ -1,5 +1,6 @@
 package me.khol.carcassonne.feature
 
+import me.khol.carcassonne.Boon
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.ElementGroup
 import me.khol.carcassonne.ElementPosition
@@ -27,7 +28,12 @@ interface Feature {
 
     data class Road(
         val roads: Set<PlacedRoadGroup>,
-    ) : Feature
+        val isFinished: Boolean,
+    ) : Feature {
+
+        val hasInn: Boolean
+            get() = roads.any { it.elementGroup.boons.contains(Boon.Road.Inn) }
+    }
 
     data class Monastery(
         val monastery: PlacedMonasteryGroup,

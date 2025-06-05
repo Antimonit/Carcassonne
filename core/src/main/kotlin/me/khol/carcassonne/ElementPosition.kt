@@ -49,22 +49,22 @@ interface ElementPosition {
     }
 }
 
-fun Position.Edge.oppositeEdge(): Position.Edge =
+fun ElementPosition.Edge.oppositeEdge(): ElementPosition.Edge =
     when (this) {
-        Position.Edge.Top -> Position.Edge.Bottom
-        Position.Edge.Right -> Position.Edge.Left
-        Position.Edge.Bottom -> Position.Edge.Top
-        Position.Edge.Left -> Position.Edge.Right
+        ElementPosition.Edge.Top -> ElementPosition.Edge.Bottom
+        ElementPosition.Edge.Right -> ElementPosition.Edge.Left
+        ElementPosition.Edge.Bottom -> ElementPosition.Edge.Top
+        ElementPosition.Edge.Left -> ElementPosition.Edge.Right
     }
 
-fun Position.SplitEdge.oppositeEdge(): Position.SplitEdge =
+fun ElementPosition.SplitEdge.oppositeEdge(): ElementPosition.SplitEdge =
     when (this) {
-        Position.SplitEdge.TopLeft -> Position.SplitEdge.BottomLeft
-        Position.SplitEdge.TopRight -> Position.SplitEdge.BottomRight
-        Position.SplitEdge.RightTop -> Position.SplitEdge.LeftTop
-        Position.SplitEdge.RightBottom -> Position.SplitEdge.LeftBottom
-        Position.SplitEdge.BottomLeft -> Position.SplitEdge.TopLeft
-        Position.SplitEdge.BottomRight -> Position.SplitEdge.TopRight
-        Position.SplitEdge.LeftTop -> Position.SplitEdge.RightTop
-        Position.SplitEdge.LeftBottom -> Position.SplitEdge.RightBottom
+        ElementPosition.SplitEdge.TopLeft -> ElementPosition.SplitEdge.BottomLeft
+        ElementPosition.SplitEdge.TopRight -> ElementPosition.SplitEdge.BottomRight
+        ElementPosition.SplitEdge.RightTop -> ElementPosition.SplitEdge.LeftTop
+        ElementPosition.SplitEdge.RightBottom -> ElementPosition.SplitEdge.LeftBottom
+        ElementPosition.SplitEdge.BottomLeft -> ElementPosition.SplitEdge.TopLeft
+        ElementPosition.SplitEdge.BottomRight -> ElementPosition.SplitEdge.TopRight
+        ElementPosition.SplitEdge.LeftTop -> ElementPosition.SplitEdge.RightTop
+        ElementPosition.SplitEdge.LeftBottom -> ElementPosition.SplitEdge.RightBottom
     }
