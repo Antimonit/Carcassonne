@@ -12,7 +12,7 @@ jobs:
     # https://circleci.com/docs/configuration-reference/#executor-job
     docker:
       # https://circleci.com/developer/images/image/cimg/openjdk
-      - image: cimg/openjdk:8.0
+      - image: cimg/openjdk:17.0.14
 
     environment:
       JVM_OPTS: -Xmx3200m
