@@ -11,6 +11,8 @@ androidx-activityCompose = "1.10.1"
 junit = "5.12.1"
 # https://github.com/robfletcher/strikt/releases
 strikt = "0.35.1"
+# https://github.com/Kotlin/kotlinx-kover/releases
+kover = "0.9.1"
 
 [libraries]
 # https://developer.android.com/jetpack/androidx/releases/activity
@@ -30,3 +32,4 @@ android-application = { id = "com.android.application", version.ref = "android" 
 android-library = { id = "com.android.library", version.ref = "android" }
 compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
