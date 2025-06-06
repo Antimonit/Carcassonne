@@ -14,6 +14,9 @@ jobs:
       # https://circleci.com/developer/images/image/cimg/openjdk
       - image: cimg/openjdk:17.0.14
 
+    # https://circleci.com/docs/configuration-reference/#resourceclass
+    resource_class: medium
+
     environment:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
