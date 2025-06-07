@@ -8,6 +8,7 @@ data class Coordinates(
     val bottom: Coordinates by lazy { copy(y = y + 1) }
     val left: Coordinates by lazy { copy(x = x - 1) }
     val right: Coordinates by lazy { copy(x = x + 1) }
+    // TODO: Rename to orthogonal neighbors
     val neighbors: List<Coordinates> by lazy { listOf(top, bottom, left, right) }
 
     override fun toString(): String {
