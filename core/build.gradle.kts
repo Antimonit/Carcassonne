@@ -1,15 +1,20 @@
 plugins {
-    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kover)
 }
 
-dependencies {
-    testImplementation(platform(libs.junit.bom))
-    testImplementation(libs.junit.jupiter)
-    testRuntimeOnly(libs.junit.platform.launcher)
-    testImplementation(libs.strikt.core)
+kotlin {
+    jvm()
+    sourceSets {
+        commonTest.dependencies {
+            implementation(project.dependencies.platform(libs.junit.bom))
+            implementation(libs.junit.jupiter)
+            runtimeOnly(libs.junit.platform.launcher)
+            implementation(libs.strikt.core)
+        }
+    }
 }
 
-tasks.test {
+tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
