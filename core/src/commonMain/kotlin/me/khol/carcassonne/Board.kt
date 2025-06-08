@@ -1,5 +1,25 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.feature.Feature
+import me.khol.carcassonne.feature.PlacedElementGroup
+import me.khol.carcassonne.feature.PlacedFieldGroup
+import me.khol.carcassonne.feature.PlacedRoadGroup
+import me.khol.carcassonne.feature.getRoadFeatures
+
+fun Board.checkCompletedFeatures() {
+    val meeple = PlacedFigure<ElementGroup.Road>(
+        figure = Figure.Meeple,
+        placedFeature = PlacedRoadGroup(
+            coordinates = Coordinates(0, 0),
+            elementGroup = ElementGroup.road { left + right },
+        )
+    )
+    val roads: Set<Feature.Road> = getRoadFeatures()
+    roads.forEach {
+        it.isFinished && meeple.placedFeature in it.roads
+    }
+}
+
 data class Board(
     val tiles: Map<Coordinates, RotatedTile>,
     val figures: Map<Coordinates, List<PlacedFigure>>,
