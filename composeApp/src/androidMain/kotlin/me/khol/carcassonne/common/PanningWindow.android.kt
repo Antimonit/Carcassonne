@@ -9,11 +9,14 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.unit.center
+import androidx.compose.ui.unit.toOffset
 
 @Composable
 actual fun PanningWindow(
@@ -23,7 +26,8 @@ actual fun PanningWindow(
     var zoom by remember { mutableFloatStateOf(1f) }
 
     Box(
-        Modifier
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
             .pointerInput(Unit) {
                 detectTransformGestures(
                     onGesture = { centroid, gesturePan, gestureZoom, _ ->
@@ -31,8 +35,8 @@ actual fun PanningWindow(
                         val newScale = zoom * gestureZoom
 
                         pan =
-                            (pan + centroid / oldScale) -
-                                (centroid / newScale + gesturePan / oldScale)
+                            (pan + (centroid - size.center.toOffset()) / oldScale) -
+                                ((centroid - size.center.toOffset()) / newScale + gesturePan / oldScale)
                         zoom = newScale
                     }
                 )
@@ -42,7 +46,7 @@ actual fun PanningWindow(
                 translationY = -pan.y * zoom
                 scaleX = zoom
                 scaleY = zoom
-                transformOrigin = TransformOrigin(0f, 0f)
+                transformOrigin = TransformOrigin(0.5f, 0.5f)
             }
             .fillMaxSize()
     ) {
