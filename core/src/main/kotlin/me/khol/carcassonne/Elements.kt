@@ -81,7 +81,7 @@ private data class ElementsBuilder(
 
     override fun <P : ElementPosition, G : ElementGroup<P>> get(key: ElementKey<P, G>): List<G> {
         @Suppress("UNCHECKED_CAST")
-        return map.getOrDefault(key, emptyList<G>()) as List<G>
+        return map.getOrElse(key) { emptyList<G>() } as List<G>
     }
 
     override fun rotate(rotation: Rotation): Elements {
