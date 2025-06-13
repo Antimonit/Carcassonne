@@ -24,20 +24,22 @@ actual fun PanningWindow(
 ) {
     var pan by remember { mutableStateOf(Offset.Zero) }
     var zoom by remember { mutableFloatStateOf(1f) }
+    var rotate by remember { mutableFloatStateOf(0f) }
 
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .pointerInput(Unit) {
                 detectTransformGestures(
-                    onGesture = { centroid, gesturePan, gestureZoom, _ ->
+                    onGesture = { centroid, gesturePan, gestureZoom, gestureRotate ->
                         val oldScale = zoom
                         val newScale = zoom * gestureZoom
 
                         pan =
-                            (pan + (centroid - size.center.toOffset()) / oldScale) -
+                            (pan + (centroid - size.center.toOffset()) / oldScale).rotateBy(gestureRotate) -
                                 ((centroid - size.center.toOffset()) / newScale + gesturePan / oldScale)
                         zoom = newScale
+                        rotate += gestureRotate
                     }
                 )
             }
@@ -46,6 +48,7 @@ actual fun PanningWindow(
                 translationY = -pan.y * zoom
                 scaleX = zoom
                 scaleY = zoom
+                rotationZ = rotate
                 transformOrigin = TransformOrigin(0.5f, 0.5f)
             }
             .fillMaxSize()
