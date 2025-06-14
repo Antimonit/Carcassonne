@@ -3,9 +3,9 @@ package me.khol.carcassonne
 import me.khol.carcassonne.tiles.basic.A
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.tiles.basic.F
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.containsExactlyInAnyOrder
+import kotlin.test.Test
 
 internal class BoardTest {
 

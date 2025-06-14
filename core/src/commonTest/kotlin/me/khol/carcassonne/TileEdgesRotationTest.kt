@@ -1,9 +1,9 @@
 package me.khol.carcassonne
 
 import me.khol.carcassonne.tiles.basic.D
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import kotlin.test.Test
 
 class TileEdgesRotationTest {
 

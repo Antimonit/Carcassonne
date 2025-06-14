@@ -7,9 +7,7 @@ kotlin {
     jvm()
     sourceSets {
         commonTest.dependencies {
-            implementation(project.dependencies.platform(libs.junit.bom))
-            implementation(libs.junit.jupiter)
-            runtimeOnly(libs.junit.platform.launcher)
+            implementation(libs.kotlin.test)
             implementation(libs.strikt.core)
         }
     }

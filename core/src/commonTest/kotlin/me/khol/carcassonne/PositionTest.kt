@@ -1,8 +1,8 @@
 package me.khol.carcassonne
 
-import org.junit.jupiter.api.Test
 import strikt.api.expect
 import strikt.assertions.isEqualTo
+import kotlin.test.Test
 
 class PositionTest {
 

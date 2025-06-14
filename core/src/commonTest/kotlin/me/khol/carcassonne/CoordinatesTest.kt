@@ -1,8 +1,8 @@
 package me.khol.carcassonne
 
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.containsExactlyInAnyOrder
+import kotlin.test.Test
 
 class CoordinatesTest {
 

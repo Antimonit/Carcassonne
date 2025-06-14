@@ -11,11 +11,11 @@ import me.khol.carcassonne.tiles.basic.E
 import me.khol.carcassonne.tiles.basic.F
 import me.khol.carcassonne.tiles.basic.K
 import me.khol.carcassonne.tiles.basic.R
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.containsExactlyInAnyOrder
 import strikt.assertions.isEqualTo
 import strikt.assertions.single
+import kotlin.test.Test
 
 class CityFeaturesTest {
 

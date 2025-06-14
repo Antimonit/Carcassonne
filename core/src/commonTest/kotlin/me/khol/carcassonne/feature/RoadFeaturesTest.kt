@@ -7,9 +7,9 @@ import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.basic.V
 import me.khol.carcassonne.tiles.basic.W
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.containsExactlyInAnyOrder
+import kotlin.test.Test
 
 class RoadFeaturesTest {
 

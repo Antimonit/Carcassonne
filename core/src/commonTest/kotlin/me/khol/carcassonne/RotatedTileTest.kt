@@ -5,9 +5,9 @@ import me.khol.carcassonne.Tile.Edge.Field
 import me.khol.carcassonne.Tile.Edge.Road
 import me.khol.carcassonne.Tile.Edges
 import me.khol.carcassonne.tiles.basic.D
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
+import kotlin.test.Test
 
 class RotatedTileTest {
 

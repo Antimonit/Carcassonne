@@ -7,11 +7,11 @@ import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.river.BB6F1
 import me.khol.carcassonne.tiles.river.BB6F10
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isFalse
 import strikt.assertions.single
+import kotlin.test.Test
 
 class GardenFeaturesTest {
 

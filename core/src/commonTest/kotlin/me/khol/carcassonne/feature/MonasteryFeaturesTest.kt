@@ -9,12 +9,12 @@ import me.khol.carcassonne.tiles.basic.B
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.tiles.basic.U
 import me.khol.carcassonne.tiles.basic.V
-import org.junit.jupiter.api.Test
 import strikt.api.expectThat
 import strikt.assertions.isEqualTo
 import strikt.assertions.isFalse
 import strikt.assertions.isTrue
 import strikt.assertions.single
+import kotlin.test.Test
 
 class MonasteryFeaturesTest {
 

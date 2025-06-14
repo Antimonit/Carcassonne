@@ -4,36 +4,32 @@ import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.tiles.cropsTileset
 import me.khol.carcassonne.tiles.innsTileset
 import me.khol.carcassonne.tiles.riverTileset
-import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.MethodSource
 import strikt.api.Assertion
 import strikt.api.expectThat
 import strikt.assertions.isGreaterThan
 import strikt.assertions.none
+import kotlin.test.Test
 
 internal class TileTest {
 
-    companion object {
-        @JvmStatic
-        fun `tile edges match tile elements`() =
-            listOf(basicTileset, riverTileset, innsTileset, cropsTileset)
-                .flatMap { it.tileCounts }
-                .map { it.tile }
-    }
+    @Test
+    fun `tile edges match tile elements`() {
+        val tiles = listOf(basicTileset, riverTileset, innsTileset, cropsTileset)
+            .flatMap { it.tileCounts }
+            .map { it.tile }
 
-    @ParameterizedTest
-    @MethodSource
-    fun `tile edges match tile elements`(tile: Tile) {
-        expectThat(tile) {
-            checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.field { top })
-            checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.field { right })
-            checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.field { bottom })
-            checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.field { left })
+        tiles.forEach { tile ->
+            expectThat(tile) {
+                checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.field { top })
+                checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.field { right })
+                checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.field { bottom })
+                checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.field { left })
 
-            checkDuplicateEdge(ElementKey.Field)
-            checkDuplicateEdge(ElementKey.Road)
-            checkDuplicateEdge(ElementKey.City)
-            checkDuplicateEdge(ElementKey.River)
+                checkDuplicateEdge(ElementKey.Field)
+                checkDuplicateEdge(ElementKey.Road)
+                checkDuplicateEdge(ElementKey.City)
+                checkDuplicateEdge(ElementKey.River)
+            }
         }
     }
 
