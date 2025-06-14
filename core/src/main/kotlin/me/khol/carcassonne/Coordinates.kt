@@ -18,12 +18,12 @@ data class Coordinates(
 /**
  * Used by Monastery and Garden features.
  */
-fun Coordinates.surroundingCoordinates(): List<Coordinates> {
-    return (-1..1).map { xOffset ->
+fun Coordinates.surroundingCoordinates(): Set<Coordinates> {
+    return (-1..1).flatMapTo(mutableSetOf()) { xOffset ->
         (-1..1).map { yOffset ->
             copy(x = x + xOffset, y = y + yOffset)
         }
-    }.flatten()
+    }
 }
 
 fun Coordinates.oppositeCoordinates(edge: ElementPosition.Edge): Coordinates =
