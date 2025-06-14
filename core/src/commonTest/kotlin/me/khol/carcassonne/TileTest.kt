@@ -4,11 +4,8 @@ import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.tiles.cropsTileset
 import me.khol.carcassonne.tiles.innsTileset
 import me.khol.carcassonne.tiles.riverTileset
-import strikt.api.Assertion
-import strikt.api.expectThat
-import strikt.assertions.isGreaterThan
-import strikt.assertions.none
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 internal class TileTest {
 
@@ -19,25 +16,23 @@ internal class TileTest {
             .map { it.tile }
 
         tiles.forEach { tile ->
-            expectThat(tile) {
-                checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.field { top })
-                checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.field { right })
-                checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.field { bottom })
-                checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.field { left })
+            tile.checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.field { top })
+            tile.checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.field { right })
+            tile.checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.field { bottom })
+            tile.checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.field { left })
 
-                checkDuplicateEdge(ElementKey.Field)
-                checkDuplicateEdge(ElementKey.Road)
-                checkDuplicateEdge(ElementKey.City)
-                checkDuplicateEdge(ElementKey.River)
-            }
+            assertTrue(tile.checkDuplicateEdge(ElementKey.Field))
+            assertTrue(tile.checkDuplicateEdge(ElementKey.Road))
+            assertTrue(tile.checkDuplicateEdge(ElementKey.City))
+            assertTrue(tile.checkDuplicateEdge(ElementKey.River))
         }
     }
 
-    private fun Assertion.Builder<Tile>.checkMatches(
+    private fun Tile.checkMatches(
         tileEdge: Tile.Edge,
         edge: ElementPosition.Edge,
         splitEdges: ElementGroup.Field,
-    ) = with("since $edge edge is $tileEdge", { elements }) {
+    ) = with(elements) {
         when (tileEdge) {
             Tile.Edge.Field -> {
                 getElements(ElementKey.Field).anyContainsAll(splitEdges.positions)
@@ -47,19 +42,25 @@ internal class TileTest {
                 getElements(ElementKey.River).noneContainsAny(edge)
             }
             Tile.Edge.Road -> {
-                getElements(ElementKey.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
+                getElements(ElementKey.Field).let {
+                    splitEdges.positions.forEach { position -> it.anyContainsAll(position) }
+                }
                 getElements(ElementKey.Road).anyContainsAll(edge)
                 getElements(ElementKey.City).noneContainsAny(edge)
                 getElements(ElementKey.River).noneContainsAny(edge)
             }
             Tile.Edge.City -> {
-                getElements(ElementKey.Field).and { splitEdges.positions.forEach { noneContainsAny(it) } }
+                getElements(ElementKey.Field).let {
+                    splitEdges.positions.forEach { position -> it.noneContainsAny(position) }
+                }
                 getElements(ElementKey.Road).noneContainsAny(edge)
                 getElements(ElementKey.City).anyContainsAll(edge)
                 getElements(ElementKey.River).noneContainsAny(edge)
             }
             Tile.Edge.River -> {
-                getElements(ElementKey.Field).and { splitEdges.positions.forEach { anyContainsAll(it) } }
+                getElements(ElementKey.Field).let {
+                    splitEdges.positions.forEach { position -> it.anyContainsAll(position) }
+                }
                 getElements(ElementKey.Road).noneContainsAny(edge)
                 getElements(ElementKey.City).noneContainsAny(edge)
                 getElements(ElementKey.River).anyContainsAll(edge)
@@ -67,11 +68,9 @@ internal class TileTest {
         }
     }
 
-    private fun <P : ElementPosition, G : ElementGroup<P>> Assertion.Builder<Tile>.checkDuplicateEdge(
+    private fun <P : ElementPosition, G : ElementGroup<P>> Tile.checkDuplicateEdge(
         key: ElementKey<P, G>,
-    ) = get { elements.get(key) }
-        .describedAs { "No $key edge declared multiple times" }
-        .get { map { it.positions }.flatten().groupingBy { it }.eachCount().entries }
-        .describedAs { "$this" }
-        .none { get { value }.isGreaterThan(1) }
+    ): Boolean = elements[key]
+        .map { it.positions }.flatten().groupingBy { it }.eachCount().entries
+        .none { it.value > 1 }
 }

@@ -5,9 +5,8 @@ import me.khol.carcassonne.Tile.Edge.Field
 import me.khol.carcassonne.Tile.Edge.Road
 import me.khol.carcassonne.Tile.Edges
 import me.khol.carcassonne.tiles.basic.D
-import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class RotatedTileTest {
 
@@ -16,28 +15,28 @@ class RotatedTileTest {
     @Test
     fun `check rotation by 0 degrees is idempotent`() {
         val original = RotatedTile(tile, Rotation.ROTATE_0).asTile()
-        expectThat(original).isEqualTo(tile)
+        assertEquals(tile, original)
     }
 
     @Test
     fun `check rotation by 90 + 270 degrees is idempotent`() {
         val by90 = RotatedTile(tile, Rotation.ROTATE_90).asTile()
         val by360 = RotatedTile(by90, Rotation.ROTATE_270).asTile()
-        expectThat(by360).isEqualTo(tile)
+        assertEquals(tile, by360)
     }
 
     @Test
     fun `check rotation by 180 + 180 degrees is idempotent`() {
         val by180 = RotatedTile(tile, Rotation.ROTATE_180).asTile()
         val by360 = RotatedTile(by180, Rotation.ROTATE_180).asTile()
-        expectThat(by360).isEqualTo(tile)
+        assertEquals(tile, by360)
     }
 
     @Test
     fun `check rotation by 90 degrees`() {
         val original = RotatedTile(tile, Rotation.ROTATE_90).asTile()
-        expectThat(original).isEqualTo(
-            Tile(
+        assertEquals(
+            expected = Tile(
                 name = "D",
                 edges = Edges(top = Road, right = City, bottom = Road, left = Field),
                 elements = elements {
@@ -46,7 +45,8 @@ class RotatedTileTest {
                     field { topLeft + bottomLeft + left }
                     road { top + bottom }
                 },
-            )
+            ),
+            actual = original,
         )
     }
 }

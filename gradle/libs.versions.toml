@@ -7,8 +7,6 @@ android = "8.10.1"
 compose-multiplatform = "1.8.1"
 # https://developer.android.com/jetpack/androidx/releases/activity#declaring_dependencies
 androidx-activityCompose = "1.10.1"
-# https://github.com/robfletcher/strikt/releases
-strikt = "0.35.1"
 # https://github.com/Kotlin/kotlinx-kover/releases
 kover = "0.9.1"
 
@@ -17,8 +15,6 @@ kover = "0.9.1"
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 # https://developer.android.com/jetpack/androidx/releases/activity
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
-# https://strikt.io/
-strikt-core = { module = "io.strikt:strikt-core", version.ref = "strikt" }
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

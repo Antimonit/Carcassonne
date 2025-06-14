@@ -1,9 +1,8 @@
 package me.khol.carcassonne
 
 import me.khol.carcassonne.tiles.basic.D
-import strikt.api.expectThat
-import strikt.assertions.isEqualTo
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class TileEdgesRotationTest {
 
@@ -11,21 +10,21 @@ class TileEdgesRotationTest {
     fun `edge rotation by 0 degrees is idempotent`() {
         val original = D.edges
         val rotated = original.rotate(Rotation.ROTATE_0)
-        expectThat(rotated).isEqualTo(original)
+        assertEquals(original, rotated)
     }
 
     @Test
     fun `edge rotation by 90 + 270 degrees is idempotent`() {
         val original = D.edges
         val rotated = original.rotate(Rotation.ROTATE_90).rotate(Rotation.ROTATE_270)
-        expectThat(rotated).isEqualTo(original)
+        assertEquals(original, rotated)
     }
 
     @Test
     fun `edge rotation by 180 + 180 degrees is idempotent`() {
         val original = D.edges
         val rotated = original.rotate(Rotation.ROTATE_180).rotate(Rotation.ROTATE_180)
-        expectThat(rotated).isEqualTo(original)
+        assertEquals(original, rotated)
     }
 
     @Test
@@ -36,6 +35,6 @@ class TileEdgesRotationTest {
             .rotate(Rotation.ROTATE_90)
             .rotate(Rotation.ROTATE_90)
             .rotate(Rotation.ROTATE_90)
-        expectThat(rotated).isEqualTo(original)
+        assertEquals(original, rotated)
     }
 }

@@ -7,22 +7,22 @@ import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.basic.V
 import me.khol.carcassonne.tiles.basic.W
-import strikt.api.expectThat
-import strikt.assertions.containsExactlyInAnyOrder
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class RoadFeaturesTest {
 
     @Test
     fun `road features can merge`() {
         val board = Board.Companion.starting(startingTile = W)
-        expectThat(board)
-            .get { getRoadFeatures() }
-            .containsExactlyInAnyOrder(
+        assertEquals(
+            expected = setOf(
                 Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { left })), isFinished = false),
                 Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { right })), isFinished = false),
                 Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { bottom })), isFinished = false),
-            )
+            ),
+            actual = board.getRoadFeatures(),
+        )
 
         // Connect right and bottom road ends with three turns
         val newBoard = board
@@ -31,9 +31,8 @@ class RoadFeaturesTest {
             .placeTile(Coordinates(x = 0, y = -1), RotatedTile(V, Rotation.ROTATE_180))
 
         // The two ends now form a loop and are a single feature
-        expectThat(newBoard)
-            .get { getRoadFeatures() }
-            .containsExactlyInAnyOrder(
+        assertEquals(
+            expected = setOf(
                 Feature.Road(
                     roads = setOf(
                         PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { left }),
@@ -50,6 +49,8 @@ class RoadFeaturesTest {
                     ),
                     isFinished = true,
                 ),
-            )
+            ),
+            actual = newBoard.getRoadFeatures(),
+        )
     }
 }

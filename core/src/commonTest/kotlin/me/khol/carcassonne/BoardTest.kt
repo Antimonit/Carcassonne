@@ -3,9 +3,8 @@ package me.khol.carcassonne
 import me.khol.carcassonne.tiles.basic.A
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.tiles.basic.F
-import strikt.api.expectThat
-import strikt.assertions.containsExactlyInAnyOrder
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 internal class BoardTest {
 
@@ -13,22 +12,26 @@ internal class BoardTest {
     fun `possible spaces for a tile`() {
         val board = Board.starting(startingTile = D)
         val newTile = A
-        expectThat(board)
-            .get { possibleSpacesForTile(newTile) }
-            .and {
-                get { keys }.containsExactlyInAnyOrder(
+        board.possibleSpacesForTile(newTile).run {
+            assertEquals(
+                expected = setOf(
                     Coordinates(x = +0, y = -1),
                     Coordinates(x = -1, y = +0),
                     Coordinates(x = +1, y = +0),
-                )
-                get { values.flatten() }.containsExactlyInAnyOrder(
+                ),
+                actual = keys,
+            )
+            assertEquals(
+                expected = listOf(
                     PlacedTile(RotatedTile(newTile, Rotation.ROTATE_0), Coordinates(x = +0, y = -1)),
                     PlacedTile(RotatedTile(newTile, Rotation.ROTATE_90), Coordinates(x = +0, y = -1)),
                     PlacedTile(RotatedTile(newTile, Rotation.ROTATE_270), Coordinates(x = +0, y = -1)),
                     PlacedTile(RotatedTile(newTile, Rotation.ROTATE_270), Coordinates(x = -1, y = +0)),
                     PlacedTile(RotatedTile(newTile, Rotation.ROTATE_90), Coordinates(x = +1, y = +0)),
-                )
-            }
+                ),
+                actual = values.flatten(),
+            )
+        }
     }
 
     @Test
@@ -36,14 +39,14 @@ internal class BoardTest {
         val board = Board.starting(startingTile = D)
         val newTile = F
         val newBoard = board.placeTile(Coordinates(x = 0, y = -1), RotatedTile(newTile, Rotation.ROTATE_0))
-        expectThat(newBoard)
-            .get { possibleSpacesForTile(newTile) }
-            .get { keys }
-            .containsExactlyInAnyOrder(
+        assertEquals(
+            expected = setOf(
                 Coordinates(x = 0, y = 1),
                 Coordinates(x = -1, y = -1),
                 Coordinates(x = 1, y = -1),
                 Coordinates(x = 0, y = -2),
-            )
+            ),
+            actual = newBoard.possibleSpacesForTile(newTile).keys,
+        )
     }
 }

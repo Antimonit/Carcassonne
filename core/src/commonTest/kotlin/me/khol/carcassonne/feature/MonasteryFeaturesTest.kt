@@ -9,12 +9,10 @@ import me.khol.carcassonne.tiles.basic.B
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.tiles.basic.U
 import me.khol.carcassonne.tiles.basic.V
-import strikt.api.expectThat
-import strikt.assertions.isEqualTo
-import strikt.assertions.isFalse
-import strikt.assertions.isTrue
-import strikt.assertions.single
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class MonasteryFeaturesTest {
 
@@ -23,17 +21,20 @@ class MonasteryFeaturesTest {
         val board = Board.Companion.starting(startingTile = D)
             .placeTile(Coordinates(0, -1), RotatedTile(B, Rotation.ROTATE_0))
 
-        expectThat(board)
-            .get { getMonasteryFeatures() }
-            .single()
-            .isEqualTo(
-                Feature.Monastery(
-                    monastery = PlacedMonasteryGroup(Coordinates(0, -1), ElementGroup.Center),
-                    neighborCount = 2,
+        board.getMonasteryFeatures().run {
+            assertEquals(1, size)
+
+            first().run {
+                assertEquals(
+                    expected = Feature.Monastery(
+                        monastery = PlacedMonasteryGroup(Coordinates(0, -1), ElementGroup.Center),
+                        neighborCount = 2,
+                    ),
+                    actual = this,
                 )
-            )
-            .get { isFinished }
-            .isFalse()
+                assertFalse(isFinished)
+            }
+        }
 
         // make a road circle around the monastery
         val newBoard = board
@@ -45,16 +46,19 @@ class MonasteryFeaturesTest {
             .placeTile(Coordinates(-1, -1), RotatedTile(U, Rotation.ROTATE_180))
             .placeTile(Coordinates(-1, 0), RotatedTile(V, Rotation.ROTATE_270))
 
-        expectThat(newBoard)
-            .get { getMonasteryFeatures() }
-            .single()
-            .isEqualTo(
-                Feature.Monastery(
-                    monastery = PlacedMonasteryGroup(Coordinates(0, -1), ElementGroup.Center),
-                    neighborCount = 9,
+        newBoard.getMonasteryFeatures().run {
+            assertEquals(1, size)
+
+            first().run {
+                assertEquals(
+                    expected = Feature.Monastery(
+                        monastery = PlacedMonasteryGroup(Coordinates(0, -1), ElementGroup.Center),
+                        neighborCount = 9,
+                    ),
+                    actual = this,
                 )
-            )
-            .get { isFinished }
-            .isTrue()
+                assertTrue(isFinished)
+            }
+        }
     }
 }

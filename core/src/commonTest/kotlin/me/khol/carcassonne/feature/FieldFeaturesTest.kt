@@ -11,9 +11,8 @@ import me.khol.carcassonne.tiles.basic.E
 import me.khol.carcassonne.tiles.basic.H
 import me.khol.carcassonne.tiles.basic.K
 import me.khol.carcassonne.tiles.basic.L
-import strikt.api.expectThat
-import strikt.assertions.containsExactlyInAnyOrder
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class FieldFeaturesTest {
 
@@ -21,9 +20,8 @@ class FieldFeaturesTest {
     fun `basic field feature`() {
         val board = Board.starting(startingTile = D)
 
-        expectThat(board)
-            .get { getFieldFeatures() }
-            .containsExactlyInAnyOrder(
+        assertEquals(
+            expected = setOf(
                 Feature.Field(
                     fields = setOf(
                         PlacedFieldGroup(
@@ -44,7 +42,9 @@ class FieldFeaturesTest {
                     ),
                     connectedCities = emptySet(),
                 ),
-            )
+            ),
+            actual = board.getFieldFeatures(),
+        )
     }
 
     @Test
@@ -70,9 +70,8 @@ class FieldFeaturesTest {
             isFinished = true,
         )
 
-        expectThat(newBoard)
-            .get { getFieldFeatures() }
-            .containsExactlyInAnyOrder(
+        assertEquals(
+            expected = setOf(
                 Feature.Field(
                     fields = setOf(
                         PlacedFieldGroup(
@@ -115,7 +114,9 @@ class FieldFeaturesTest {
                     ),
                     connectedCities = setOf(topCity),
                 ),
-            )
+            ),
+            actual = newBoard.getFieldFeatures(),
+        )
     }
 
     @Test
@@ -123,9 +124,8 @@ class FieldFeaturesTest {
         val board = Board.starting(startingTile = L)
             .placeTile(Coordinates(0, -1), RotatedTile(K, Rotation.ROTATE_180))
 
-        expectThat(board)
-            .get { getFieldFeatures() }
-            .containsExactlyInAnyOrder(
+        assertEquals(
+            expected = setOf(
                 Feature.Field(
                     fields = setOf(
                         PlacedFieldGroup(
@@ -161,14 +161,15 @@ class FieldFeaturesTest {
                     ),
                     connectedCities = emptySet(),
                 ),
-            )
+            ),
+            actual = board.getFieldFeatures(),
+        )
 
         val newBoard = board
             .placeTile(Coordinates(-1, 0), RotatedTile(A, Rotation.ROTATE_270))
 
-        expectThat(newBoard)
-            .get { getFieldFeatures() }
-            .containsExactlyInAnyOrder(
+        assertEquals(
+            expected = setOf(
                 Feature.Field(
                     fields = setOf(
                         PlacedFieldGroup(
@@ -203,6 +204,8 @@ class FieldFeaturesTest {
                     ),
                     connectedCities = emptySet(),
                 ),
-            )
+            ),
+            actual = newBoard.getFieldFeatures(),
+        )
     }
 }

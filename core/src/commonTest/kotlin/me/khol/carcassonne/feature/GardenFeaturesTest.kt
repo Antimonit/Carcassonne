@@ -7,11 +7,9 @@ import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.river.BB6F1
 import me.khol.carcassonne.tiles.river.BB6F10
-import strikt.api.expectThat
-import strikt.assertions.isEqualTo
-import strikt.assertions.isFalse
-import strikt.assertions.single
 import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 class GardenFeaturesTest {
 
@@ -20,16 +18,17 @@ class GardenFeaturesTest {
         val board = Board.Companion.starting(startingTile = BB6F1)
             .placeTile(Coordinates(0, -1), RotatedTile(BB6F10, Rotation.ROTATE_180))
 
-        expectThat(board)
-            .get { getGardenFeatures() }
-            .single()
-            .isEqualTo(
-                Feature.Garden(
-                    garden = PlacedGardenGroup(Coordinates(0, -1), ElementGroup.Center),
-                    neighborCount = 2,
-                )
-            )
-            .get { isFinished }
-            .isFalse()
+        val gardenFeatures = board.getGardenFeatures()
+        assertEquals(1, gardenFeatures.size)
+
+        val gardenFeature = gardenFeatures.first()
+        assertEquals(
+            expected = Feature.Garden(
+                garden = PlacedGardenGroup(Coordinates(0, -1), ElementGroup.Center),
+                neighborCount = 2,
+            ),
+            actual = gardenFeature,
+        )
+        assertFalse(gardenFeature.isFinished)
     }
 }

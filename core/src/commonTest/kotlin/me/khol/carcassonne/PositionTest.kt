@@ -1,56 +1,47 @@
 package me.khol.carcassonne
 
-import strikt.api.expect
-import strikt.assertions.isEqualTo
 import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class PositionTest {
 
     @Test
     fun `rotate edge by 90`() {
-        expect {
-            that(ElementPosition.Edge.Top).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.Edge.Right)
-            that(ElementPosition.Edge.Right).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.Edge.Bottom)
-            that(ElementPosition.Edge.Bottom).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.Edge.Left)
-            that(ElementPosition.Edge.Left).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.Edge.Top)
-        }
+        assertEquals(ElementPosition.Edge.Right, ElementPosition.Edge.Top.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.Edge.Bottom, ElementPosition.Edge.Right.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.Edge.Left, ElementPosition.Edge.Bottom.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.Edge.Top, ElementPosition.Edge.Left.rotate(Rotation.ROTATE_90))
     }
 
     @Test
     fun `rotate bottom edge`() {
-        expect {
-            that(ElementPosition.Edge.Bottom).get { rotate(Rotation.ROTATE_0) }.isEqualTo(ElementPosition.Edge.Bottom)
-            that(ElementPosition.Edge.Bottom).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.Edge.Left)
-            that(ElementPosition.Edge.Bottom).get { rotate(Rotation.ROTATE_180) }.isEqualTo(ElementPosition.Edge.Top)
-            that(ElementPosition.Edge.Bottom).get { rotate(Rotation.ROTATE_270) }.isEqualTo(ElementPosition.Edge.Right)
-        }
+        assertEquals(ElementPosition.Edge.Bottom, ElementPosition.Edge.Bottom.rotate(Rotation.ROTATE_0))
+        assertEquals(ElementPosition.Edge.Left, ElementPosition.Edge.Bottom.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.Edge.Top, ElementPosition.Edge.Bottom.rotate(Rotation.ROTATE_180))
+        assertEquals(ElementPosition.Edge.Right, ElementPosition.Edge.Bottom.rotate(Rotation.ROTATE_270))
     }
 
     @Test
     fun `rotate splitEdge by 90`() {
-        expect {
-            that(ElementPosition.SplitEdge.TopLeft).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.RightTop)
-            that(ElementPosition.SplitEdge.TopRight).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.RightBottom)
-            that(ElementPosition.SplitEdge.RightTop).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.BottomRight)
-            that(ElementPosition.SplitEdge.RightBottom).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.BottomLeft)
-            that(ElementPosition.SplitEdge.BottomRight).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.LeftBottom)
-            that(ElementPosition.SplitEdge.BottomLeft).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.LeftTop)
-            that(ElementPosition.SplitEdge.LeftBottom).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.TopLeft)
-            that(ElementPosition.SplitEdge.LeftTop).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.TopRight)
-        }
+        assertEquals(ElementPosition.SplitEdge.RightTop, ElementPosition.SplitEdge.TopLeft.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.RightBottom, ElementPosition.SplitEdge.TopRight.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.BottomRight, ElementPosition.SplitEdge.RightTop.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.BottomLeft, ElementPosition.SplitEdge.RightBottom.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.LeftBottom, ElementPosition.SplitEdge.BottomRight.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.LeftTop, ElementPosition.SplitEdge.BottomLeft.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.TopLeft, ElementPosition.SplitEdge.LeftBottom.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.TopRight, ElementPosition.SplitEdge.LeftTop.rotate(Rotation.ROTATE_90))
     }
 
     @Test
     fun `rotate bottom splitEdge`() {
-        expect {
-            that(ElementPosition.SplitEdge.BottomRight).get { rotate(Rotation.ROTATE_0) }.isEqualTo(ElementPosition.SplitEdge.BottomRight)
-            that(ElementPosition.SplitEdge.BottomLeft).get { rotate(Rotation.ROTATE_0) }.isEqualTo(ElementPosition.SplitEdge.BottomLeft)
-            that(ElementPosition.SplitEdge.BottomRight).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.LeftBottom)
-            that(ElementPosition.SplitEdge.BottomLeft).get { rotate(Rotation.ROTATE_90) }.isEqualTo(ElementPosition.SplitEdge.LeftTop)
-            that(ElementPosition.SplitEdge.BottomRight).get { rotate(Rotation.ROTATE_180) }.isEqualTo(ElementPosition.SplitEdge.TopLeft)
-            that(ElementPosition.SplitEdge.BottomLeft).get { rotate(Rotation.ROTATE_180) }.isEqualTo(ElementPosition.SplitEdge.TopRight)
-            that(ElementPosition.SplitEdge.BottomRight).get { rotate(Rotation.ROTATE_270) }.isEqualTo(ElementPosition.SplitEdge.RightTop)
-            that(ElementPosition.SplitEdge.BottomLeft).get { rotate(Rotation.ROTATE_270) }.isEqualTo(ElementPosition.SplitEdge.RightBottom)
-        }
+        assertEquals(ElementPosition.SplitEdge.BottomRight, ElementPosition.SplitEdge.BottomRight.rotate(Rotation.ROTATE_0))
+        assertEquals(ElementPosition.SplitEdge.BottomLeft, ElementPosition.SplitEdge.BottomLeft.rotate(Rotation.ROTATE_0))
+        assertEquals(ElementPosition.SplitEdge.LeftBottom, ElementPosition.SplitEdge.BottomRight.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.LeftTop, ElementPosition.SplitEdge.BottomLeft.rotate(Rotation.ROTATE_90))
+        assertEquals(ElementPosition.SplitEdge.TopLeft, ElementPosition.SplitEdge.BottomRight.rotate(Rotation.ROTATE_180))
+        assertEquals(ElementPosition.SplitEdge.TopRight, ElementPosition.SplitEdge.BottomLeft.rotate(Rotation.ROTATE_180))
+        assertEquals(ElementPosition.SplitEdge.RightTop, ElementPosition.SplitEdge.BottomRight.rotate(Rotation.ROTATE_270))
+        assertEquals(ElementPosition.SplitEdge.RightBottom, ElementPosition.SplitEdge.BottomLeft.rotate(Rotation.ROTATE_270))
     }
 }
