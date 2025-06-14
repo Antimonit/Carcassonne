@@ -55,9 +55,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            // TODO: What dependencies to use for @Preview?
-            api(compose.uiTooling)
-            api(compose.preview)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
