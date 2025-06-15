@@ -1,22 +1,22 @@
 package me.khol.carcassonne.tiles.inns
 
-import me.khol.carcassonne.Boon
 import me.khol.carcassonne.Tile
+import me.khol.carcassonne.Tile.Edge.City
 import me.khol.carcassonne.Tile.Edge.Field
 import me.khol.carcassonne.Tile.Edge.Road
 import me.khol.carcassonne.Tile.Edges
+import me.khol.carcassonne.city
 import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
-import me.khol.carcassonne.garden
 import me.khol.carcassonne.road
 
-val EB = Tile(
-    name = "EB",
-    edges = Edges(top = Field, right = Road, bottom = Field, left = Road),
+val InnsF = Tile(
+    name = "InnsF",
+    edges = Edges(top = City, right = Road, bottom = Field, left = City),
     elements = elements {
-        road(Boon.Road.Inn) { right + left }
-        field { leftTop + top + rightTop }
-        field { leftBottom + bottom + rightBottom }
-        garden()
+        val city = city { left + top }
+        road { right }
+        field(city) { rightTop }
+        field(city) { rightBottom + bottom }
     },
 )

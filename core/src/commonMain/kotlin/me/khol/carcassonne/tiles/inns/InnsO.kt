@@ -3,20 +3,18 @@ package me.khol.carcassonne.tiles.inns
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.Tile.Edge.City
 import me.khol.carcassonne.Tile.Edge.Field
-import me.khol.carcassonne.Tile.Edge.Road
 import me.khol.carcassonne.Tile.Edges
 import me.khol.carcassonne.city
 import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
-import me.khol.carcassonne.road
 
-val EJ = Tile(
-    name = "EJ",
-    edges = Edges(top = City, right = Field, bottom = Road, left = Field),
+val InnsO = Tile(
+    name = "InnsO",
+    edges = Edges(top = City, right = City, bottom = Field, left = City),
     elements = elements {
-        val city = city { top }
-        road { bottom }
-        field(city) { right + bottomRight }
-        field(city) { left + bottomLeft }
+        val cityTop = city { top }
+        val cityRight = city { right }
+        val cityLeft = city { left }
+        field(cityTop, cityRight, cityLeft) { bottom }
     },
 )

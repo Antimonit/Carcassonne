@@ -11,8 +11,8 @@ import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
 import me.khol.carcassonne.road
 
-val EM = Tile(
-    name = "EM",
+val InnsM = Tile(
+    name = "InnsM",
     edges = Edges(top = City, right = Field, bottom = Road, left = Road),
     elements = elements {
         val city = city { top }

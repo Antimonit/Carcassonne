@@ -8,8 +8,8 @@ import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
 import me.khol.carcassonne.garden
 
-val EH = Tile(
-    name = "EH",
+val InnsH = Tile(
+    name = "InnsH",
     edges = Edges(top = City, right = City, bottom = City, left = City),
     elements = elements {
         val cityTop = city { top }

@@ -48,23 +48,23 @@ object Tiles {
     }
 
     object Inns {
-        val EA = me.khol.carcassonne.tiles.inns.EA
-        val EB = me.khol.carcassonne.tiles.inns.EB
-        val EC = me.khol.carcassonne.tiles.inns.EC
-        val ED = me.khol.carcassonne.tiles.inns.ED
-        val EE = me.khol.carcassonne.tiles.inns.EE
-        val EF = me.khol.carcassonne.tiles.inns.EF
-        val EG = me.khol.carcassonne.tiles.inns.EG
-        val EH = me.khol.carcassonne.tiles.inns.EH
-        val EI = me.khol.carcassonne.tiles.inns.EI
-        val EJ = me.khol.carcassonne.tiles.inns.EJ
-        val EK = me.khol.carcassonne.tiles.inns.EK
-        val EL = me.khol.carcassonne.tiles.inns.EL
-        val EM = me.khol.carcassonne.tiles.inns.EM
-        val EN = me.khol.carcassonne.tiles.inns.EN
-        val EO = me.khol.carcassonne.tiles.inns.EO
-        val EP = me.khol.carcassonne.tiles.inns.EP
-        val EQ = me.khol.carcassonne.tiles.inns.EQ
+        val InnsA = me.khol.carcassonne.tiles.inns.InnsA
+        val InnsB = me.khol.carcassonne.tiles.inns.InnsB
+        val InnsC = me.khol.carcassonne.tiles.inns.InnsC
+        val InnsD = me.khol.carcassonne.tiles.inns.InnsD
+        val InnsE = me.khol.carcassonne.tiles.inns.InnsE
+        val InnsF = me.khol.carcassonne.tiles.inns.InnsF
+        val InnsG = me.khol.carcassonne.tiles.inns.InnsG
+        val InnsH = me.khol.carcassonne.tiles.inns.InnsH
+        val InnsI = me.khol.carcassonne.tiles.inns.InnsI
+        val InnsJ = me.khol.carcassonne.tiles.inns.InnsJ
+        val InnsK = me.khol.carcassonne.tiles.inns.InnsK
+        val InnsL = me.khol.carcassonne.tiles.inns.InnsL
+        val InnsM = me.khol.carcassonne.tiles.inns.InnsM
+        val InnsN = me.khol.carcassonne.tiles.inns.InnsN
+        val InnsO = me.khol.carcassonne.tiles.inns.InnsO
+        val InnsP = me.khol.carcassonne.tiles.inns.InnsP
+        val InnsQ = me.khol.carcassonne.tiles.inns.InnsQ
     }
 
     object River {
