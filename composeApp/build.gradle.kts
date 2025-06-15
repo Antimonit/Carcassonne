@@ -24,6 +24,11 @@ kotlin {
                     }
                 }
             }
+            testTask {
+                useKarma {
+                    useChromeHeadless()
+                }
+            }
         }
         binaries.executable()
     }

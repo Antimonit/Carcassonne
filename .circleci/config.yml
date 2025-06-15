@@ -3,6 +3,7 @@ version: 2.1
 
 orbs:
   codecov: codecov/codecov@5.4.3
+  browser-tools: circleci/browser-tools@2.1.1
 
 # https://circleci.com/docs/jobs-steps/#jobs-overview
 # https://circleci.com/docs/configuration-reference/#jobs
@@ -24,6 +25,8 @@ jobs:
     # https://circleci.com/docs/jobs-steps/#steps-overview
     # https://circleci.com/docs/configuration-reference/#steps
     steps:
+      - browser-tools/install_chrome
+      - browser-tools/install_chromedriver
       - checkout
       - run: ./gradlew :core:check
       - run: ./gradlew :core:koverXmlReport
