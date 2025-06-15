@@ -107,12 +107,13 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "MainKt"
+        mainClass = "me.khol.carcassonne.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "me.khol.carcassonne"
-            packageVersion = "1.0.0"
+            packageName = "Carcassonne"
+            packageVersion = "1.0.1"
+            vendor = "David Khol"
         }
     }
 }
