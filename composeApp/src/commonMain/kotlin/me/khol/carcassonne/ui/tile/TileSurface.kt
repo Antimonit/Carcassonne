@@ -1,4 +1,4 @@
-package me.khol.carcassonne.common.tile
+package me.khol.carcassonne.ui.tile
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState

@@ -1,4 +1,4 @@
-package me.khol.carcassonne.common
+package me.khol.carcassonne.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,9 +23,9 @@ import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.common.tile.TileSurface
-import me.khol.carcassonne.common.tile.tileSize
 import me.khol.carcassonne.tiles.basic.D
+import me.khol.carcassonne.ui.tile.TileSurface
+import me.khol.carcassonne.ui.tile.tileSize
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private data class BoardCoordinatesElement(

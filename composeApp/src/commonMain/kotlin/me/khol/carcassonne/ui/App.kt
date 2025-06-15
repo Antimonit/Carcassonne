@@ -1,4 +1,4 @@
-package me.khol.carcassonne.common
+package me.khol.carcassonne.ui
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
