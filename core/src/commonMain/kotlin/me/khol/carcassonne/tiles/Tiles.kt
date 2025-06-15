@@ -68,17 +68,17 @@ object Tiles {
     }
 
     object River {
-        val BB6F1 = me.khol.carcassonne.tiles.river.BB6F1
-        val BB6F2 = me.khol.carcassonne.tiles.river.BB6F2
-        val BB6F3 = me.khol.carcassonne.tiles.river.BB6F3
-        val BB6F4 = me.khol.carcassonne.tiles.river.BB6F4
-        val BB6F5 = me.khol.carcassonne.tiles.river.BB6F5
-        val BB6F6 = me.khol.carcassonne.tiles.river.BB6F6
-        val BB6F7 = me.khol.carcassonne.tiles.river.BB6F7
-        val BB6F8 = me.khol.carcassonne.tiles.river.BB6F8
-        val BB6F9 = me.khol.carcassonne.tiles.river.BB6F9
-        val BB6F10 = me.khol.carcassonne.tiles.river.BB6F10
-        val BB6F11 = me.khol.carcassonne.tiles.river.BB6F11
-        val BB6F12 = me.khol.carcassonne.tiles.river.BB6F12
+        val RiverA = me.khol.carcassonne.tiles.river.RiverA
+        val RiverB = me.khol.carcassonne.tiles.river.RiverB
+        val RiverC = me.khol.carcassonne.tiles.river.RiverC
+        val RiverD = me.khol.carcassonne.tiles.river.RiverD
+        val RiverE = me.khol.carcassonne.tiles.river.RiverE
+        val RiverF = me.khol.carcassonne.tiles.river.RiverF
+        val RiverG = me.khol.carcassonne.tiles.river.RiverG
+        val RiverH = me.khol.carcassonne.tiles.river.RiverH
+        val RiverI = me.khol.carcassonne.tiles.river.RiverI
+        val RiverJ = me.khol.carcassonne.tiles.river.RiverJ
+        val RiverK = me.khol.carcassonne.tiles.river.RiverK
+        val RiverL = me.khol.carcassonne.tiles.river.RiverL
     }
 }

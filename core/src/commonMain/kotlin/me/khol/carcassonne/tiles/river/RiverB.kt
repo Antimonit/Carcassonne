@@ -3,21 +3,24 @@ package me.khol.carcassonne.tiles.river
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.Tile.Edge.City
 import me.khol.carcassonne.Tile.Edge.River
+import me.khol.carcassonne.Tile.Edge.Road
 import me.khol.carcassonne.Tile.Edges
 import me.khol.carcassonne.city
 import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
 import me.khol.carcassonne.river
+import me.khol.carcassonne.road
 
-val BB6F3 = Tile(
-    name = "BB6F3",
-    edges = Edges(top = City, right = River, bottom = City, left = River),
+val RiverB = Tile(
+    name = "RiverB",
+    edges = Edges(top = City, right = River, bottom = Road, left = River),
     elements = elements {
-        val cityTop = city { top }
-        val cityBottom = city { bottom }
-        field(cityTop) { leftTop + rightTop }
-        field(cityBottom) { rightBottom + leftBottom }
+        val city = city { top }
+        field(city) { leftTop }
+        field(city) { rightTop }
+        field { rightBottom + bottomRight }
+        field { bottomLeft + leftBottom }
         river { left + right }
+        road { bottom }
     },
 )
-

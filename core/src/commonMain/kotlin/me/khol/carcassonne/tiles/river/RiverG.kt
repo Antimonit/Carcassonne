@@ -7,14 +7,13 @@ import me.khol.carcassonne.Tile.Edges
 import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
 import me.khol.carcassonne.river
-import me.khol.carcassonne.riverStart
 
-val BB6F1 = Tile(
-    name = "BB6F1",
-    edges = Edges(top = Field, right = Field, bottom = River, left = Field),
+val RiverG = Tile(
+    name = "RiverG",
+    edges = Edges(top = River, right = Field, bottom = Field, left = River),
     elements = elements {
-        field { all }
-        river { bottom }
-        riverStart()
+        field { topLeft + leftTop }
+        field { topRight + right + bottom + leftBottom }
+        river { top + left }
     },
 )

@@ -9,13 +9,15 @@ import me.khol.carcassonne.elements
 import me.khol.carcassonne.field
 import me.khol.carcassonne.river
 
-val BB6F5 = Tile(
-    name = "BB6F5",
-    edges = Edges(top = City, right = City, bottom = River, left = River),
+val RiverC = Tile(
+    name = "RiverC",
+    edges = Edges(top = City, right = River, bottom = City, left = River),
     elements = elements {
-        val city = city { top + right }
-        field(city) { leftTop + bottomRight }
-        field { leftBottom + bottomLeft }
-        river { left + bottom }
+        val cityTop = city { top }
+        val cityBottom = city { bottom }
+        field(cityTop) { leftTop + rightTop }
+        field(cityBottom) { rightBottom + leftBottom }
+        river { left + right }
     },
 )
+
