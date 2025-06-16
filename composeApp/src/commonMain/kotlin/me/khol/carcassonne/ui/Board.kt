@@ -134,7 +134,7 @@ private fun BoardLayout(
                 val coordinates = placeable.parentData as Coordinates
                 placeable.placeRelative(
                     x = constraints.maxWidth / 2 + coordinates.x * tileSize - tileSize / 2,
-                    y = constraints.maxHeight / 2 - coordinates.y * tileSize + tileSize / 2,
+                    y = constraints.maxHeight / 2 + coordinates.y * tileSize - tileSize / 2,
                 )
             }
         }

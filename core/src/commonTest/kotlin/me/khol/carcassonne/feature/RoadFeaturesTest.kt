@@ -27,8 +27,8 @@ class RoadFeaturesTest {
         // Connect right and bottom road ends with three turns
         val newBoard = board
             .placeTile(Coordinates(x = 1, y = 0), RotatedTile(V, Rotation.ROTATE_0))
-            .placeTile(Coordinates(x = 1, y = -1), RotatedTile(V, Rotation.ROTATE_90))
-            .placeTile(Coordinates(x = 0, y = -1), RotatedTile(V, Rotation.ROTATE_180))
+            .placeTile(Coordinates(x = 1, y = 1), RotatedTile(V, Rotation.ROTATE_90))
+            .placeTile(Coordinates(x = 0, y = 1), RotatedTile(V, Rotation.ROTATE_180))
 
         // The two ends now form a loop and are a single feature
         assertEquals(
@@ -43,8 +43,8 @@ class RoadFeaturesTest {
                     roads = setOf(
                         PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { right }),
                         PlacedRoadGroup(Coordinates(1, 0), ElementGroup.Companion.road { left + bottom }),
-                        PlacedRoadGroup(Coordinates(1, -1), ElementGroup.Companion.road { top + left }),
-                        PlacedRoadGroup(Coordinates(0, -1), ElementGroup.Companion.road { right + top }),
+                        PlacedRoadGroup(Coordinates(1, 1), ElementGroup.Companion.road { top + left }),
+                        PlacedRoadGroup(Coordinates(0, 1), ElementGroup.Companion.road { right + top }),
                         PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { bottom }),
                     ),
                     isFinished = true,

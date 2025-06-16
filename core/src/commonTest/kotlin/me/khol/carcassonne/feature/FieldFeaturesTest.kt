@@ -52,20 +52,20 @@ class FieldFeaturesTest {
         val board = Board.starting(startingTile = D)
 
         val newBoard = board
-            .placeTile(Coordinates(0, 1), RotatedTile(H, Rotation.ROTATE_0))
-            .placeTile(Coordinates(0, 2), RotatedTile(E, Rotation.ROTATE_180))
+            .placeTile(Coordinates(0, -1), RotatedTile(H, Rotation.ROTATE_0))
+            .placeTile(Coordinates(0, -2), RotatedTile(E, Rotation.ROTATE_180))
 
         val bottomCity = Feature.City(
             cities = setOf(
                 PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.city { top }),
-                PlacedCityGroup(Coordinates(0, 1), elementGroup = ElementGroup.city { bottom }),
+                PlacedCityGroup(Coordinates(0, -1), elementGroup = ElementGroup.city { bottom }),
             ),
             isFinished = true,
         )
         val topCity = Feature.City(
             cities = setOf(
-                PlacedCityGroup(Coordinates(0, 1), elementGroup = ElementGroup.city { top }),
-                PlacedCityGroup(Coordinates(0, 2), elementGroup = ElementGroup.city { bottom }),
+                PlacedCityGroup(Coordinates(0, -1), elementGroup = ElementGroup.city { top }),
+                PlacedCityGroup(Coordinates(0, -2), elementGroup = ElementGroup.city { bottom }),
             ),
             isFinished = true,
         )
@@ -95,7 +95,7 @@ class FieldFeaturesTest {
                 Feature.Field(
                     fields = setOf(
                         PlacedFieldGroup(
-                            coordinates = Coordinates(x = 0, y = 1),
+                            coordinates = Coordinates(x = 0, y = -1),
                             elementGroup = ElementGroup.field(
                                 ElementGroup.city { bottom },
                                 ElementGroup.city { top },
@@ -107,7 +107,7 @@ class FieldFeaturesTest {
                 Feature.Field(
                     fields = setOf(
                         PlacedFieldGroup(
-                            coordinates = Coordinates(x = 0, y = 2),
+                            coordinates = Coordinates(x = 0, y = -2),
                             elementGroup = ElementGroup.field(
                                 ElementGroup.city { bottom },
                             ) { left + right + top }),
@@ -122,7 +122,7 @@ class FieldFeaturesTest {
     @Test
     fun `field features can merge`() {
         val board = Board.starting(startingTile = L)
-            .placeTile(Coordinates(0, -1), RotatedTile(K, Rotation.ROTATE_180))
+            .placeTile(Coordinates(0, 1), RotatedTile(K, Rotation.ROTATE_180))
 
         assertEquals(
             expected = setOf(
@@ -142,7 +142,7 @@ class FieldFeaturesTest {
                             elementGroup = ElementGroup.field { leftBottom + bottomLeft },
                         ),
                         PlacedFieldGroup(
-                            coordinates = Coordinates(0, -1),
+                            coordinates = Coordinates(0, 1),
                             elementGroup = ElementGroup.field(ElementGroup.city { bottom }) { left + topLeft + rightBottom },
                         ),
                     ),
@@ -155,7 +155,7 @@ class FieldFeaturesTest {
                             elementGroup = ElementGroup.field { rightBottom + bottomRight },
                         ),
                         PlacedFieldGroup(
-                            coordinates = Coordinates(0, -1),
+                            coordinates = Coordinates(0, 1),
                             elementGroup = ElementGroup.field { rightTop + topRight },
                         ),
                     ),
@@ -181,7 +181,7 @@ class FieldFeaturesTest {
                             elementGroup = ElementGroup.field { leftBottom + bottomLeft },
                         ),
                         PlacedFieldGroup(
-                            coordinates = Coordinates(0, -1),
+                            coordinates = Coordinates(0, 1),
                             elementGroup = ElementGroup.field(ElementGroup.city { bottom }) { left + topLeft + rightBottom },
                         ),
                         PlacedFieldGroup(
@@ -198,7 +198,7 @@ class FieldFeaturesTest {
                             elementGroup = ElementGroup.field { rightBottom + bottomRight },
                         ),
                         PlacedFieldGroup(
-                            coordinates = Coordinates(0, -1),
+                            coordinates = Coordinates(0, 1),
                             elementGroup = ElementGroup.field { rightTop + topRight },
                         ),
                     ),

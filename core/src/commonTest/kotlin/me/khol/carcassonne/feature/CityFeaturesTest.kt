@@ -37,8 +37,8 @@ class CityFeaturesTest {
         }
 
         val newBoard = board
-            .placeTile(Coordinates(0, 1), RotatedTile(F, Rotation.ROTATE_90))
-            .placeTile(Coordinates(0, 2), RotatedTile(E, Rotation.ROTATE_180))
+            .placeTile(Coordinates(0, -1), RotatedTile(F, Rotation.ROTATE_90))
+            .placeTile(Coordinates(0, -2), RotatedTile(E, Rotation.ROTATE_180))
 
         newBoard.getCityFeatures().run {
             assertEquals(1, size)
@@ -49,9 +49,9 @@ class CityFeaturesTest {
                         cities = setOf(
                             PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.city { top }),
                             PlacedCityGroup(
-                                Coordinates(0, 1),
+                                Coordinates(0, -1),
                                 elementGroup = ElementGroup.city(Boon.City.CoatOfArms) { top + bottom }),
-                            PlacedCityGroup(Coordinates(0, 2), elementGroup = ElementGroup.city { bottom }),
+                            PlacedCityGroup(Coordinates(0, -2), elementGroup = ElementGroup.city { bottom }),
                         ),
                         isFinished = true,
                     ),
@@ -87,8 +87,8 @@ class CityFeaturesTest {
         )
 
         val newBoard = board
-            .placeTile(Coordinates(0, 1), RotatedTile(R, Rotation.ROTATE_90))
-            .placeTile(Coordinates(1, 1), RotatedTile(R, Rotation.ROTATE_270))
+            .placeTile(Coordinates(0, -1), RotatedTile(R, Rotation.ROTATE_90))
+            .placeTile(Coordinates(1, -1), RotatedTile(R, Rotation.ROTATE_270))
 
         assertEquals(
             expected = setOf(
@@ -96,8 +96,8 @@ class CityFeaturesTest {
                     cities = setOf(
                         PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.city { top }),
                         PlacedCityGroup(Coordinates(1, 0), elementGroup = ElementGroup.city { top }),
-                        PlacedCityGroup(Coordinates(0, 1), elementGroup = ElementGroup.city { top + right + bottom }),
-                        PlacedCityGroup(Coordinates(1, 1), elementGroup = ElementGroup.city { top + left + bottom }),
+                        PlacedCityGroup(Coordinates(0, -1), elementGroup = ElementGroup.city { top + right + bottom }),
+                        PlacedCityGroup(Coordinates(1, -1), elementGroup = ElementGroup.city { top + left + bottom }),
                     ),
                     isFinished = false,
                 ),

@@ -19,7 +19,7 @@ class MonasteryFeaturesTest {
     @Test
     fun `monastery feature`() {
         val board = Board.Companion.starting(startingTile = D)
-            .placeTile(Coordinates(0, -1), RotatedTile(B, Rotation.ROTATE_0))
+            .placeTile(Coordinates(0, 1), RotatedTile(B, Rotation.ROTATE_0))
 
         board.getMonasteryFeatures().run {
             assertEquals(1, size)
@@ -27,7 +27,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        monastery = PlacedMonasteryGroup(Coordinates(0, -1), ElementGroup.Center),
+                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Center),
                         neighborCount = 2,
                     ),
                     actual = this,
@@ -39,11 +39,11 @@ class MonasteryFeaturesTest {
         // make a road circle around the monastery
         val newBoard = board
             .placeTile(Coordinates(1, 0), RotatedTile(V, Rotation.ROTATE_0))
-            .placeTile(Coordinates(1, -1), RotatedTile(U, Rotation.ROTATE_0))
-            .placeTile(Coordinates(1, -2), RotatedTile(V, Rotation.ROTATE_90))
-            .placeTile(Coordinates(0, -2), RotatedTile(U, Rotation.ROTATE_90))
-            .placeTile(Coordinates(-1, -2), RotatedTile(V, Rotation.ROTATE_180))
-            .placeTile(Coordinates(-1, -1), RotatedTile(U, Rotation.ROTATE_180))
+            .placeTile(Coordinates(1, 1), RotatedTile(U, Rotation.ROTATE_0))
+            .placeTile(Coordinates(1, 2), RotatedTile(V, Rotation.ROTATE_90))
+            .placeTile(Coordinates(0, 2), RotatedTile(U, Rotation.ROTATE_90))
+            .placeTile(Coordinates(-1, 2), RotatedTile(V, Rotation.ROTATE_180))
+            .placeTile(Coordinates(-1, 1), RotatedTile(U, Rotation.ROTATE_180))
             .placeTile(Coordinates(-1, 0), RotatedTile(V, Rotation.ROTATE_270))
 
         newBoard.getMonasteryFeatures().run {
@@ -52,7 +52,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        monastery = PlacedMonasteryGroup(Coordinates(0, -1), ElementGroup.Center),
+                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Center),
                         neighborCount = 9,
                     ),
                     actual = this,
