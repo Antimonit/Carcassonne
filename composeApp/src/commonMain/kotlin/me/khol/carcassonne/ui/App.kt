@@ -16,25 +16,23 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import me.khol.carcassonne.Board
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.ui.tile.toDrawable
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlin.random.Random
-
-val random = Random(seed = 42)
-val tiles = basicTileset.tileCounts.flatMap { tileCount ->
-    List(tileCount.count) { tileCount.tile }
-}.shuffled(random)
 
 @Preview
 @Composable
 fun App() {
-    var board by remember { mutableStateOf(Board.starting(startingTile = D)) }
-    var remainingTiles by remember { mutableStateOf(tiles) }
-    var currentTile by remember { mutableStateOf(remainingTiles.firstOrNull()) }
+    var game by remember {
+        mutableStateOf(
+            Game.new(
+                tilesets = listOf(basicTileset),
+                startingTile = D,
+            )
+        )
+    }
 
     MaterialTheme {
         Surface(
@@ -43,12 +41,13 @@ fun App() {
             Box {
                 PanningWindow {
                     Board(
-                        board = board,
-                        currentTile = currentTile,
+                        board = game.board,
+                        currentTile = game.currentTile,
                         onPlaceTile = { coordinates, tile ->
-                            board = board.placeTile(tile.coordinates, tile.rotatedTile)
-                            remainingTiles = remainingTiles.drop(1)
-                            currentTile = remainingTiles.firstOrNull()
+                            game = game.copy(
+                                board = game.board.placeTile(tile.coordinates, tile.rotatedTile),
+                                remainingTiles = game.remainingTiles.drop(1),
+                            )
                         }
                     )
                 }
@@ -65,7 +64,7 @@ fun App() {
                         modifier = Modifier
                             .padding(12.dp)
                     ) {
-                        val current = currentTile
+                        val current = game.currentTile
                         if (current == null) {
                             Text(
                                 text = "No tiles left",
@@ -75,7 +74,7 @@ fun App() {
                             )
                         } else {
                             Text(
-                                text = "${remainingTiles.size} tiles left",
+                                text = "${game.remainingTiles.size} tiles left",
                                 style = MaterialTheme.typography.body2,
                                 modifier = Modifier
                                     .align(alignment = Alignment.CenterHorizontally)
