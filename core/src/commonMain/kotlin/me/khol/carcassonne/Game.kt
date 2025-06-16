@@ -7,6 +7,8 @@ data class Game(
     val tiles: List<Tile>,
     val remainingTiles: List<Tile>,
     val board: Board,
+    val players: List<Player>,
+    val currentPlayer: Player,
 ) {
 
     val currentTile: Tile? =
@@ -27,10 +29,17 @@ data class Game(
                 }
             }
 
+            val players = listOf(
+                Player(name = "Green", color = Player.Color.Green),
+                Player(name = "Red", color = Player.Color.Red),
+            )
+
             return Game(
                 tiles = tiles,
                 remainingTiles = tiles.minus(startingTile).shuffled(random),
                 board = Board.starting(startingTile = startingTile),
+                players = players,
+                currentPlayer = players.first(),
             )
         }
     }

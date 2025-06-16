@@ -55,61 +55,63 @@ fun App() {
             )
         }
 
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            elevation = 8.dp,
-            modifier = Modifier
-                .padding(16.dp)
-                .align(alignment = Alignment.BottomStart)
-        ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .padding(12.dp)
-            ) {
-                val current = game.currentTile
-                if (current == null) {
-                    Text(
-                        text = "No tiles left",
-                        style = MaterialTheme.typography.body2,
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    elevation = 8.dp,
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .align(alignment = Alignment.BottomStart)
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier
-                            .align(alignment = Alignment.CenterHorizontally)
-                    )
-                } else {
-                    Text(
-                        text = "${game.remainingTiles.size} tiles left",
-                        style = MaterialTheme.typography.body2,
-                        modifier = Modifier
-                            .align(alignment = Alignment.CenterHorizontally)
-                    )
-                    val placing = placingTile
-                    if (placing == null) {
-                        Tile(
-                            drawable = current.toUiTile().drawable,
-                            rotation = Rotation.ROTATE_0,
-                        )
-                    } else {
-                        @OptIn(ExperimentalMaterialApi::class)
-                        Surface(
-                            onClick = {
-                                game = game.copy(
-                                    board = game.board.placeTile(placing.coordinates, placing.rotatedTile),
-                                    remainingTiles = game.remainingTiles.drop(1),
+                            .padding(12.dp)
+                    ) {
+                        val current = game.currentTile
+                        if (current == null) {
+                            Text(
+                                text = "No tiles left",
+                                style = MaterialTheme.typography.body2,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterHorizontally)
+                            )
+                        } else {
+                            Text(
+                                text = "${game.remainingTiles.size} tiles left",
+                                style = MaterialTheme.typography.body2,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterHorizontally)
+                            )
+                            val placing = placingTile
+                            if (placing == null) {
+                                Tile(
+                                    drawable = current.toUiTile().drawable,
+                                    rotation = Rotation.ROTATE_0,
                                 )
-                                placingTile = null
-                            },
-                            shape = RoundedCornerShape(4.dp),
-                            modifier = Modifier
-                                .size(tileSize)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = Icons.Default.Check,
-                                    contentDescription = "Confirm",
-                                    tint = Color.Black,
+                            } else {
+                                @OptIn(ExperimentalMaterialApi::class)
+                                Surface(
+                                    onClick = {
+                                        game = game.copy(
+                                            board = game.board.placeTile(placing.coordinates, placing.rotatedTile),
+                                            remainingTiles = game.remainingTiles.drop(1),
+                                            currentPlayer = game.players[(game.players.indexOf(game.currentPlayer) + 1) % game.players.size],
+                                        )
+                                        placingTile = null
+                                    },
+                                    shape = RoundedCornerShape(4.dp),
                                     modifier = Modifier
-                                        .size(48.dp)
-                                )
+                                        .size(tileSize)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Confirm",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .size(48.dp)
+                                        )
+
                             }
                         }
                     }
