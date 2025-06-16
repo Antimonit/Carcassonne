@@ -51,6 +51,7 @@ fun App() {
                     Board(
                         board = game.board,
                         currentTile = game.currentTile,
+                        placingTile = placingTile,
                         onPlaceTile = { coordinates, tile ->
                             placingTile = tile
                         }

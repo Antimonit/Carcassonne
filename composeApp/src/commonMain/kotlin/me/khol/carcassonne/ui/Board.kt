@@ -1,5 +1,6 @@
 package me.khol.carcassonne.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ExperimentalMaterialApi
@@ -8,6 +9,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.key
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
@@ -62,6 +64,7 @@ object BoardScope {
 fun Board(
     board: Board,
     currentTile: Tile?,
+    placingTile: PlacedTile?,
     onPlaceTile: (Coordinates, PlacedTile) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -77,14 +80,25 @@ fun Board(
             )
         }
         currentTile?.let { tile ->
-            val openSpaces = board.possibleSpacesForTile(tile)
-            openSpaces.forEach { (coordinates, rotations) ->
-                val placedTile = rotations.first()
+            val openSpaces = remember(board, tile) { board.possibleSpacesForTile(tile) }
+            if (placingTile != null) {
+                val possibilities = openSpaces.getValue(placingTile.coordinates)
+                Tile(
+                    drawable = tile.toDrawable(),
+                    rotation = placingTile.rotatedTile.rotation,
+                    modifier = Modifier
+                        .coordinates(placingTile.coordinates)
+                        .clickable {
+                            onPlaceTile(placingTile.coordinates, possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
+                        }
+                )
+            }
+            openSpaces.forEach { (coordinates, placedTiles) ->
                 key(coordinates) {
                     @OptIn(ExperimentalMaterialApi::class)
                     Surface(
                         onClick = {
-                            onPlaceTile(coordinates, placedTile)
+                            onPlaceTile(coordinates, placedTiles.first())
                         },
                         color = Color.Black.copy(alpha = 0.12f),
                         shape = RoundedCornerShape(4.dp),
@@ -142,6 +156,7 @@ private fun BoardPreview() {
                     .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(D, Rotation.ROTATE_0))
                     .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(D, Rotation.ROTATE_180)),
                 currentTile = D,
+                placingTile = null,
                 onPlaceTile = { coordinates, tile -> },
             )
         }
