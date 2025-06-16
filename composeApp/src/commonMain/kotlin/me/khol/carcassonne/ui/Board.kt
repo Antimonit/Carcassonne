@@ -7,6 +7,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
@@ -79,17 +80,19 @@ fun Board(
             val openSpaces = board.possibleSpacesForTile(tile)
             openSpaces.forEach { (coordinates, rotations) ->
                 val placedTile = rotations.first()
-                @OptIn(ExperimentalMaterialApi::class)
-                Surface(
-                    onClick = {
-                        onPlaceTile(coordinates, placedTile)
-                    },
-                    color = Color.Black.copy(alpha = 0.12f),
-                    shape = RoundedCornerShape(4.dp),
-                    modifier = Modifier
-                        .coordinates(coordinates)
-                        .padding(4.dp)
-                ) {
+                key(coordinates) {
+                    @OptIn(ExperimentalMaterialApi::class)
+                    Surface(
+                        onClick = {
+                            onPlaceTile(coordinates, placedTile)
+                        },
+                        color = Color.Black.copy(alpha = 0.12f),
+                        shape = RoundedCornerShape(4.dp),
+                        modifier = Modifier
+                            .coordinates(coordinates)
+                            .padding(4.dp)
+                    ) {
+                    }
                 }
             }
         }
