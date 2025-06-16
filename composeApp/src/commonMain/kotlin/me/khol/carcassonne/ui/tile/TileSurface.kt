@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.khol.carcassonne.ui.zIndexOnHover
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val tileSize = 128.dp
@@ -35,6 +36,7 @@ fun TileSurface(
 
     Surface(
         modifier = modifier
+            .zIndexOnHover()
             .size(tileSize)
             .padding(2.dp)
             .hoverable(interactionSource = interactionSource)
