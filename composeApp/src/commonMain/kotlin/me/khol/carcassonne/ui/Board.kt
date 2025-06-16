@@ -1,9 +1,10 @@
 package me.khol.carcassonne.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.node.ModifierNodeElement
@@ -95,18 +97,16 @@ fun Board(
             }
             openSpaces.forEach { (coordinates, placedTiles) ->
                 key(coordinates) {
-                    @OptIn(ExperimentalMaterialApi::class)
-                    Surface(
-                        onClick = {
-                            onPlaceTile(coordinates, placedTiles.first())
-                        },
-                        color = Color.Black.copy(alpha = 0.12f),
-                        shape = RoundedCornerShape(4.dp),
+                    Box(
                         modifier = Modifier
-                            .coordinates(coordinates)
                             .padding(4.dp)
-                    ) {
-                    }
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(Color.Black.copy(alpha = 0.12f))
+                            .coordinates(coordinates)
+                            .clickable {
+                                onPlaceTile(coordinates, placedTiles.first())
+                            }
+                    )
                 }
             }
         }
