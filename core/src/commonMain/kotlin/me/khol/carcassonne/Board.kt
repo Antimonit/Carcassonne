@@ -31,7 +31,7 @@ data class Board(
             "Cannot place tile ${tile.tile.name} at $coordinates as it is not connected to the rest of the board."
         }
         require(PlacedTile(tile, coordinates) in possibleSpacesForTile(tile.tile).getValue(coordinates)) {
-            "Cannot place tile ${tile.tile.name} at $coordinates as it does not match edges with one or more neighbords"
+            "Cannot place tile ${tile.tile.name} at $coordinates as it does not match edges with one or more neighbors."
         }
 
         return Board(
