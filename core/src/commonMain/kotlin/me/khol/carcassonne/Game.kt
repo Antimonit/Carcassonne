@@ -7,6 +7,7 @@ data class Game(
     val tiles: List<Tile>,
     val remainingTiles: List<Tile>,
     val board: Board,
+    val history: List<me.khol.carcassonne.PlacedTile>,
     val players: List<Player>,
     val currentPlayer: Player,
 ) {
@@ -38,6 +39,7 @@ data class Game(
                 tiles = tiles,
                 remainingTiles = tiles.minus(startingTile).shuffled(random),
                 board = Board.starting(startingTile = startingTile),
+                history = emptyList(),
                 players = players,
                 currentPlayer = players.first(),
             )
