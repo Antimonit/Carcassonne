@@ -23,9 +23,11 @@ import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.tile.TileSurface
 import me.khol.carcassonne.ui.tile.tileSize
+import me.khol.carcassonne.ui.tile.toDrawable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private data class BoardCoordinatesElement(
@@ -67,15 +69,12 @@ fun Board(
         modifier = modifier,
     ) {
         board.tiles.forEach { (coordinates, tile) ->
-            TileSurface(
-                modifier = Modifier.coordinates(coordinates)
-            ) {
-                Box(
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(tile.tile.name)
-                }
-            }
+            Tile(
+                drawable = tile.tile.toDrawable(),
+                rotation = tile.rotation,
+                modifier = Modifier
+                    .coordinates(coordinates)
+            )
         }
         board.openSpaces.forEach { coordinates ->
             Surface(
