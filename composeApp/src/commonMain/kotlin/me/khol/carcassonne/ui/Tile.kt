@@ -19,21 +19,20 @@ fun Tile(
     modifier: Modifier = Modifier,
 ) {
     TileSurface(
-        modifier = modifier,
+        modifier = modifier
+            .rotate(
+                degrees = when (rotation) {
+                    Rotation.ROTATE_0 -> 0f
+                    Rotation.ROTATE_90 -> 90f
+                    Rotation.ROTATE_180 -> 180f
+                    Rotation.ROTATE_270 -> 270f
+                }
+            )
     ) {
         Image(
             bitmap = imageResource(drawable),
             contentDescription = null,
             filterQuality = FilterQuality.High,
-            modifier = Modifier
-                .rotate(
-                    degrees = when (rotation) {
-                        Rotation.ROTATE_0 -> 0f
-                        Rotation.ROTATE_90 -> 90f
-                        Rotation.ROTATE_180 -> 180f
-                        Rotation.ROTATE_270 -> 270f
-                    }
-                )
         )
     }
 }
