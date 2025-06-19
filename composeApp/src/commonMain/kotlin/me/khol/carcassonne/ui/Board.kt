@@ -124,8 +124,9 @@ private fun BoardLayout(
         },
         modifier = modifier,
     ) { measurables, constraints ->
-        val tileSize = tileSize.roundToPx()
-        val tileConstraints = Constraints.fixed(tileSize, tileSize)
+        val size = tileSize.roundToPx()
+        val tiling = (tileSize + 4.dp).roundToPx()
+        val tileConstraints = Constraints.fixed(size, size)
         val placeables = measurables.map { measurable ->
             measurable.measure(tileConstraints)
         }
@@ -133,8 +134,8 @@ private fun BoardLayout(
             placeables.forEach { placeable ->
                 val coordinates = placeable.parentData as Coordinates
                 placeable.placeRelative(
-                    x = constraints.maxWidth / 2 + coordinates.x * tileSize - tileSize / 2,
-                    y = constraints.maxHeight / 2 + coordinates.y * tileSize - tileSize / 2,
+                    x = (constraints.maxWidth - size) / 2 + coordinates.x * tiling,
+                    y = (constraints.maxHeight - size) / 2 + coordinates.y * tiling,
                 )
             }
         }
