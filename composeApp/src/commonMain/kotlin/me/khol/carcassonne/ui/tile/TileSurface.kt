@@ -1,7 +1,6 @@
 package me.khol.carcassonne.ui.tile
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -16,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.ui.zIndexOnHover
@@ -32,15 +30,13 @@ fun TileSurface(
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
     val elevation by animateDpAsState(if (isHovered) 4.dp else 1.dp)
-    val scale by animateFloatAsState(if (isHovered) 1.1f else 1f)
 
     Surface(
         modifier = modifier
             .zIndexOnHover()
             .size(tileSize)
             .aspectRatio(1f)
-            .hoverable(interactionSource = interactionSource)
-            .scale(scale),
+            .hoverable(interactionSource = interactionSource),
         elevation = elevation,
         shape = RoundedCornerShape(4.dp),
     ) {
