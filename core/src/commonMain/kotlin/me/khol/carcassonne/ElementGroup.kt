@@ -40,8 +40,8 @@ interface ElementGroup<P : ElementPosition> {
 
     companion object {
 
-        fun edges(block: EdgeBuilder): Edge =
-            Edge(ElementPosition.Edge.builder(block))
+        fun river(block: EdgeBuilder): River =
+            River(ElementPosition.Edge.builder(block))
 
         fun field(vararg connectedCities: City, block: SplitEdgeBuilder): Field =
             Field(ElementPosition.SplitEdge.builder(block), connectedCities.toSet())
@@ -60,11 +60,11 @@ interface ElementGroup<P : ElementPosition> {
         override fun rotate(rotation: Rotation) = this
     }
 
-    data class Edge(
+    data class River(
         override val positions: Set<ElementPosition.Edge>,
     ) : ElementGroup<ElementPosition.Edge> {
 
-        override fun rotate(rotation: Rotation) = Edge(
+        override fun rotate(rotation: Rotation) = River(
             positions = positions.map { it.rotate(rotation) }.toSet(),
         )
     }

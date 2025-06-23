@@ -53,8 +53,8 @@ fun MutableElements.riverStart(): ElementGroup.Center {
     return riverStart
 }
 
-fun MutableElements.river(block: EdgeBuilder): ElementGroup.Edge {
-    val river = ElementGroup.edges(block = block)
+fun MutableElements.river(block: EdgeBuilder): ElementGroup.River {
+    val river = ElementGroup.river(block = block)
     add(key = ElementKey.River, group = river)
     return river
 }

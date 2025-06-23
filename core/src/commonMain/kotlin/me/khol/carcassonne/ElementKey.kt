@@ -8,7 +8,7 @@ sealed class ElementKey<P : ElementPosition, G : ElementGroup<P>> {
     data object Monastery : ElementKey<ElementPosition.Center, ElementGroup.Center>()
     data object Garden : ElementKey<ElementPosition.Center, ElementGroup.Center>()
     data object RiverStart : ElementKey<ElementPosition.Center, ElementGroup.Center>()
-    data object River : ElementKey<ElementPosition.Edge, ElementGroup.Edge>()
+    data object River : ElementKey<ElementPosition.Edge, ElementGroup.River>()
     data object RiverEnd : ElementKey<ElementPosition.Center, ElementGroup.Center>()
     data object CropCircle : ElementKey<ElementPosition.Center, ElementGroup.Center>()
 }
