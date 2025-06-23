@@ -5,12 +5,7 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.ElementGroup
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.tiles.basic.A
-import me.khol.carcassonne.tiles.basic.D
-import me.khol.carcassonne.tiles.basic.E
-import me.khol.carcassonne.tiles.basic.H
-import me.khol.carcassonne.tiles.basic.K
-import me.khol.carcassonne.tiles.basic.L
+import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -18,7 +13,7 @@ class FieldFeaturesTest {
 
     @Test
     fun `basic field feature`() {
-        val board = Board.starting(startingTile = D)
+        val board = Board.starting(startingTile = Tiles.Basic.D)
 
         assertEquals(
             expected = setOf(
@@ -49,11 +44,11 @@ class FieldFeaturesTest {
 
     @Test
     fun `field features with completed cities`() {
-        val board = Board.starting(startingTile = D)
+        val board = Board.starting(startingTile = Tiles.Basic.D)
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), RotatedTile(H, Rotation.ROTATE_0))
-            .placeTile(Coordinates(0, -2), RotatedTile(E, Rotation.ROTATE_180))
+            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.H, Rotation.ROTATE_0))
+            .placeTile(Coordinates(0, -2), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180))
 
         val bottomCity = Feature.City(
             cities = setOf(
@@ -121,8 +116,8 @@ class FieldFeaturesTest {
 
     @Test
     fun `field features can merge`() {
-        val board = Board.starting(startingTile = L)
-            .placeTile(Coordinates(0, 1), RotatedTile(K, Rotation.ROTATE_180))
+        val board = Board.starting(startingTile = Tiles.Basic.L)
+            .placeTile(Coordinates(0, 1), RotatedTile(Tiles.Basic.K, Rotation.ROTATE_180))
 
         assertEquals(
             expected = setOf(
@@ -166,7 +161,7 @@ class FieldFeaturesTest {
         )
 
         val newBoard = board
-            .placeTile(Coordinates(-1, 0), RotatedTile(A, Rotation.ROTATE_270))
+            .placeTile(Coordinates(-1, 0), RotatedTile(Tiles.Basic.A, Rotation.ROTATE_270))
 
         assertEquals(
             expected = setOf(

@@ -1,25 +1,23 @@
 package me.khol.carcassonne.tiles
 
-import me.khol.carcassonne.tiles.inns.*
-
 val innsTileset = Tileset(
     tileCounts = listOf(
-        TileCount(EA, 1),
-        TileCount(EB, 1),
-        TileCount(EC, 1),
-        TileCount(ED, 1),
-        TileCount(EE, 1),
-        TileCount(EF, 1),
-        TileCount(EG, 1),
-        TileCount(EH, 1),
-        TileCount(EI, 1),
-        TileCount(EJ, 1),
-        TileCount(EK, 2),
-        TileCount(EL, 1),
-        TileCount(EM, 1),
-        TileCount(EN, 1),
-        TileCount(EO, 1),
-        TileCount(EP, 1),
-        TileCount(EQ, 1),
+        TileCount(Tiles.Inns.EA, 1),
+        TileCount(Tiles.Inns.EB, 1),
+        TileCount(Tiles.Inns.EC, 1),
+        TileCount(Tiles.Inns.ED, 1),
+        TileCount(Tiles.Inns.EE, 1),
+        TileCount(Tiles.Inns.EF, 1),
+        TileCount(Tiles.Inns.EG, 1),
+        TileCount(Tiles.Inns.EH, 1),
+        TileCount(Tiles.Inns.EI, 1),
+        TileCount(Tiles.Inns.EJ, 1),
+        TileCount(Tiles.Inns.EK, 2),
+        TileCount(Tiles.Inns.EL, 1),
+        TileCount(Tiles.Inns.EM, 1),
+        TileCount(Tiles.Inns.EN, 1),
+        TileCount(Tiles.Inns.EO, 1),
+        TileCount(Tiles.Inns.EP, 1),
+        TileCount(Tiles.Inns.EQ, 1),
     )
 )

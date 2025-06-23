@@ -27,7 +27,7 @@ import me.khol.carcassonne.PlacedTile
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
-import me.khol.carcassonne.tiles.basic.D
+import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toDrawable
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -149,14 +149,14 @@ private fun BoardPreview() {
         Surface {
             Board(
                 board = Board
-                    .starting(startingTile = D)
-                    .placeTile(coordinates = Coordinates(-1, 0), tile = RotatedTile(D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(-2, 0), tile = RotatedTile(D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(-3, 0), tile = RotatedTile(D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(1, 0), tile = RotatedTile(D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(D, Rotation.ROTATE_0))
-                    .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(D, Rotation.ROTATE_180)),
-                currentTile = D,
+                    .starting(startingTile = Tiles.Basic.D)
+                    .placeTile(coordinates = Coordinates(-1, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
+                    .placeTile(coordinates = Coordinates(-2, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
+                    .placeTile(coordinates = Coordinates(-3, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
+                    .placeTile(coordinates = Coordinates(1, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
+                    .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
+                    .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180)),
+                currentTile = Tiles.Basic.D,
                 placingTile = null,
                 onPlaceTile = { coordinates, tile -> },
             )

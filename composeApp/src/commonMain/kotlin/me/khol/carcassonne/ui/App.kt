@@ -23,8 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.tileSize
-import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.ui.tile.toDrawable
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -36,7 +36,7 @@ fun App() {
         mutableStateOf(
             Game.new(
                 tilesets = listOf(basicTileset),
-                startingTile = D,
+                startingTile = Tiles.Basic.D,
             )
         )
     }

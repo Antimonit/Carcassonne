@@ -4,13 +4,13 @@ import me.khol.carcassonne.Tile.Edge.City
 import me.khol.carcassonne.Tile.Edge.Field
 import me.khol.carcassonne.Tile.Edge.Road
 import me.khol.carcassonne.Tile.Edges
-import me.khol.carcassonne.tiles.basic.D
+import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RotatedTileTest {
 
-    private val tile = D
+    private val tile = Tiles.Basic.D
 
     @Test
     fun `check rotation by 0 degrees is idempotent`() {

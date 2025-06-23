@@ -1,8 +1,6 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.tiles.basic.A
-import me.khol.carcassonne.tiles.basic.D
-import me.khol.carcassonne.tiles.basic.F
+import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -10,8 +8,8 @@ internal class BoardTest {
 
     @Test
     fun `possible spaces for a tile`() {
-        val board = Board.starting(startingTile = D)
-        val newTile = A
+        val board = Board.starting(startingTile = Tiles.Basic.D)
+        val newTile = Tiles.Basic.A
         board.possibleSpacesForTile(newTile).run {
             assertEquals(
                 expected = setOf(
@@ -36,8 +34,8 @@ internal class BoardTest {
 
     @Test
     fun `placing a tile updates open spaces`() {
-        val board = Board.starting(startingTile = D)
-        val newTile = F
+        val board = Board.starting(startingTile = Tiles.Basic.D)
+        val newTile = Tiles.Basic.F
         val newBoard = board.placeTile(Coordinates(x = 0, y = 1), RotatedTile(newTile, Rotation.ROTATE_0))
         assertEquals(
             expected = setOf(
