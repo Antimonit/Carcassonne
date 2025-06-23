@@ -15,7 +15,7 @@ class GardenFeaturesTest {
 
     @Test
     fun `garden feature`() {
-        val board = Board.Companion.starting(startingTile = BB6F1)
+        val board = Board.starting(startingTile = BB6F1)
             .placeTile(Coordinates(0, -1), RotatedTile(BB6F10, Rotation.ROTATE_180))
 
         val gardenFeatures = board.getGardenFeatures()

@@ -18,7 +18,7 @@ class MonasteryFeaturesTest {
 
     @Test
     fun `monastery feature`() {
-        val board = Board.Companion.starting(startingTile = D)
+        val board = Board.starting(startingTile = D)
             .placeTile(Coordinates(0, 1), RotatedTile(B, Rotation.ROTATE_0))
 
         board.getMonasteryFeatures().run {

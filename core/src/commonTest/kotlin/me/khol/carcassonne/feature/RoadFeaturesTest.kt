@@ -14,7 +14,7 @@ class RoadFeaturesTest {
 
     @Test
     fun `road features can merge`() {
-        val board = Board.Companion.starting(startingTile = W)
+        val board = Board.starting(startingTile = W)
         assertEquals(
             expected = setOf(
                 Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Road { left })), isFinished = false),
