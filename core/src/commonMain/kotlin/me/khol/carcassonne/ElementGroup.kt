@@ -1,37 +1,5 @@
 package me.khol.carcassonne
 
-/**
- * We could define the interface with self-referencing generic type like:
- *
- * ```
- * interface Position<T : Element.Position, P : Position<T, P>>
- * ```
- *
- * which would allow us to define `plus` method as:
- *
- * ```
- * operator fun plus(other: P): P
- *
- * override operator fun plus(other: Center): Center
- * override operator fun plus(other: Edge): Edge
- * override operator fun plus(other: SplitEdge): SplitEdge
- * ```
- *
- * Although this is pretty cool, and it works, it's an overkill since it makes
- * working with this interface much more verbose for virtually no observable
- * benefits. There are no use cases for polymorphic [plus] method anyway.
- *
- *
- * Another less type-safe option would be to use typealiases such as:
- *
- * ```
- * typealias PositionCenters = Set<Element.Position.Center>
- * typealias PositionEdges = Set<Element.Position.Edge>
- * typealias PositionSplitEdges = Set<Element.Position.SplitEdge>
- * ```
- *
- * This approach might be more comfortable in some situations but is less type-safe.
- */
 interface ElementGroup<P : ElementPosition> {
 
     val positions: Set<P>
