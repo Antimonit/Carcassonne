@@ -7,6 +7,7 @@ import androidx.compose.foundation.hoverable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -37,6 +38,7 @@ fun TileSurface(
         modifier = modifier
             .zIndexOnHover()
             .size(tileSize)
+            .aspectRatio(1f)
             .hoverable(interactionSource = interactionSource)
             .scale(scale),
         elevation = elevation,
