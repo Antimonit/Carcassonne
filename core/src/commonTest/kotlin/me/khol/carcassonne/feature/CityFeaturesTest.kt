@@ -27,7 +27,7 @@ class CityFeaturesTest {
                 assertEquals(
                     expected = Feature.City(
                         cities = setOf(
-                            PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.city { top }),
+                            PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.City { top }),
                         ), isFinished = false
                     ),
                     actual = this,
@@ -47,11 +47,11 @@ class CityFeaturesTest {
                 assertEquals(
                     expected = Feature.City(
                         cities = setOf(
-                            PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.city { top }),
+                            PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.City { top }),
                             PlacedCityGroup(
                                 Coordinates(0, -1),
-                                elementGroup = ElementGroup.city(Boon.City.CoatOfArms) { top + bottom }),
-                            PlacedCityGroup(Coordinates(0, -2), elementGroup = ElementGroup.city { bottom }),
+                                elementGroup = ElementGroup.City(Boon.City.CoatOfArms) { top + bottom }),
+                            PlacedCityGroup(Coordinates(0, -2), elementGroup = ElementGroup.City { bottom }),
                         ),
                         isFinished = true,
                     ),
@@ -72,13 +72,13 @@ class CityFeaturesTest {
             expected = setOf(
                 Feature.City(
                     cities = setOf(
-                        PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.city { top }),
+                        PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.City { top }),
                     ),
                     isFinished = false,
                 ),
                 Feature.City(
                     cities = setOf(
-                        PlacedCityGroup(Coordinates(1, 0), elementGroup = ElementGroup.city { top }),
+                        PlacedCityGroup(Coordinates(1, 0), elementGroup = ElementGroup.City { top }),
                     ),
                     isFinished = false,
                 ),
@@ -94,10 +94,10 @@ class CityFeaturesTest {
             expected = setOf(
                 Feature.City(
                     cities = setOf(
-                        PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.city { top }),
-                        PlacedCityGroup(Coordinates(1, 0), elementGroup = ElementGroup.city { top }),
-                        PlacedCityGroup(Coordinates(0, -1), elementGroup = ElementGroup.city { top + right + bottom }),
-                        PlacedCityGroup(Coordinates(1, -1), elementGroup = ElementGroup.city { top + left + bottom }),
+                        PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.City { top }),
+                        PlacedCityGroup(Coordinates(1, 0), elementGroup = ElementGroup.City { top }),
+                        PlacedCityGroup(Coordinates(0, -1), elementGroup = ElementGroup.City { top + right + bottom }),
+                        PlacedCityGroup(Coordinates(1, -1), elementGroup = ElementGroup.City { top + left + bottom }),
                     ),
                     isFinished = false,
                 ),

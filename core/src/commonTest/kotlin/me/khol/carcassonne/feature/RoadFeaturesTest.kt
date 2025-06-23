@@ -17,9 +17,9 @@ class RoadFeaturesTest {
         val board = Board.Companion.starting(startingTile = W)
         assertEquals(
             expected = setOf(
-                Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { left })), isFinished = false),
-                Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { right })), isFinished = false),
-                Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { bottom })), isFinished = false),
+                Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Road { left })), isFinished = false),
+                Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Road { right })), isFinished = false),
+                Feature.Road(roads = setOf(PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Road { bottom })), isFinished = false),
             ),
             actual = board.getRoadFeatures(),
         )
@@ -35,17 +35,17 @@ class RoadFeaturesTest {
             expected = setOf(
                 Feature.Road(
                     roads = setOf(
-                        PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { left }),
+                        PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Road { left }),
                     ),
                     isFinished = false,
                 ),
                 Feature.Road(
                     roads = setOf(
-                        PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { right }),
-                        PlacedRoadGroup(Coordinates(1, 0), ElementGroup.Companion.road { left + bottom }),
-                        PlacedRoadGroup(Coordinates(1, 1), ElementGroup.Companion.road { top + left }),
-                        PlacedRoadGroup(Coordinates(0, 1), ElementGroup.Companion.road { right + top }),
-                        PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Companion.road { bottom }),
+                        PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Road { right }),
+                        PlacedRoadGroup(Coordinates(1, 0), ElementGroup.Road { left + bottom }),
+                        PlacedRoadGroup(Coordinates(1, 1), ElementGroup.Road { top + left }),
+                        PlacedRoadGroup(Coordinates(0, 1), ElementGroup.Road { right + top }),
+                        PlacedRoadGroup(Coordinates(0, 0), ElementGroup.Road { bottom }),
                     ),
                     isFinished = true,
                 ),

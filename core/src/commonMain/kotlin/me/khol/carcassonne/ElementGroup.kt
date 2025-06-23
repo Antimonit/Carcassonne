@@ -38,21 +38,6 @@ interface ElementGroup<P : ElementPosition> {
 
     fun rotate(rotation: Rotation): ElementGroup<P>
 
-    companion object {
-
-        fun river(block: EdgeBuilder): River =
-            River(ElementPosition.Edge.builder(block))
-
-        fun field(vararg connectedCities: City, block: SplitEdgeBuilder): Field =
-            Field(ElementPosition.SplitEdge.builder(block), connectedCities.toSet())
-
-        fun road(vararg boons: Boon.Road, block: EdgeBuilder): Road =
-            Road(ElementPosition.Edge.builder(block), boons.toSet())
-
-        fun city(vararg boons: Boon.City, block: EdgeBuilder): City =
-            City(ElementPosition.Edge.builder(block), boons.toSet())
-    }
-
     data object Center : ElementGroup<ElementPosition.Center> {
 
         override val positions = setOf(ElementPosition.Center)
@@ -60,19 +45,30 @@ interface ElementGroup<P : ElementPosition> {
         override fun rotate(rotation: Rotation) = this
     }
 
-    data class River(
+    @ConsistentCopyVisibility
+    data class River private constructor(
         override val positions: Set<ElementPosition.Edge>,
     ) : ElementGroup<ElementPosition.Edge> {
+
+        constructor(
+            block: EdgeBuilder,
+        ) : this(ElementPosition.Edge.builder(block))
 
         override fun rotate(rotation: Rotation) = River(
             positions = positions.map { it.rotate(rotation) }.toSet(),
         )
     }
 
-    data class City(
+    @ConsistentCopyVisibility
+    data class City private constructor(
         override val positions: Set<ElementPosition.Edge>,
         val boons: Set<Boon.City>,
     ) : ElementGroup<ElementPosition.Edge> {
+
+        constructor(
+            vararg boons: Boon.City,
+            block: EdgeBuilder,
+        ) : this(ElementPosition.Edge.builder(block), boons.toSet())
 
         override fun rotate(rotation: Rotation) = City(
             positions = positions.map { it.rotate(rotation) }.toSet(),
@@ -80,10 +76,16 @@ interface ElementGroup<P : ElementPosition> {
         )
     }
 
-    data class Road(
+    @ConsistentCopyVisibility
+    data class Road private constructor(
         override val positions: Set<ElementPosition.Edge>,
         val boons: Set<Boon.Road>,
     ) : ElementGroup<ElementPosition.Edge> {
+
+        constructor(
+            vararg boons: Boon.Road,
+            block: EdgeBuilder,
+        ) : this(ElementPosition.Edge.builder(block), boons.toSet())
 
         override fun rotate(rotation: Rotation) = Road(
             positions = positions.map { it.rotate(rotation) }.toSet(),
@@ -91,10 +93,16 @@ interface ElementGroup<P : ElementPosition> {
         )
     }
 
-    data class Field(
+    @ConsistentCopyVisibility
+    data class Field private constructor(
         override val positions: Set<ElementPosition.SplitEdge>,
         val connectedCities: Set<City>,
     ) : ElementGroup<ElementPosition.SplitEdge> {
+
+        constructor(
+            vararg connectedCities: City,
+            block: SplitEdgeBuilder,
+        ) : this(ElementPosition.SplitEdge.builder(block), connectedCities.toSet())
 
         override fun rotate(rotation: Rotation) = Field(
             positions = positions.map { it.rotate(rotation) }.toSet(),

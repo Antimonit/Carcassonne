@@ -18,19 +18,19 @@ fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
 
 
 fun MutableElements.field(vararg connectedCities: ElementGroup.City, block: SplitEdgeBuilder): ElementGroup.Field {
-    val field = ElementGroup.field(connectedCities = connectedCities, block = block)
+    val field = ElementGroup.Field(connectedCities = connectedCities, block = block)
     add(key = ElementKey.Field, group = field)
     return field
 }
 
 fun MutableElements.road(vararg boons: Boon.Road, block: EdgeBuilder): ElementGroup.Road {
-    val road = ElementGroup.road(boons = boons, block = block)
+    val road = ElementGroup.Road(boons = boons, block = block)
     add(key = ElementKey.Road, group = road)
     return road
 }
 
 fun MutableElements.city(vararg boons: Boon.City, block: EdgeBuilder): ElementGroup.City {
-    val city = ElementGroup.city(boons = boons, block = block)
+    val city = ElementGroup.City(boons = boons, block = block)
     add(key = ElementKey.City, group = city)
     return city
 }
@@ -54,7 +54,7 @@ fun MutableElements.riverStart(): ElementGroup.Center {
 }
 
 fun MutableElements.river(block: EdgeBuilder): ElementGroup.River {
-    val river = ElementGroup.river(block = block)
+    val river = ElementGroup.River(block = block)
     add(key = ElementKey.River, group = river)
     return river
 }

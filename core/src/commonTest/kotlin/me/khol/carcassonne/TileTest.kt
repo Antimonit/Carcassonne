@@ -16,10 +16,10 @@ internal class TileTest {
             .map { it.tile }
 
         tiles.forEach { tile ->
-            tile.checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.field { top })
-            tile.checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.field { right })
-            tile.checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.field { bottom })
-            tile.checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.field { left })
+            tile.checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.Field { top })
+            tile.checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.Field { right })
+            tile.checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.Field { bottom })
+            tile.checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.Field { left })
 
             assertTrue(tile.checkDuplicateEdge(ElementKey.Field))
             assertTrue(tile.checkDuplicateEdge(ElementKey.Road))
