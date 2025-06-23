@@ -13,8 +13,8 @@ data class PlacedElementGroup<G : ElementGroup<out ElementPosition>>(
 typealias PlacedFieldGroup = PlacedElementGroup<ElementGroup.Field>
 typealias PlacedCityGroup = PlacedElementGroup<ElementGroup.City>
 typealias PlacedRoadGroup = PlacedElementGroup<ElementGroup.Road>
-typealias PlacedMonasteryGroup = PlacedElementGroup<ElementGroup.Center>
-typealias PlacedGardenGroup = PlacedElementGroup<ElementGroup.Center>
+typealias PlacedMonasteryGroup = PlacedElementGroup<ElementGroup.Monastery>
+typealias PlacedGardenGroup = PlacedElementGroup<ElementGroup.Garden>
 
 interface Feature {
 

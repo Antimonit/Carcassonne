@@ -35,14 +35,14 @@ fun MutableElements.city(vararg boons: Boon.City, block: EdgeBuilder): ElementGr
     return city
 }
 
-fun MutableElements.monastery(): ElementGroup.Center {
-    val monastery = ElementGroup.Center
+fun MutableElements.monastery(): ElementGroup.Monastery {
+    val monastery = ElementGroup.Monastery
     add(key = ElementKey.Monastery, group = monastery)
     return monastery
 }
 
-fun MutableElements.garden(): ElementGroup.Center {
-    val garden = ElementGroup.Center
+fun MutableElements.garden(): ElementGroup.Garden {
+    val garden = ElementGroup.Garden
     add(key = ElementKey.Garden, group = garden)
     return garden
 }

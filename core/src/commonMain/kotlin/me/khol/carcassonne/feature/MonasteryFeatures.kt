@@ -12,7 +12,7 @@ fun Board.getMonasteryFeatures(): Set<Feature.Monastery> {
         val tileMonasteries = tile.elements.get(ElementKey.Monastery)
 
         // There can be at most a single monastery on a tile
-        tileMonasteries.forEach { monastery: ElementGroup.Center ->
+        tileMonasteries.forEach { monastery: ElementGroup.Monastery ->
             val placedMonastery = PlacedMonasteryGroup(coordinates = coordinates, elementGroup = monastery)
 
             val surroundingCoordinates = coordinates.surroundingCoordinates()

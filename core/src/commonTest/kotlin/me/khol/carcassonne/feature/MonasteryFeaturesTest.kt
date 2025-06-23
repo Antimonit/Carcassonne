@@ -27,7 +27,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Center),
+                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Monastery),
                         neighborCount = 2,
                     ),
                     actual = this,
@@ -52,7 +52,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Center),
+                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Monastery),
                         neighborCount = 9,
                     ),
                     actual = this,

@@ -12,7 +12,7 @@ fun Board.getGardenFeatures(): Set<Feature.Garden> {
         val tileGardens = tile.elements.get(ElementKey.Garden)
 
         // There can be at most a single garden on a tile
-        tileGardens.forEach { garden: ElementGroup.Center ->
+        tileGardens.forEach { garden: ElementGroup.Garden ->
             val placedGarden = PlacedGardenGroup(coordinates = coordinates, elementGroup = garden)
 
             val surroundingCoordinates = coordinates.surroundingCoordinates()
