@@ -17,19 +17,19 @@ fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
 ).apply(builder)
 
 
-fun MutableElements.field(vararg connectedCities: ElementGroup.City, block: ElementGroup.Field.Builder.Companion.() -> ElementGroup.Field.Builder): ElementGroup.Field {
+fun MutableElements.field(vararg connectedCities: ElementGroup.City, block: SplitEdgeBuilder): ElementGroup.Field {
     val field = ElementGroup.field(connectedCities = connectedCities, block = block)
     add(key = ElementKey.Field, group = field)
     return field
 }
 
-fun MutableElements.road(vararg boons: Boon.Road, block: ElementGroup.Road.Builder.Companion.() -> ElementGroup.Road.Builder): ElementGroup.Road {
+fun MutableElements.road(vararg boons: Boon.Road, block: EdgeBuilder): ElementGroup.Road {
     val road = ElementGroup.road(boons = boons, block = block)
     add(key = ElementKey.Road, group = road)
     return road
 }
 
-fun MutableElements.city(vararg boons: Boon.City, block: ElementGroup.City.Builder.Companion.() -> ElementGroup.City.Builder): ElementGroup.City {
+fun MutableElements.city(vararg boons: Boon.City, block: EdgeBuilder): ElementGroup.City {
     val city = ElementGroup.city(boons = boons, block = block)
     add(key = ElementKey.City, group = city)
     return city
@@ -53,7 +53,7 @@ fun MutableElements.riverStart(): ElementGroup.Center {
     return riverStart
 }
 
-fun MutableElements.river(block: ElementGroup.Edge.Builder.Companion.() -> ElementGroup.Edge.Builder): ElementGroup.Edge {
+fun MutableElements.river(block: EdgeBuilder): ElementGroup.Edge {
     val river = ElementGroup.edges(block = block)
     add(key = ElementKey.River, group = river)
     return river
