@@ -47,8 +47,8 @@ fun MutableElements.garden(): ElementGroup.Garden {
     return garden
 }
 
-fun MutableElements.riverStart(): ElementGroup.Center {
-    val riverStart = ElementGroup.Center
+fun MutableElements.riverStart(): ElementGroup.RiverStart {
+    val riverStart = ElementGroup.RiverStart
     add(key = ElementKey.RiverStart, group = riverStart)
     return riverStart
 }
@@ -59,14 +59,14 @@ fun MutableElements.river(block: EdgeBuilder): ElementGroup.River {
     return river
 }
 
-fun MutableElements.riverEnd(): ElementGroup.Center {
-    val riverEnd = ElementGroup.Center
+fun MutableElements.riverEnd(): ElementGroup.RiverEnd {
+    val riverEnd = ElementGroup.RiverEnd
     add(key = ElementKey.RiverEnd, group = riverEnd)
     return riverEnd
 }
 
-fun MutableElements.cropCircle(): ElementGroup.Center {
-    val cropCircle = ElementGroup.Center
+fun MutableElements.cropCircle(): ElementGroup.CropCircle {
+    val cropCircle = ElementGroup.CropCircle
     add(key = ElementKey.CropCircle, group = cropCircle)
     return cropCircle
 }

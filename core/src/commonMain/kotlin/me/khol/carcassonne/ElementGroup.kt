@@ -27,6 +27,27 @@ interface ElementGroup<P : ElementPosition> {
         override fun rotate(rotation: Rotation) = this
     }
 
+    data object RiverStart : ElementGroup<ElementPosition.Center> {
+
+        override val positions = setOf(ElementPosition.Center)
+
+        override fun rotate(rotation: Rotation) = this
+    }
+
+    data object RiverEnd : ElementGroup<ElementPosition.Center> {
+
+        override val positions = setOf(ElementPosition.Center)
+
+        override fun rotate(rotation: Rotation) = this
+    }
+
+    data object CropCircle : ElementGroup<ElementPosition.Center> {
+
+        override val positions = setOf(ElementPosition.Center)
+
+        override fun rotate(rotation: Rotation) = this
+    }
+
     @ConsistentCopyVisibility
     data class River private constructor(
         override val positions: Set<ElementPosition.Edge>,
