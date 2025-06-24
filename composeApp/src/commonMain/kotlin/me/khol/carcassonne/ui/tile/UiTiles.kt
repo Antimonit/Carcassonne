@@ -3,8 +3,6 @@ package me.khol.carcassonne.ui.tile
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import carcassonne.composeapp.generated.resources.*
-import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.ui.Tile
@@ -14,38 +12,38 @@ object UiTiles {
 
     object Basic {
 
-        val A = UiTile(drawable = Res.drawable.tile_basic_A, tile = Tiles.Basic.A, shapes = mapOf())
-        val B = UiTile(drawable = Res.drawable.tile_basic_B, tile = Tiles.Basic.B, shapes = mapOf())
-        val C = UiTile(drawable = Res.drawable.tile_basic_C, tile = Tiles.Basic.C, shapes = mapOf())
-        val D = UiTile(drawable = Res.drawable.tile_basic_D, tile = Tiles.Basic.D, shapes = mapOf())
-        val E = UiTile(drawable = Res.drawable.tile_basic_E, tile = Tiles.Basic.E, shapes = mapOf())
-        val E_G = UiTile(drawable = Res.drawable.tile_basic_E, tile = Tiles.Basic.E_G, shapes = mapOf())
-        val F = UiTile(drawable = Res.drawable.tile_basic_F, tile = Tiles.Basic.F, shapes = mapOf())
-        val G = UiTile(drawable = Res.drawable.tile_basic_G, tile = Tiles.Basic.G, shapes = mapOf())
-        val H = UiTile(drawable = Res.drawable.tile_basic_H, tile = Tiles.Basic.H, shapes = mapOf())
-        val H_G = UiTile(drawable = Res.drawable.tile_basic_H, tile = Tiles.Basic.H_G, shapes = mapOf())
-        val I = UiTile(drawable = Res.drawable.tile_basic_I, tile = Tiles.Basic.I, shapes = mapOf())
-        val I_G = UiTile(drawable = Res.drawable.tile_basic_I, tile = Tiles.Basic.I_G, shapes = mapOf())
-        val J = UiTile(drawable = Res.drawable.tile_basic_J, tile = Tiles.Basic.J, shapes = mapOf())
-        val K = UiTile(drawable = Res.drawable.tile_basic_K, tile = Tiles.Basic.K, shapes = mapOf())
-        val L = UiTile(drawable = Res.drawable.tile_basic_L, tile = Tiles.Basic.L, shapes = mapOf())
-        val M = UiTile(drawable = Res.drawable.tile_basic_M, tile = Tiles.Basic.M, shapes = mapOf())
-        val M_G = UiTile(drawable = Res.drawable.tile_basic_M, tile = Tiles.Basic.M_G, shapes = mapOf())
-        val N = UiTile(drawable = Res.drawable.tile_basic_N, tile = Tiles.Basic.N, shapes = mapOf())
-        val N_G = UiTile(drawable = Res.drawable.tile_basic_N, tile = Tiles.Basic.N_G, shapes = mapOf())
-        val O = UiTile(drawable = Res.drawable.tile_basic_O, tile = Tiles.Basic.O, shapes = mapOf())
-        val P = UiTile(drawable = Res.drawable.tile_basic_P, tile = Tiles.Basic.P, shapes = mapOf())
-        val Q = UiTile(drawable = Res.drawable.tile_basic_Q, tile = Tiles.Basic.Q, shapes = mapOf())
-        val R = UiTile(drawable = Res.drawable.tile_basic_R, tile = Tiles.Basic.R, shapes = mapOf())
-        val R_G = UiTile(drawable = Res.drawable.tile_basic_R, tile = Tiles.Basic.R_G, shapes = mapOf())
-        val S = UiTile(drawable = Res.drawable.tile_basic_S, tile = Tiles.Basic.S, shapes = mapOf())
-        val T = UiTile(drawable = Res.drawable.tile_basic_T, tile = Tiles.Basic.T, shapes = mapOf())
-        val U = UiTile(drawable = Res.drawable.tile_basic_U, tile = Tiles.Basic.U, shapes = mapOf())
-        val U_G = UiTile(drawable = Res.drawable.tile_basic_U, tile = Tiles.Basic.U_G, shapes = mapOf())
-        val V = UiTile(drawable = Res.drawable.tile_basic_V, tile = Tiles.Basic.V, shapes = mapOf())
-        val V_G = UiTile(drawable = Res.drawable.tile_basic_V, tile = Tiles.Basic.V_G, shapes = mapOf())
-        val W = UiTile(drawable = Res.drawable.tile_basic_W, tile = Tiles.Basic.W, shapes = mapOf())
-        val X = UiTile(drawable = Res.drawable.tile_basic_X, tile = Tiles.Basic.X, shapes = mapOf())
+        val A = me.khol.carcassonne.ui.tile.basic.A
+        val B = me.khol.carcassonne.ui.tile.basic.B
+        val C = me.khol.carcassonne.ui.tile.basic.C
+        val D = me.khol.carcassonne.ui.tile.basic.D
+        val E = me.khol.carcassonne.ui.tile.basic.E
+        val E_G = me.khol.carcassonne.ui.tile.basic.E_G
+        val F = me.khol.carcassonne.ui.tile.basic.F
+        val G = me.khol.carcassonne.ui.tile.basic.G
+        val H = me.khol.carcassonne.ui.tile.basic.H
+        val H_G = me.khol.carcassonne.ui.tile.basic.H_G
+        val I = me.khol.carcassonne.ui.tile.basic.I
+        val I_G = me.khol.carcassonne.ui.tile.basic.I_G
+        val J = me.khol.carcassonne.ui.tile.basic.J
+        val K = me.khol.carcassonne.ui.tile.basic.K
+        val L = me.khol.carcassonne.ui.tile.basic.L
+        val M = me.khol.carcassonne.ui.tile.basic.M
+        val M_G = me.khol.carcassonne.ui.tile.basic.M_G
+        val N = me.khol.carcassonne.ui.tile.basic.N
+        val N_G = me.khol.carcassonne.ui.tile.basic.N_G
+        val O = me.khol.carcassonne.ui.tile.basic.O
+        val P = me.khol.carcassonne.ui.tile.basic.P
+        val Q = me.khol.carcassonne.ui.tile.basic.Q
+        val R = me.khol.carcassonne.ui.tile.basic.R
+        val R_G = me.khol.carcassonne.ui.tile.basic.R_G
+        val S = me.khol.carcassonne.ui.tile.basic.S
+        val T = me.khol.carcassonne.ui.tile.basic.T
+        val U = me.khol.carcassonne.ui.tile.basic.U
+        val U_G = me.khol.carcassonne.ui.tile.basic.U_G
+        val V = me.khol.carcassonne.ui.tile.basic.V
+        val V_G = me.khol.carcassonne.ui.tile.basic.V_G
+        val W = me.khol.carcassonne.ui.tile.basic.W
+        val X = me.khol.carcassonne.ui.tile.basic.X
     }
 }
 
