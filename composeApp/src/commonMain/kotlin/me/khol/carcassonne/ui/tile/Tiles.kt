@@ -43,40 +43,42 @@ object Tiles {
 }
 
 fun Tile.toDrawable(): DrawableResource =
-    when (this) {
-        me.khol.carcassonne.tiles.basic.A -> Tiles.Basic.A
-        me.khol.carcassonne.tiles.basic.B -> Tiles.Basic.B
-        me.khol.carcassonne.tiles.basic.C -> Tiles.Basic.C
-        me.khol.carcassonne.tiles.basic.D -> Tiles.Basic.D
-        me.khol.carcassonne.tiles.basic.E -> Tiles.Basic.E
-        me.khol.carcassonne.tiles.basic.E_G -> Tiles.Basic.E
-        me.khol.carcassonne.tiles.basic.F -> Tiles.Basic.F
-        me.khol.carcassonne.tiles.basic.G -> Tiles.Basic.G
-        me.khol.carcassonne.tiles.basic.H -> Tiles.Basic.H
-        me.khol.carcassonne.tiles.basic.H_G -> Tiles.Basic.H
-        me.khol.carcassonne.tiles.basic.I -> Tiles.Basic.I
-        me.khol.carcassonne.tiles.basic.I_G -> Tiles.Basic.I
-        me.khol.carcassonne.tiles.basic.J -> Tiles.Basic.J
-        me.khol.carcassonne.tiles.basic.K -> Tiles.Basic.K
-        me.khol.carcassonne.tiles.basic.L -> Tiles.Basic.L
-        me.khol.carcassonne.tiles.basic.M -> Tiles.Basic.M
-        me.khol.carcassonne.tiles.basic.M_G -> Tiles.Basic.M
-        me.khol.carcassonne.tiles.basic.N -> Tiles.Basic.N
-        me.khol.carcassonne.tiles.basic.N_G -> Tiles.Basic.N
-        me.khol.carcassonne.tiles.basic.O -> Tiles.Basic.O
-        me.khol.carcassonne.tiles.basic.P -> Tiles.Basic.P
-        me.khol.carcassonne.tiles.basic.Q -> Tiles.Basic.Q
-        me.khol.carcassonne.tiles.basic.R -> Tiles.Basic.R
-        me.khol.carcassonne.tiles.basic.R_G -> Tiles.Basic.R
-        me.khol.carcassonne.tiles.basic.S -> Tiles.Basic.S
-        me.khol.carcassonne.tiles.basic.T -> Tiles.Basic.T
-        me.khol.carcassonne.tiles.basic.U -> Tiles.Basic.U
-        me.khol.carcassonne.tiles.basic.U_G -> Tiles.Basic.U
-        me.khol.carcassonne.tiles.basic.V -> Tiles.Basic.V
-        me.khol.carcassonne.tiles.basic.V_G -> Tiles.Basic.V
-        me.khol.carcassonne.tiles.basic.W -> Tiles.Basic.W
-        me.khol.carcassonne.tiles.basic.X -> Tiles.Basic.X
-        else -> error("Unknown tile $this")
+    with(Tiles.Basic) {
+        when (this@toDrawable) {
+            me.khol.carcassonne.tiles.basic.A -> A
+            me.khol.carcassonne.tiles.basic.B -> B
+            me.khol.carcassonne.tiles.basic.C -> C
+            me.khol.carcassonne.tiles.basic.D -> D
+            me.khol.carcassonne.tiles.basic.E -> E
+            me.khol.carcassonne.tiles.basic.E_G -> E
+            me.khol.carcassonne.tiles.basic.F -> F
+            me.khol.carcassonne.tiles.basic.G -> G
+            me.khol.carcassonne.tiles.basic.H -> H
+            me.khol.carcassonne.tiles.basic.H_G -> H
+            me.khol.carcassonne.tiles.basic.I -> I
+            me.khol.carcassonne.tiles.basic.I_G -> I
+            me.khol.carcassonne.tiles.basic.J -> J
+            me.khol.carcassonne.tiles.basic.K -> K
+            me.khol.carcassonne.tiles.basic.L -> L
+            me.khol.carcassonne.tiles.basic.M -> M
+            me.khol.carcassonne.tiles.basic.M_G -> M
+            me.khol.carcassonne.tiles.basic.N -> N
+            me.khol.carcassonne.tiles.basic.N_G -> N
+            me.khol.carcassonne.tiles.basic.O -> O
+            me.khol.carcassonne.tiles.basic.P -> P
+            me.khol.carcassonne.tiles.basic.Q -> Q
+            me.khol.carcassonne.tiles.basic.R -> R
+            me.khol.carcassonne.tiles.basic.R_G -> R
+            me.khol.carcassonne.tiles.basic.S -> S
+            me.khol.carcassonne.tiles.basic.T -> T
+            me.khol.carcassonne.tiles.basic.U -> U
+            me.khol.carcassonne.tiles.basic.U_G -> U
+            me.khol.carcassonne.tiles.basic.V -> V
+            me.khol.carcassonne.tiles.basic.V_G -> V
+            me.khol.carcassonne.tiles.basic.W -> W
+            me.khol.carcassonne.tiles.basic.X -> X
+            else -> error("Unknown tile $this")
+        }
     }
 
 @Preview
