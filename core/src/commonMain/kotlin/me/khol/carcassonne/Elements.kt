@@ -16,60 +16,42 @@ fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
     mutableMapOf()
 ).apply(builder)
 
+fun MutableElements.add(field: ElementGroup.Field) = add(key = ElementKey.Field, group = field)
+fun MutableElements.add(road: ElementGroup.Road) = add(key = ElementKey.Road, group = road)
+fun MutableElements.add(city: ElementGroup.City) = add(key = ElementKey.City, group = city)
+fun MutableElements.add(monastery: ElementGroup.Monastery) = add(key = ElementKey.Monastery, group = monastery)
+fun MutableElements.add(garden: ElementGroup.Garden) = add(key = ElementKey.Garden, group = garden)
+fun MutableElements.add(riverStart: ElementGroup.RiverStart) = add(key = ElementKey.RiverStart, group = riverStart)
+fun MutableElements.add(river: ElementGroup.River) = add(key = ElementKey.River, group = river)
+fun MutableElements.add(riverEnd: ElementGroup.RiverEnd) = add(key = ElementKey.RiverEnd, group = riverEnd)
+fun MutableElements.add(cropCircle: ElementGroup.CropCircle) = add(key = ElementKey.CropCircle, group = cropCircle)
 
-fun MutableElements.field(vararg connectedCities: ElementGroup.City, block: SplitEdgeBuilder): ElementGroup.Field {
-    val field = ElementGroup.Field(connectedCities = connectedCities, block = block)
-    add(key = ElementKey.Field, group = field)
-    return field
-}
+fun MutableElements.field(vararg connectedCities: ElementGroup.City, block: SplitEdgeBuilder): ElementGroup.Field =
+    ElementGroup.Field(connectedCities = connectedCities, block = block).also(::add)
 
-fun MutableElements.road(vararg boons: Boon.Road, block: EdgeBuilder): ElementGroup.Road {
-    val road = ElementGroup.Road(boons = boons, block = block)
-    add(key = ElementKey.Road, group = road)
-    return road
-}
+fun MutableElements.road(vararg boons: Boon.Road, block: EdgeBuilder): ElementGroup.Road =
+    ElementGroup.Road(boons = boons, block = block).also(::add)
 
-fun MutableElements.city(vararg boons: Boon.City, block: EdgeBuilder): ElementGroup.City {
-    val city = ElementGroup.City(boons = boons, block = block)
-    add(key = ElementKey.City, group = city)
-    return city
-}
+fun MutableElements.city(vararg boons: Boon.City, block: EdgeBuilder): ElementGroup.City =
+    ElementGroup.City(boons = boons, block = block).also(::add)
 
-fun MutableElements.monastery(): ElementGroup.Monastery {
-    val monastery = ElementGroup.Monastery
-    add(key = ElementKey.Monastery, group = monastery)
-    return monastery
-}
+fun MutableElements.monastery(): ElementGroup.Monastery =
+    ElementGroup.Monastery.also(::add)
 
-fun MutableElements.garden(): ElementGroup.Garden {
-    val garden = ElementGroup.Garden
-    add(key = ElementKey.Garden, group = garden)
-    return garden
-}
+fun MutableElements.garden(): ElementGroup.Garden =
+    ElementGroup.Garden.also(::add)
 
-fun MutableElements.riverStart(): ElementGroup.RiverStart {
-    val riverStart = ElementGroup.RiverStart
-    add(key = ElementKey.RiverStart, group = riverStart)
-    return riverStart
-}
+fun MutableElements.riverStart(): ElementGroup.RiverStart =
+    ElementGroup.RiverStart.also(::add)
 
-fun MutableElements.river(block: EdgeBuilder): ElementGroup.River {
-    val river = ElementGroup.River(block = block)
-    add(key = ElementKey.River, group = river)
-    return river
-}
+fun MutableElements.river(block: EdgeBuilder): ElementGroup.River =
+    ElementGroup.River(block = block).also(::add)
 
-fun MutableElements.riverEnd(): ElementGroup.RiverEnd {
-    val riverEnd = ElementGroup.RiverEnd
-    add(key = ElementKey.RiverEnd, group = riverEnd)
-    return riverEnd
-}
+fun MutableElements.riverEnd(): ElementGroup.RiverEnd =
+    ElementGroup.RiverEnd.also(::add)
 
-fun MutableElements.cropCircle(): ElementGroup.CropCircle {
-    val cropCircle = ElementGroup.CropCircle
-    add(key = ElementKey.CropCircle, group = cropCircle)
-    return cropCircle
-}
+fun MutableElements.cropCircle(): ElementGroup.CropCircle =
+    ElementGroup.CropCircle.also(::add)
 
 private data class ElementsBuilder(
     private val map: MutableMap<ElementKey<*, *>, List<ElementGroup<*>>>
