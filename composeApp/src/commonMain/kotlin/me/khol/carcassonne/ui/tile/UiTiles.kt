@@ -10,7 +10,7 @@ import me.khol.carcassonne.ui.Tile
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
-object Tiles {
+object UiTiles {
 
     object Basic {
         val A = Res.drawable.tile_basic_A
@@ -43,7 +43,7 @@ object Tiles {
 }
 
 fun Tile.toDrawable(): DrawableResource =
-    with(Tiles.Basic) {
+    with(UiTiles.Basic) {
         when (this@toDrawable) {
             me.khol.carcassonne.tiles.basic.A -> A
             me.khol.carcassonne.tiles.basic.B -> B
@@ -85,7 +85,7 @@ fun Tile.toDrawable(): DrawableResource =
 @Composable
 private fun AllBasicTilesPreview() {
     Column {
-        Tiles.Basic.all.chunked(6).forEach { chunk ->
+        UiTiles.Basic.all.chunked(6).forEach { chunk ->
             Row {
                 chunk.forEach { tile ->
                     Tile(
