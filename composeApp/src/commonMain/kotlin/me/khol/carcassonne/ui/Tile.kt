@@ -16,6 +16,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun Tile(
     drawable: DrawableResource,
     rotation: Rotation,
+    overlay: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     TileSurface(
@@ -34,6 +35,8 @@ fun Tile(
             contentDescription = null,
             filterQuality = FilterQuality.High,
         )
+
+        overlay()
     }
 }
 

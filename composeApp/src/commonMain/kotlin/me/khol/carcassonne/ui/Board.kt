@@ -85,9 +85,19 @@ fun Board(
             val openSpaces = remember(board, tile) { board.possibleSpacesForTile(tile) }
             if (placingTile != null) {
                 val possibilities = openSpaces.getValue(placingTile.coordinates)
+                val uiTile = tile.toUiTile()
+                val rotation = placingTile.rotatedTile.rotation
                 Tile(
-                    drawable = tile.toDrawable(),
-                    rotation = placingTile.rotatedTile.rotation,
+                    drawable = uiTile.drawable,
+                    rotation = rotation,
+                    overlay = {
+                        TileElementsOverlay(
+                            onElementClick = {
+                                println("Clicked: ${it.rotate(rotation)}")
+                            },
+                            uiTile = uiTile,
+                        )
+                    },
                     modifier = Modifier
                         .coordinates(placingTile.coordinates)
                         .clickable {
