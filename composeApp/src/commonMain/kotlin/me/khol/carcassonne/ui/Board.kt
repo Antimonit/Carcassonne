@@ -29,7 +29,7 @@ import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.tileSize
-import me.khol.carcassonne.ui.tile.toDrawable
+import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 private data class BoardCoordinatesElement(
@@ -75,7 +75,7 @@ fun Board(
     ) {
         board.tiles.forEach { (coordinates, tile) ->
             Tile(
-                drawable = tile.tile.toDrawable(),
+                drawable = tile.tile.toUiTile().drawable,
                 rotation = tile.rotation,
                 modifier = Modifier
                     .coordinates(coordinates)

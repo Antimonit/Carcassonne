@@ -26,7 +26,7 @@ import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.tiles.basicTileset
-import me.khol.carcassonne.ui.tile.toDrawable
+import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
@@ -88,7 +88,7 @@ fun App() {
                             val placing = placingTile
                             if (placing == null) {
                                 Tile(
-                                    drawable = current.toDrawable(),
+                                    drawable = current.toUiTile().drawable,
                                     rotation = Rotation.ROTATE_0,
                                 )
                             } else {
