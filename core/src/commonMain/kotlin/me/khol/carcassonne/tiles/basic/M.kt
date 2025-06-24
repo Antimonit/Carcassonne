@@ -1,30 +1,41 @@
 package me.khol.carcassonne.tiles.basic
 
 import me.khol.carcassonne.Boon
+import me.khol.carcassonne.ElementGroup.*
 import me.khol.carcassonne.Tile
-import me.khol.carcassonne.Tile.Edge.City
-import me.khol.carcassonne.Tile.Edge.Field
+import me.khol.carcassonne.Tile.Edge.*
 import me.khol.carcassonne.Tile.Edges
-import me.khol.carcassonne.city
+import me.khol.carcassonne.add
 import me.khol.carcassonne.elements
-import me.khol.carcassonne.field
-import me.khol.carcassonne.garden
 
-val M = Tile(
-    name = "M",
-    edges = Edges(top = City, right = City, bottom = Field, left = Field),
-    elements = elements {
-        val city = city(Boon.City.CoatOfArms) { top + right }
-        field(city) { left + bottom }
-    },
-)
+object M {
 
-val M_G = Tile(
-    name = "M_G",
-    edges = Edges(top = City, right = City, bottom = Field, left = Field),
-    elements = elements {
-        garden()
-        val city = city(Boon.City.CoatOfArms) { top + right }
-        field(city) { left + bottom }
-    },
-)
+    val city = City(Boon.City.CoatOfArms) { top + right }
+    val field = Field(city) { left + bottom }
+
+    val tile = Tile(
+        name = "M",
+        edges = Edges(top = City, right = City, bottom = Field, left = Field),
+        elements = elements {
+            add(city)
+            add(field)
+        },
+    )
+}
+
+object M_G {
+
+    val garden = Garden
+    val city = City(Boon.City.CoatOfArms) { top + right }
+    val field = Field(city) { left + bottom }
+
+    val tile = Tile(
+        name = "M_G",
+        edges = Edges(top = City, right = City, bottom = Field, left = Field),
+        elements = elements {
+            add(garden)
+            add(city)
+            add(field)
+        },
+    )
+}

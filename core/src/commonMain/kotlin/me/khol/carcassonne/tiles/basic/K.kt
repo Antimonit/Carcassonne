@@ -1,22 +1,27 @@
 package me.khol.carcassonne.tiles.basic
 
+import me.khol.carcassonne.ElementGroup.*
 import me.khol.carcassonne.Tile
-import me.khol.carcassonne.Tile.Edge.City
-import me.khol.carcassonne.Tile.Edge.Field
-import me.khol.carcassonne.Tile.Edge.Road
+import me.khol.carcassonne.Tile.Edge.*
 import me.khol.carcassonne.Tile.Edges
-import me.khol.carcassonne.city
+import me.khol.carcassonne.add
 import me.khol.carcassonne.elements
-import me.khol.carcassonne.field
-import me.khol.carcassonne.road
 
-val K = Tile(
-    name = "K",
-    edges = Edges(top = City, right = Field, bottom = Road, left = Road),
-    elements = elements {
-        val city = city { top }
-        field(city) { right + bottomRight + leftTop }
-        field { bottomLeft + leftBottom }
-        road { bottom + left }
-    },
-)
+object K {
+
+    val city = City { top }
+    val fieldTop = Field(city) { right + bottomRight + leftTop }
+    val fieldBottom = Field { bottomLeft + leftBottom }
+    val road = Road { bottom + left }
+
+    val tile = Tile(
+        name = "K",
+        edges = Edges(top = City, right = Field, bottom = Road, left = Road),
+        elements = elements {
+            add(city)
+            add(fieldTop)
+            add(fieldBottom)
+            add(road)
+        },
+    )
+}
