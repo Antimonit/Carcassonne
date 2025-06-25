@@ -6,13 +6,6 @@ interface ElementGroup<P : ElementPosition> {
 
     fun rotate(rotation: Rotation): ElementGroup<P>
 
-    data object Center : ElementGroup<ElementPosition.Center> {
-
-        override val positions = setOf(ElementPosition.Center)
-
-        override fun rotate(rotation: Rotation) = this
-    }
-
     data object Monastery : ElementGroup<ElementPosition.Center> {
 
         override val positions = setOf(ElementPosition.Center)
