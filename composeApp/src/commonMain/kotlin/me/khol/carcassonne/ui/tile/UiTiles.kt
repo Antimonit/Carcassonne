@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.ui.Tile
+import me.khol.carcassonne.ui.TileElementsOverlay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 object UiTiles {
@@ -91,7 +92,7 @@ fun Tile.toUiTile(): UiTile =
 private fun AllBasicTilesPreview() {
     Column {
         val all = with(UiTiles.Basic) {
-            setOf(A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X)
+            setOf(A, B, C, D, E, E_G, F, G, H, H_G, I, I_G, J, K, L, M, M_G, N, N_G, O, P, Q, R, R_G, S, T, U, U_G, V, V_G, W, X)
         }
         all.chunked(6).forEach { chunk ->
             Row {
@@ -99,6 +100,12 @@ private fun AllBasicTilesPreview() {
                     Tile(
                         drawable = tile.drawable,
                         rotation = Rotation.ROTATE_0,
+                        overlay = {
+                            TileElementsOverlay(
+                                onElementClick = {},
+                                uiTile = tile,
+                            )
+                        }
                     )
                 }
             }
