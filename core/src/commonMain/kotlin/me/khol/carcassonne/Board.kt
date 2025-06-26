@@ -27,6 +27,9 @@ data class Board(
     fun getTile(coordinates: Coordinates): RotatedTile? = tiles[coordinates]
 
     fun placeTile(coordinates: Coordinates, tile: RotatedTile): Board {
+        require(coordinates !in tiles.keys) {
+            "Cannot place tile ${tile.tile.name} at $coordinates as another tile is already placed there."
+        }
         require(coordinates in openSpaces) {
             "Cannot place tile ${tile.tile.name} at $coordinates as it is not connected to the rest of the board."
         }
