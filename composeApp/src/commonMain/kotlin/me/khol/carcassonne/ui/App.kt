@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Game
+import me.khol.carcassonne.Phase
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.tileSize
@@ -41,17 +42,15 @@ fun App() {
             )
         )
     }
-    var placingTile by remember { mutableStateOf<me.khol.carcassonne.PlacedTile?>(null) }
 
     GameSurface {
         PanningWindow {
             Board(
                 board = game.board,
-                currentTile = game.currentTile,
-                placingTile = placingTile,
+                phase = game.phase,
                 onPlaceTile = { coordinates, tile ->
-                    placingTile = tile
-                }
+                    game = game.copy(phase = Phase.PlacingTile.Placed(placedTile = tile))
+                },
             )
         }
 
@@ -67,37 +66,32 @@ fun App() {
                 modifier = Modifier
                     .padding(12.dp)
             ) {
-                val current = game.currentTile
-                if (current == null) {
-                    Text(
-                        text = "No tiles left",
-                        style = MaterialTheme.typography.body2,
-                        modifier = Modifier
-                            .align(alignment = Alignment.CenterHorizontally)
-                    )
-                } else {
-                    Text(
-                        text = "${game.remainingTiles.size} tiles left",
-                        style = MaterialTheme.typography.body2,
-                        modifier = Modifier
-                            .align(alignment = Alignment.CenterHorizontally)
-                    )
-                    val placing = placingTile
-                    if (placing == null) {
-                        Tile(
-                            drawable = current.toUiTile().drawable,
-                            rotation = Rotation.ROTATE_0,
+                when (val phase = game.phase) {
+                    is Phase.PlacingFigure -> {
+                        val onClick = {
+                            val placing = phase.tile
+                            game = game.copy(
+                                board = game.board.placeTile(
+                                    placing.coordinates,
+                                    placing.rotatedTile
+                                ),
+                                remainingTiles = game.remainingTiles.drop(1),
+                                phase = game.currentTile
+                                    ?.let(Phase.PlacingTile::Fresh)
+                                    ?: Phase.FinalScoring
+                            )
+                        }
+
+                        Text(
+                            text = "Place a meeple",
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
                         )
-                    } else {
+
                         @OptIn(ExperimentalMaterialApi::class)
                         Surface(
-                            onClick = {
-                                game = game.copy(
-                                    board = game.board.placeTile(placing.coordinates, placing.rotatedTile),
-                                    remainingTiles = game.remainingTiles.drop(1),
-                                )
-                                placingTile = null
-                            },
+                            onClick = onClick,
                             shape = RoundedCornerShape(4.dp),
                             modifier = Modifier
                                 .size(tileSize)
@@ -105,7 +99,7 @@ fun App() {
                             Box(contentAlignment = Alignment.Center) {
                                 Icon(
                                     imageVector = Icons.Default.Check,
-                                    contentDescription = "Confirm",
+                                    contentDescription = "Confirm meeple placement",
                                     tint = Color.Black,
                                     modifier = Modifier
                                         .size(48.dp)
@@ -113,6 +107,54 @@ fun App() {
                             }
                         }
                     }
+                    is Phase.PlacingTile -> {
+                        Text(
+                            text = "${game.remainingTiles.size} tiles left",
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                        )
+                        when (phase) {
+                            is Phase.PlacingTile.Fresh -> {
+                                Tile(
+                                    drawable = phase.tile.toUiTile().drawable,
+                                    rotation = Rotation.ROTATE_0,
+                                )
+                            }
+                            is Phase.PlacingTile.Placed -> {
+                                val placing = phase.placedTile
+                                val onClick = {
+                                    game = game.copy(phase = Phase.PlacingFigure.Fresh(placing))
+                                }
+                                @OptIn(ExperimentalMaterialApi::class)
+                                Surface(
+                                    onClick = onClick,
+                                    shape = RoundedCornerShape(4.dp),
+                                    modifier = Modifier
+                                        .size(tileSize)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Confirm tile placement",
+                                            tint = Color.Black,
+                                            modifier = Modifier
+                                                .size(48.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Phase.FinalScoring -> {
+                        Text(
+                            text = "No tiles left",
+                            style = MaterialTheme.typography.body2,
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                        )
+                    }
+                    Phase.Scoring -> Unit
                 }
             }
         }

@@ -16,10 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
+import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedTile
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.GridScope.coordinates
 import me.khol.carcassonne.ui.tile.tileSize
@@ -29,8 +29,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 fun Board(
     board: Board,
-    currentTile: Tile?,
-    placingTile: PlacedTile?,
+    phase: Phase,
     onPlaceTile: (Coordinates, PlacedTile) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -47,11 +46,10 @@ fun Board(
                     .coordinates(coordinates)
             )
         }
-        currentTile?.let { tile ->
-            val openSpaces = remember(board, tile) { board.possibleSpacesForTile(tile) }
-            if (placingTile != null) {
-                val possibilities = openSpaces.getValue(placingTile.coordinates)
-                val uiTile = tile.toUiTile()
+        when (phase) {
+            is Phase.PlacingFigure -> {
+                val placingTile = phase.tile
+                val uiTile = placingTile.rotatedTile.tile.toUiTile()
                 val rotation = placingTile.rotatedTile.rotation
                 Tile(
                     drawable = uiTile.drawable,
@@ -66,25 +64,43 @@ fun Board(
                     },
                     modifier = Modifier
                         .coordinates(placingTile.coordinates)
-                        .clickable {
-                            onPlaceTile(placingTile.coordinates, possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
-                        }
                 )
             }
-            openSpaces.forEach { (coordinates, placedTiles) ->
-                key(coordinates) {
-                    Box(
+            is Phase.PlacingTile -> {
+                val tile = phase.tile
+                val openSpaces = remember(board, tile) { board.possibleSpacesForTile(tile) }
+                if (phase is Phase.PlacingTile.Placed) {
+                    val placingTile = phase.placedTile
+                    val possibilities = openSpaces.getValue(placingTile.coordinates)
+                    val uiTile = tile.toUiTile()
+                    val rotation = placingTile.rotatedTile.rotation
+                    Tile(
+                        drawable = uiTile.drawable,
+                        rotation = rotation,
                         modifier = Modifier
-                            .padding(4.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(Color.Black.copy(alpha = 0.12f))
-                            .coordinates(coordinates)
+                            .coordinates(placingTile.coordinates)
                             .clickable {
-                                onPlaceTile(coordinates, placedTiles.first())
+                                onPlaceTile(placingTile.coordinates, possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
                             }
                     )
                 }
+                openSpaces.forEach { (coordinates, placedTiles) ->
+                    key(coordinates) {
+                        Box(
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(Color.Black.copy(alpha = 0.12f))
+                                .coordinates(coordinates)
+                                .clickable {
+                                    onPlaceTile(coordinates, placedTiles.first())
+                                }
+                        )
+                    }
+                }
             }
+            Phase.Scoring -> Unit
+            Phase.FinalScoring -> Unit
         }
     }
 }
@@ -103,8 +119,7 @@ private fun BoardPreview() {
                     .placeTile(coordinates = Coordinates(1, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
                     .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
                     .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180)),
-                currentTile = Tiles.Basic.D,
-                placingTile = null,
+                phase = Phase.PlacingTile.Fresh(Tiles.Basic.D),
                 onPlaceTile = { coordinates, tile -> },
             )
         }
