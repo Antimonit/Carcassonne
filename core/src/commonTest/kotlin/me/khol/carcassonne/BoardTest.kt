@@ -3,6 +3,7 @@ package me.khol.carcassonne
 import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFails
 
 internal class BoardTest {
 
@@ -46,5 +47,29 @@ internal class BoardTest {
             ),
             actual = newBoard.possibleSpacesForTile(newTile).keys,
         )
+    }
+
+    @Test
+    fun `placing a tile where another tile is already located should fail`() {
+        val board = Board.starting(startingTile = Tiles.Basic.D)
+        assertFails {
+            board.placeTile(Coordinates(x = 0, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
+        }
+    }
+
+    @Test
+    fun `placing a tile out of bound of the current board should fail`() {
+        val board = Board.starting(startingTile = Tiles.Basic.D)
+        assertFails {
+            board.placeTile(Coordinates(x = 2, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
+        }
+    }
+
+    @Test
+    fun `placing a tile with non-matching edges should fail`() {
+        val board = Board.starting(startingTile = Tiles.Basic.D)
+        assertFails {
+            board.placeTile(Coordinates(x = 1, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_90))
+        }
     }
 }
