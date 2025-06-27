@@ -1,5 +1,6 @@
 package me.khol.carcassonne.ui.tile.basic
 
+import androidx.compose.ui.geometry.Offset
 import carcassonne.composeapp.generated.resources.Res
 import carcassonne.composeapp.generated.resources.tile_basic_X
 import me.khol.carcassonne.tiles.Tiles
@@ -19,14 +20,38 @@ const val basic_tile_X_field_bottom_left_svg = "m 237.3418,511.56836 c -2.52749,
 val X = UiTile(
     drawable = Res.drawable.tile_basic_X,
     tile = Tiles.Basic.X,
-    shapes = mapOf(
-        svgToShape(basic_tile_X_road_left_svg) to X.roadLeft,
-        svgToShape(basic_tile_X_road_top_svg) to X.roadTop,
-        svgToShape(basic_tile_X_road_right_svg) to X.roadRight,
-        svgToShape(basic_tile_X_road_bottom_svg) to X.roadBottom,
-        svgToShape(basic_tile_X_field_top_left_svg) to X.fieldTopLeft,
-        svgToShape(basic_tile_X_field_top_right_svg) to X.fieldTopRight,
-        svgToShape(basic_tile_X_field_bottom_right_svg) to X.fieldBottomRight,
-        svgToShape(basic_tile_X_field_bottom_left_svg) to X.fieldBottomLeft,
+    uiElements = mapOf(
+        X.roadLeft to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_road_left_svg),
+            figurePlacement = Offset(0.15f, 0.45f),
+        ),
+        X.roadTop to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_road_top_svg),
+            figurePlacement = Offset(0.5f, 0.15f),
+        ),
+        X.roadRight to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_road_right_svg),
+            figurePlacement = Offset(0.85f, 0.45f),
+        ),
+        X.roadBottom to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_road_bottom_svg),
+            figurePlacement = Offset(0.5f, 0.85f),
+        ),
+        X.fieldTopLeft to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_field_top_left_svg),
+            figurePlacement = Offset(0.2f, 0.18f),
+        ),
+        X.fieldTopRight to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_field_top_right_svg),
+            figurePlacement = Offset(0.8f, 0.18f),
+        ),
+        X.fieldBottomRight to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_field_bottom_right_svg),
+            figurePlacement = Offset(0.8f, 0.8f),
+        ),
+        X.fieldBottomLeft to UiTile.UiElement(
+            shape = svgToShape(basic_tile_X_field_bottom_left_svg),
+            figurePlacement = Offset(0.2f, 0.8f),
+        ),
     ),
 )

@@ -28,7 +28,8 @@ fun TileElementsOverlay(
     onElementClick: (ElementGroup<*>) -> Unit,
     uiTile: UiTile,
 ) {
-    uiTile.shapes.forEach { (shape, elementGroup) ->
+    uiTile.uiElements.forEach { (elementGroup, uiElement) ->
+        val shape = uiElement.shape
         val interactionSource = remember { MutableInteractionSource() }
         val hovered by interactionSource.collectIsHoveredAsState()
 

@@ -1,5 +1,6 @@
 package me.khol.carcassonne.ui.tile
 
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Outline
@@ -15,8 +16,13 @@ import org.jetbrains.compose.resources.DrawableResource
 data class UiTile(
     val drawable: DrawableResource,
     val tile: Tile,
-    val shapes: Map<Shape, ElementGroup<*>>,
-)
+    val uiElements: Map<ElementGroup<*>, UiElement>,
+) {
+    data class UiElement(
+        val shape: Shape,
+        val figurePlacement: Offset,
+    )
+}
 
 fun svgToShape(
     pathData: String,
