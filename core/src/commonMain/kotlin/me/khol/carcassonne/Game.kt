@@ -7,6 +7,7 @@ data class Game(
     val tiles: List<Tile>,
     val remainingTiles: List<Tile>,
     val board: Board,
+    val phase: Phase,
 ) {
 
     val currentTile: Tile? =
@@ -27,10 +28,15 @@ data class Game(
                 }
             }
 
+            val remainingTiles = tiles.minus(startingTile).shuffled(random)
+
             return Game(
                 tiles = tiles,
-                remainingTiles = tiles.minus(startingTile).shuffled(random),
+                remainingTiles = remainingTiles,
                 board = Board.starting(startingTile = startingTile),
+                phase = remainingTiles.firstOrNull()
+                    ?.let { Phase.PlacingTile.Fresh(tile = it) }
+                    ?: Phase.FinalScoring,
             )
         }
     }
