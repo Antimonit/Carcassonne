@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Game
 import me.khol.carcassonne.Phase
@@ -111,13 +112,23 @@ fun App() {
                                     .size(tileSize)
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
-                                    Icon(
-                                        imageVector = Icons.Default.Check,
-                                        contentDescription = "Confirm meeple placement",
-                                        tint = Color.Black,
-                                        modifier = Modifier
-                                            .size(48.dp)
-                                    )
+                                    when (phase) {
+                                        is Phase.PlacingFigure.Fresh -> {
+                                            Text(
+                                                text = "Skip",
+                                                fontWeight = FontWeight.Bold,
+                                            )
+                                        }
+                                        is Phase.PlacingFigure.Placed -> {
+                                            Icon(
+                                                imageVector = Icons.Default.Check,
+                                                contentDescription = "Confirm meeple placement",
+                                                tint = Color.Black,
+                                                modifier = Modifier
+                                                    .size(48.dp)
+                                            )
+                                        }
+                                    }
                                 }
                             }
                         }
