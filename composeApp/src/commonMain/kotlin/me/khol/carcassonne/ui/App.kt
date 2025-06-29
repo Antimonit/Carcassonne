@@ -15,53 +15,45 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import me.khol.carcassonne.Engine
 import me.khol.carcassonne.Game
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
-import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.ui.hud.UndoButton
+import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Preview
 @Composable
 fun App() {
-    var game by remember {
-        mutableStateOf(
-            Game.new(
+    val engine = remember {
+        Engine(
+            initialGame = Game.new(
                 tilesets = listOf(basicTileset),
                 startingTile = Tiles.Basic.D,
             )
         )
     }
-    val undo: () -> Unit = {
-        (game.phase as? Phase.Undoable)?.let {
-            game = game.copy(phase = it.undo())
-        }
-    }
+    val game by engine.game.collectAsState()
 
     GameSurface {
         PanningWindow {
             Board(
                 board = game.board,
                 phase = game.phase,
-                onPlaceTile = { tile ->
-                    game = game.copy(phase = Phase.PlacingTile.Placed(placedTile = tile))
-                },
-                onPlaceFigure = { tile, element ->
-                    game = game.copy(phase = Phase.PlacingFigure.Placed(tile, element))
-                },
+                onPlaceTile = engine::placeTile,
+                onPlaceFigure = engine::placeFigure,
             )
         }
 
@@ -83,20 +75,6 @@ fun App() {
                 ) {
                     when (val phase = game.phase) {
                         is Phase.PlacingFigure -> {
-                            val onClick = {
-                                val placing = phase.tile
-                                game = game.copy(
-                                    board = game.board.placeTile(
-                                        placing.coordinates,
-                                        placing.rotatedTile
-                                    ),
-                                    remainingTiles = game.remainingTiles.drop(1),
-                                    phase = game.currentTile
-                                        ?.let(Phase.PlacingTile::Fresh)
-                                        ?: Phase.FinalScoring
-                                )
-                            }
-
                             Text(
                                 text = "Place a meeple",
                                 style = MaterialTheme.typography.body2,
@@ -106,7 +84,7 @@ fun App() {
 
                             @OptIn(ExperimentalMaterialApi::class)
                             Surface(
-                                onClick = onClick,
+                                onClick = { engine.confirmFigurePlacement(phase) },
                                 shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
                                     .size(tileSize)
@@ -147,13 +125,9 @@ fun App() {
                                     )
                                 }
                                 is Phase.PlacingTile.Placed -> {
-                                    val placing = phase.placedTile
-                                    val onClick = {
-                                        game = game.copy(phase = Phase.PlacingFigure.Fresh(placing))
-                                    }
                                     @OptIn(ExperimentalMaterialApi::class)
                                     Surface(
-                                        onClick = onClick,
+                                        onClick = { engine.confirmTilePlacement(phase) },
                                         shape = RoundedCornerShape(4.dp),
                                         modifier = Modifier
                                             .size(tileSize)
@@ -185,7 +159,7 @@ fun App() {
             }
 
             if (game.phase is Phase.Undoable) {
-                UndoButton(onClick = undo)
+                UndoButton(onClick = engine::undo)
             }
         }
     }
