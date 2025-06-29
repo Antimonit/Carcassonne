@@ -8,18 +8,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.Layout
-import androidx.compose.ui.node.ModifierNodeElement
-import androidx.compose.ui.node.ParentDataModifierNode
-import androidx.compose.ui.platform.InspectorInfo
-import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
@@ -28,39 +21,10 @@ import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.Tiles
+import me.khol.carcassonne.ui.GridScope.coordinates
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
-
-private data class BoardCoordinatesElement(
-    val coordinates: Coordinates,
-) : ModifierNodeElement<BoardCoordinatesNode>() {
-
-    override fun create() = BoardCoordinatesNode(coordinates)
-
-    override fun update(node: BoardCoordinatesNode) {
-        node.coordinates = coordinates
-    }
-
-    override fun InspectorInfo.inspectableProperties() {
-        name = "coordinates"
-        value = coordinates
-    }
-}
-
-private class BoardCoordinatesNode(
-    var coordinates: Coordinates,
-) : ParentDataModifierNode, Modifier.Node() {
-
-    override fun Density.modifyParentData(parentData: Any?): Coordinates = coordinates
-}
-
-object BoardScope {
-
-    @Stable
-    fun Modifier.coordinates(coordinates: Coordinates) =
-        this.then(BoardCoordinatesElement(coordinates = coordinates))
-}
 
 @Composable
 fun Board(
@@ -70,7 +34,9 @@ fun Board(
     onPlaceTile: (Coordinates, PlacedTile) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    BoardLayout(
+    GridLayout(
+        cellSize = tileSize,
+        cellSpacing = 4.dp,
         modifier = modifier,
     ) {
         board.tiles.forEach { (coordinates, tile) ->
@@ -123,35 +89,6 @@ fun Board(
     }
 }
 
-@Composable
-private fun BoardLayout(
-    modifier: Modifier = Modifier,
-    content: @Composable BoardScope.() -> Unit,
-) {
-    Layout(
-        content = {
-            BoardScope.content()
-        },
-        modifier = modifier,
-    ) { measurables, constraints ->
-        val size = tileSize.roundToPx()
-        val tiling = (tileSize + 4.dp).roundToPx()
-        val tileConstraints = Constraints.fixed(size, size)
-        val placeables = measurables.map { measurable ->
-            measurable.measure(tileConstraints)
-        }
-        layout(constraints.maxWidth, constraints.maxHeight) {
-            placeables.forEach { placeable ->
-                val coordinates = placeable.parentData as Coordinates
-                placeable.placeRelative(
-                    x = (constraints.maxWidth - size) / 2 + coordinates.x * tiling,
-                    y = (constraints.maxHeight - size) / 2 + coordinates.y * tiling,
-                )
-            }
-        }
-    }
-}
-
 @Preview
 @Composable
 private fun BoardPreview() {
@@ -173,3 +110,6 @@ private fun BoardPreview() {
         }
     }
 }
+
+private fun Modifier.coordinates(coordinates: Coordinates): Modifier =
+    this.coordinates(x = coordinates.x, y = coordinates.y)
