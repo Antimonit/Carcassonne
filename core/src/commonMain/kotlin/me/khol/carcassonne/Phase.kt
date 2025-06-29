@@ -2,6 +2,11 @@ package me.khol.carcassonne
 
 sealed interface Phase {
 
+    interface Undoable {
+
+        fun undo(): Phase
+    }
+
     sealed interface PlacingTile : Phase {
 
         val tile: Tile
@@ -12,9 +17,11 @@ sealed interface Phase {
 
         data class Placed(
             val placedTile: PlacedTile,
-        ) : PlacingTile {
-            
+        ) : PlacingTile, Undoable {
+
             override val tile: Tile = placedTile.rotatedTile.tile
+
+            override fun undo() = Fresh(tile = tile)
         }
     }
 
@@ -24,12 +31,18 @@ sealed interface Phase {
 
         data class Fresh(
             override val tile: PlacedTile,
-        ) : PlacingFigure
+        ) : PlacingFigure, Undoable {
+
+            override fun undo() = PlacingTile.Placed(placedTile = tile)
+        }
 
         data class Placed(
             override val tile: PlacedTile,
             val element: Element<*>,
-        ) : PlacingFigure
+        ) : PlacingFigure, Undoable {
+
+            override fun undo() = Fresh(tile = tile)
+        }
     }
 
     data object Scoring : Phase
