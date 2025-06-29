@@ -10,9 +10,6 @@ data class Game(
     val phase: Phase,
 ) {
 
-    val currentTile: Tile? =
-        remainingTiles.firstOrNull()
-
     companion object {
 
         fun new(
