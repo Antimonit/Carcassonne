@@ -3,6 +3,7 @@ package me.khol.carcassonne.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +29,7 @@ import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.tiles.basicTileset
+import me.khol.carcassonne.ui.hud.UndoButton
 import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -41,6 +43,11 @@ fun App() {
                 startingTile = Tiles.Basic.D,
             )
         )
+    }
+    val undo: () -> Unit = {
+        (game.phase as? Phase.Undoable)?.let {
+            game = game.copy(phase = it.undo())
+        }
     }
 
     GameSurface {
@@ -57,108 +64,117 @@ fun App() {
             )
         }
 
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            elevation = 8.dp,
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.Bottom,
             modifier = Modifier
                 .padding(16.dp)
                 .align(alignment = Alignment.BottomStart)
         ) {
-            Column(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier
-                    .padding(12.dp)
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                elevation = 8.dp,
             ) {
-                when (val phase = game.phase) {
-                    is Phase.PlacingFigure -> {
-                        val onClick = {
-                            val placing = phase.tile
-                            game = game.copy(
-                                board = game.board.placeTile(
-                                    placing.coordinates,
-                                    placing.rotatedTile
-                                ),
-                                remainingTiles = game.remainingTiles.drop(1),
-                                phase = game.currentTile
-                                    ?.let(Phase.PlacingTile::Fresh)
-                                    ?: Phase.FinalScoring
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .padding(12.dp)
+                ) {
+                    when (val phase = game.phase) {
+                        is Phase.PlacingFigure -> {
+                            val onClick = {
+                                val placing = phase.tile
+                                game = game.copy(
+                                    board = game.board.placeTile(
+                                        placing.coordinates,
+                                        placing.rotatedTile
+                                    ),
+                                    remainingTiles = game.remainingTiles.drop(1),
+                                    phase = game.currentTile
+                                        ?.let(Phase.PlacingTile::Fresh)
+                                        ?: Phase.FinalScoring
+                                )
+                            }
+
+                            Text(
+                                text = "Place a meeple",
+                                style = MaterialTheme.typography.body2,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterHorizontally)
                             )
-                        }
 
-                        Text(
-                            text = "Place a meeple",
-                            style = MaterialTheme.typography.body2,
-                            modifier = Modifier
-                                .align(alignment = Alignment.CenterHorizontally)
-                        )
-
-                        @OptIn(ExperimentalMaterialApi::class)
-                        Surface(
-                            onClick = onClick,
-                            shape = RoundedCornerShape(4.dp),
-                            modifier = Modifier
-                                .size(tileSize)
-                        ) {
-                            Box(contentAlignment = Alignment.Center) {
-                                Icon(
-                                    imageVector = Icons.Default.Check,
-                                    contentDescription = "Confirm meeple placement",
-                                    tint = Color.Black,
-                                    modifier = Modifier
-                                        .size(48.dp)
-                                )
-                            }
-                        }
-                    }
-                    is Phase.PlacingTile -> {
-                        Text(
-                            text = "${game.remainingTiles.size} tiles left",
-                            style = MaterialTheme.typography.body2,
-                            modifier = Modifier
-                                .align(alignment = Alignment.CenterHorizontally)
-                        )
-                        when (phase) {
-                            is Phase.PlacingTile.Fresh -> {
-                                Tile(
-                                    drawable = phase.tile.toUiTile().drawable,
-                                    rotation = Rotation.ROTATE_0,
-                                )
-                            }
-                            is Phase.PlacingTile.Placed -> {
-                                val placing = phase.placedTile
-                                val onClick = {
-                                    game = game.copy(phase = Phase.PlacingFigure.Fresh(placing))
+                            @OptIn(ExperimentalMaterialApi::class)
+                            Surface(
+                                onClick = onClick,
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .size(tileSize)
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = "Confirm meeple placement",
+                                        tint = Color.Black,
+                                        modifier = Modifier
+                                            .size(48.dp)
+                                    )
                                 }
-                                @OptIn(ExperimentalMaterialApi::class)
-                                Surface(
-                                    onClick = onClick,
-                                    shape = RoundedCornerShape(4.dp),
-                                    modifier = Modifier
-                                        .size(tileSize)
-                                ) {
-                                    Box(contentAlignment = Alignment.Center) {
-                                        Icon(
-                                            imageVector = Icons.Default.Check,
-                                            contentDescription = "Confirm tile placement",
-                                            tint = Color.Black,
-                                            modifier = Modifier
-                                                .size(48.dp)
-                                        )
+                            }
+                        }
+                        is Phase.PlacingTile -> {
+                            Text(
+                                text = "${game.remainingTiles.size} tiles left",
+                                style = MaterialTheme.typography.body2,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterHorizontally)
+                            )
+                            when (phase) {
+                                is Phase.PlacingTile.Fresh -> {
+                                    Tile(
+                                        drawable = phase.tile.toUiTile().drawable,
+                                        rotation = Rotation.ROTATE_0,
+                                    )
+                                }
+                                is Phase.PlacingTile.Placed -> {
+                                    val placing = phase.placedTile
+                                    val onClick = {
+                                        game = game.copy(phase = Phase.PlacingFigure.Fresh(placing))
+                                    }
+                                    @OptIn(ExperimentalMaterialApi::class)
+                                    Surface(
+                                        onClick = onClick,
+                                        shape = RoundedCornerShape(4.dp),
+                                        modifier = Modifier
+                                            .size(tileSize)
+                                    ) {
+                                        Box(contentAlignment = Alignment.Center) {
+                                            Icon(
+                                                imageVector = Icons.Default.Check,
+                                                contentDescription = "Confirm tile placement",
+                                                tint = Color.Black,
+                                                modifier = Modifier
+                                                    .size(48.dp)
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
+                        Phase.FinalScoring -> {
+                            Text(
+                                text = "No tiles left",
+                                style = MaterialTheme.typography.body2,
+                                modifier = Modifier
+                                    .align(alignment = Alignment.CenterHorizontally)
+                            )
+                        }
+                        Phase.Scoring -> Unit
                     }
-                    Phase.FinalScoring -> {
-                        Text(
-                            text = "No tiles left",
-                            style = MaterialTheme.typography.body2,
-                            modifier = Modifier
-                                .align(alignment = Alignment.CenterHorizontally)
-                        )
-                    }
-                    Phase.Scoring -> Unit
                 }
+            }
+
+            if (game.phase is Phase.Undoable) {
+                UndoButton(onClick = undo)
             }
         }
     }
