@@ -25,11 +25,11 @@ data class Game(
                         tileCount.tile
                     }
                 }
-            }.shuffled(random)
+            }
 
             return Game(
                 tiles = tiles,
-                remainingTiles = tiles - startingTile,
+                remainingTiles = tiles.minus(startingTile).shuffled(random),
                 board = Board.starting(startingTile = startingTile),
             )
         }
