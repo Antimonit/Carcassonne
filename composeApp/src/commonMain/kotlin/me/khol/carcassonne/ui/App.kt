@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.khol.carcassonne.Game
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.tileSize

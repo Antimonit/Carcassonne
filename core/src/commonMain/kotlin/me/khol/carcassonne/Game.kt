@@ -1,7 +1,5 @@
-package me.khol.carcassonne.ui
+package me.khol.carcassonne
 
-import me.khol.carcassonne.Board
-import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.Tileset
 import kotlin.random.Random
 
