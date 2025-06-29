@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
+import me.khol.carcassonne.Element
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedTile
 import me.khol.carcassonne.RotatedTile
@@ -30,7 +31,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun Board(
     board: Board,
     phase: Phase,
-    onPlaceTile: (Coordinates, PlacedTile) -> Unit,
+    onPlaceTile: (PlacedTile) -> Unit,
+    onPlaceFigure: (PlacedTile, Element<*>) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     GridLayout(
@@ -57,10 +59,20 @@ fun Board(
                     overlay = {
                         TileElementsOverlay(
                             onElementClick = {
-                                println("Clicked: ${it.rotate(rotation)}")
+                                onPlaceFigure(placingTile, it)
                             },
                             uiTile = uiTile,
                         )
+                        when (phase) {
+                            is Phase.PlacingFigure.Fresh -> Unit
+                            is Phase.PlacingFigure.Placed -> {
+                                TileFiguresOverlay(
+                                    figures = setOf(phase.element),
+                                    uiTile = uiTile,
+                                    rotation = rotation,
+                                )
+                            }
+                        }
                     },
                     modifier = Modifier
                         .coordinates(placingTile.coordinates)
@@ -80,7 +92,7 @@ fun Board(
                         modifier = Modifier
                             .coordinates(placingTile.coordinates)
                             .clickable {
-                                onPlaceTile(placingTile.coordinates, possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
+                                onPlaceTile(possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
                             }
                     )
                 }
@@ -93,7 +105,7 @@ fun Board(
                                 .background(Color.Black.copy(alpha = 0.12f))
                                 .coordinates(coordinates)
                                 .clickable {
-                                    onPlaceTile(coordinates, placedTiles.first())
+                                    onPlaceTile(placedTiles.first())
                                 }
                         )
                     }
@@ -120,7 +132,8 @@ private fun BoardPreview() {
                     .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
                     .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180)),
                 phase = Phase.PlacingTile.Fresh(Tiles.Basic.D),
-                onPlaceTile = { coordinates, tile -> },
+                onPlaceTile = { tile -> },
+                onPlaceFigure = { tile, element -> },
             )
         }
     }

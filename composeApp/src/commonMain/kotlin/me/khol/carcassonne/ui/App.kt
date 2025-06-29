@@ -48,8 +48,11 @@ fun App() {
             Board(
                 board = game.board,
                 phase = game.phase,
-                onPlaceTile = { coordinates, tile ->
+                onPlaceTile = { tile ->
                     game = game.copy(phase = Phase.PlacingTile.Placed(placedTile = tile))
+                },
+                onPlaceFigure = { tile, element ->
+                    game = game.copy(phase = Phase.PlacingFigure.Placed(tile, element))
                 },
             )
         }
