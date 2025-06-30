@@ -17,10 +17,13 @@ import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
+import me.khol.carcassonne.Figure
 import me.khol.carcassonne.Phase
+import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlacedTile
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.GridScope.coordinates
 import me.khol.carcassonne.ui.tile.tileSize
@@ -41,9 +44,19 @@ fun Board(
         modifier = modifier,
     ) {
         board.tiles.forEach { (coordinates, tile) ->
+            val uiTile = tile.tile.toUiTile()
             Tile(
-                drawable = tile.tile.toUiTile().drawable,
+                drawable = uiTile.drawable,
                 rotation = tile.rotation,
+                overlay = {
+                    TileFiguresOverlay(
+                        figures = board.getFigures(coordinates)
+                            .map { it.placedElement.element }
+                            .toSet(),
+                        uiTile = uiTile,
+                        rotation = tile.rotation,
+                    )
+                },
                 modifier = Modifier
                     .coordinates(coordinates)
             )
@@ -125,12 +138,24 @@ private fun BoardPreview() {
             Board(
                 board = Board
                     .starting(startingTile = Tiles.Basic.D)
-                    .placeTile(coordinates = Coordinates(-1, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(-2, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(-3, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(1, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180))
-                    .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
-                    .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180)),
+                    .placeTile(
+                        coordinates = Coordinates(-1, 0),
+                        tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180),
+                        placedFigures = listOf(
+                            PlacedFigure(
+                                placedElement = PlacedElement(
+                                    coordinates = Coordinates(-1, 0),
+                                    element = me.khol.carcassonne.tiles.basic.D.road,
+                                ),
+                                figure = Figure.Meeple,
+                            ),
+                        ),
+                    )
+                    .placeTile(coordinates = Coordinates(-2, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(-3, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(1, 0), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(1, -1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180), placedFigures = emptyList()),
                 phase = Phase.PlacingTile.Fresh(Tiles.Basic.D),
                 onPlaceTile = { tile -> },
                 onPlaceFigure = { tile, element -> },

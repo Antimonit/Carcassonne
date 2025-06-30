@@ -25,9 +25,9 @@ class RoadFeaturesTest {
 
         // Connect right and bottom road ends with three turns
         val newBoard = board
-            .placeTile(Coordinates(x = 1, y = 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_0))
-            .placeTile(Coordinates(x = 1, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_90))
-            .placeTile(Coordinates(x = 0, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_180))
+            .placeTile(Coordinates(x = 1, y = 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(x = 1, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(x = 0, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_180), emptyList())
 
         // The two ends now form a loop and are a single feature
         assertEquals(

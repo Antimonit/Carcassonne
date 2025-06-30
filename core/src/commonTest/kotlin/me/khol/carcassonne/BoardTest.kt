@@ -37,7 +37,7 @@ internal class BoardTest {
     fun `placing a tile updates open spaces`() {
         val board = Board.starting(startingTile = Tiles.Basic.D)
         val newTile = Tiles.Basic.F
-        val newBoard = board.placeTile(Coordinates(x = 0, y = 1), RotatedTile(newTile, Rotation.ROTATE_0))
+        val newBoard = board.placeTile(Coordinates(x = 0, y = 1), RotatedTile(newTile, Rotation.ROTATE_0), emptyList())
         assertEquals(
             expected = setOf(
                 Coordinates(x = 0, y = -1),
@@ -53,7 +53,7 @@ internal class BoardTest {
     fun `placing a tile where another tile is already located should fail`() {
         val board = Board.starting(startingTile = Tiles.Basic.D)
         assertFails {
-            board.placeTile(Coordinates(x = 0, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
+            board.placeTile(Coordinates(x = 0, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0), emptyList())
         }
     }
 
@@ -61,7 +61,7 @@ internal class BoardTest {
     fun `placing a tile out of bound of the current board should fail`() {
         val board = Board.starting(startingTile = Tiles.Basic.D)
         assertFails {
-            board.placeTile(Coordinates(x = 2, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0))
+            board.placeTile(Coordinates(x = 2, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0), emptyList())
         }
     }
 
@@ -69,7 +69,7 @@ internal class BoardTest {
     fun `placing a tile with non-matching edges should fail`() {
         val board = Board.starting(startingTile = Tiles.Basic.D)
         assertFails {
-            board.placeTile(Coordinates(x = 1, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_90))
+            board.placeTile(Coordinates(x = 1, y = 0), RotatedTile(Tiles.Basic.D, Rotation.ROTATE_90), emptyList())
         }
     }
 }

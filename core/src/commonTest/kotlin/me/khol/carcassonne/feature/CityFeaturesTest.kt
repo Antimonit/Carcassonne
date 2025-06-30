@@ -34,8 +34,8 @@ class CityFeaturesTest {
         }
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.F, Rotation.ROTATE_90))
-            .placeTile(Coordinates(0, -2), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180))
+            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.F, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(0, -2), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180), emptyList())
 
         newBoard.getCityFeatures().run {
             assertEquals(1, size)
@@ -61,7 +61,7 @@ class CityFeaturesTest {
     fun `city features can merge`() {
         val board = Board
             .starting(startingTile = Tiles.Basic.D)
-            .placeTile(Coordinates(1, 0), RotatedTile(Tiles.Basic.K, Rotation.ROTATE_0))
+            .placeTile(Coordinates(1, 0), RotatedTile(Tiles.Basic.K, Rotation.ROTATE_0), emptyList())
 
         assertEquals(
             expected = setOf(
@@ -82,8 +82,8 @@ class CityFeaturesTest {
         )
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_90))
-            .placeTile(Coordinates(1, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_270))
+            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(1, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_270), emptyList())
 
         assertEquals(
             expected = setOf(

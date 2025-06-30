@@ -47,8 +47,8 @@ class FieldFeaturesTest {
         val board = Board.starting(startingTile = Tiles.Basic.D)
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.H, Rotation.ROTATE_0))
-            .placeTile(Coordinates(0, -2), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180))
+            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.H, Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(0, -2), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180), emptyList())
 
         val bottomCity = Feature.City(
             cities = setOf(
@@ -117,7 +117,7 @@ class FieldFeaturesTest {
     @Test
     fun `field features can merge`() {
         val board = Board.starting(startingTile = Tiles.Basic.L)
-            .placeTile(Coordinates(0, 1), RotatedTile(Tiles.Basic.K, Rotation.ROTATE_180))
+            .placeTile(Coordinates(0, 1), RotatedTile(Tiles.Basic.K, Rotation.ROTATE_180), emptyList())
 
         assertEquals(
             expected = setOf(
@@ -161,7 +161,7 @@ class FieldFeaturesTest {
         )
 
         val newBoard = board
-            .placeTile(Coordinates(-1, 0), RotatedTile(Tiles.Basic.A, Rotation.ROTATE_270))
+            .placeTile(Coordinates(-1, 0), RotatedTile(Tiles.Basic.A, Rotation.ROTATE_270), emptyList())
 
         assertEquals(
             expected = setOf(

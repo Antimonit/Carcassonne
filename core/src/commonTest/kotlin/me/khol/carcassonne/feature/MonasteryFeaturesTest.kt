@@ -16,7 +16,7 @@ class MonasteryFeaturesTest {
     @Test
     fun `monastery feature`() {
         val board = Board.starting(startingTile = Tiles.Basic.D)
-            .placeTile(Coordinates(0, 1), RotatedTile(Tiles.Basic.B, Rotation.ROTATE_0))
+            .placeTile(Coordinates(0, 1), RotatedTile(Tiles.Basic.B, Rotation.ROTATE_0), emptyList())
 
         board.getMonasteryFeatures().run {
             assertEquals(1, size)
@@ -35,13 +35,13 @@ class MonasteryFeaturesTest {
 
         // make a road circle around the monastery
         val newBoard = board
-            .placeTile(Coordinates(1, 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_0))
-            .placeTile(Coordinates(1, 1), RotatedTile(Tiles.Basic.U, Rotation.ROTATE_0))
-            .placeTile(Coordinates(1, 2), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_90))
-            .placeTile(Coordinates(0, 2), RotatedTile(Tiles.Basic.U, Rotation.ROTATE_90))
-            .placeTile(Coordinates(-1, 2), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_180))
-            .placeTile(Coordinates(-1, 1), RotatedTile(Tiles.Basic.U, Rotation.ROTATE_180))
-            .placeTile(Coordinates(-1, 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_270))
+            .placeTile(Coordinates(1, 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(1, 1), RotatedTile(Tiles.Basic.U, Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(1, 2), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(0, 2), RotatedTile(Tiles.Basic.U, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(-1, 2), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_180), emptyList())
+            .placeTile(Coordinates(-1, 1), RotatedTile(Tiles.Basic.U, Rotation.ROTATE_180), emptyList())
+            .placeTile(Coordinates(-1, 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_270), emptyList())
 
         newBoard.getMonasteryFeatures().run {
             assertEquals(1, size)
