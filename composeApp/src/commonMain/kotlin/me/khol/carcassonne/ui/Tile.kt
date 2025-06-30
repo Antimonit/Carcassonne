@@ -1,7 +1,10 @@
 package me.khol.carcassonne.ui
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.FilterQuality
@@ -20,15 +23,9 @@ fun Tile(
     modifier: Modifier = Modifier,
 ) {
     TileSurface(
-        modifier = modifier
-            .rotate(
-                degrees = when (rotation) {
-                    Rotation.ROTATE_0 -> 0f
-                    Rotation.ROTATE_90 -> 90f
-                    Rotation.ROTATE_180 -> 180f
-                    Rotation.ROTATE_270 -> 270f
-                }
-            )
+        modifier = Modifier
+            .rotate(degrees = shortestRotation(rotation))
+            .then(modifier)
     ) {
         Image(
             bitmap = imageResource(drawable),
@@ -37,6 +34,34 @@ fun Tile(
         )
 
         overlay()
+    }
+}
+
+@Composable
+private fun shortestRotation(rotation: Rotation): Float {
+    val target = when (rotation) {
+        Rotation.ROTATE_0 -> 0f
+        Rotation.ROTATE_90 -> 90f
+        Rotation.ROTATE_180 -> 180f
+        Rotation.ROTATE_270 -> 270f
+    }
+    val degrees = remember { Animatable(target) }
+
+    LaunchedEffect(target) {
+        degrees.animateTo(
+            targetValue = shortestAngle(current = degrees.value, target = target),
+        )
+        degrees.snapTo(degrees.value % 360)
+    }
+
+    return degrees.value
+}
+
+fun shortestAngle(current: Float, target: Float): Float {
+    val delta = (target - current + 360) % 360
+    return when {
+        delta <= 180f -> current + delta
+        else -> current + delta - 360
     }
 }
 
