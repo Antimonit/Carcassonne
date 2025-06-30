@@ -2,6 +2,7 @@ package me.khol.carcassonne
 
 data class Board(
     val tiles: Map<Coordinates, RotatedTile>,
+    val figures: Map<Coordinates, List<PlacedFigure>>,
 ) {
 
     val openSpaces: Set<Coordinates> = tiles.keys
@@ -14,6 +15,7 @@ data class Board(
     companion object {
         val empty = Board(
             tiles = emptyMap(),
+            figures = emptyMap(),
         )
 
         fun starting(
@@ -21,12 +23,15 @@ data class Board(
         ) = empty.placeTile(
             coordinates = Coordinates(0, 0),
             tile = RotatedTile(startingTile, Rotation.ROTATE_0),
+            placedFigures = emptyList(),
         )
     }
 
     fun getTile(coordinates: Coordinates): RotatedTile? = tiles[coordinates]
 
-    fun placeTile(coordinates: Coordinates, tile: RotatedTile): Board {
+    fun getFigures(coordinates: Coordinates): List<PlacedFigure> = figures[coordinates] ?: emptyList()
+
+    fun placeTile(coordinates: Coordinates, tile: RotatedTile, placedFigures: List<PlacedFigure>): Board {
         require(coordinates !in tiles.keys) {
             "Cannot place tile ${tile.tile.name} at $coordinates as another tile is already placed there."
         }
@@ -39,6 +44,7 @@ data class Board(
 
         return Board(
             tiles = tiles + (coordinates to tile),
+            figures = figures + mapOf(coordinates to placedFigures),
         )
     }
 

@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import me.khol.carcassonne.feature.PlacedElement
 
 class Engine(
     initialGame: Game,
@@ -42,6 +43,18 @@ class Engine(
                 board = game.board.placeTile(
                     coordinates = placing.coordinates,
                     tile = placing.rotatedTile,
+                    placedFigures = when (phase) {
+                        is Phase.PlacingFigure.Fresh -> emptyList()
+                        is Phase.PlacingFigure.Placed -> listOf(
+                            PlacedFigure(
+                                placedElement = PlacedElement(
+                                    coordinates = placing.coordinates,
+                                    element = phase.element,
+                                ),
+                                figure = Figure.Meeple,
+                            ),
+                        )
+                    },
                 ),
                 remainingTiles = remainingTiles,
                 phase = remainingTiles.firstOrNull()
