@@ -2,7 +2,7 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
-import me.khol.carcassonne.ElementGroup
+import me.khol.carcassonne.Element
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
@@ -24,7 +24,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Monastery),
+                        monastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery),
                         neighborCount = 2,
                     ),
                     actual = this,
@@ -49,7 +49,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        monastery = PlacedMonasteryGroup(Coordinates(0, 1), ElementGroup.Monastery),
+                        monastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery),
                         neighborCount = 9,
                     ),
                     actual = this,

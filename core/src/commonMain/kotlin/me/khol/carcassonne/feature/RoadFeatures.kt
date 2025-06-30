@@ -1,7 +1,7 @@
 package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
-import me.khol.carcassonne.ElementGroup
+import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.RotatedTile
@@ -9,27 +9,27 @@ import me.khol.carcassonne.oppositeCoordinates
 import me.khol.carcassonne.oppositeEdge
 
 fun Board.getRoadFeatures(): Set<Feature.Road> {
-    val processedPlacedRoadGroups: MutableMap<PlacedRoadGroup, Feature.Road> = mutableMapOf()
+    val processedPlacedRoads: MutableMap<PlacedRoad, Feature.Road> = mutableMapOf()
 
     tiles.forEach { (coordinates, tile) ->
         val tileRoads = tile.elements.get(ElementKey.Road)
 
         // A single tile may have multiple roads, which may or may not become connected
         // through other tiles. Process each road separately.
-        tileRoads.forEach { road: ElementGroup.Road ->
-            val placedRoad = PlacedRoadGroup(coordinates = coordinates, elementGroup = road)
+        tileRoads.forEach { road: Element.Road ->
+            val placedRoad = PlacedRoad(coordinates = coordinates, element = road)
             // if already processed, bail out
-            if (placedRoad in processedPlacedRoadGroups)
+            if (placedRoad in processedPlacedRoads)
                 return@forEach
 
-            val roadFeatures = mutableSetOf<PlacedRoadGroup>()
+            val roadFeatures = mutableSetOf<PlacedRoad>()
             var isFinished = true
 
-            fun followRoads(placedRoad: PlacedRoadGroup) {
+            fun followRoads(placedRoad: PlacedRoad) {
                 if (placedRoad in roadFeatures)
                     return
                 roadFeatures += placedRoad
-                placedRoad.elementGroup.positions.forEach { roadEdge: ElementPosition.Edge ->
+                placedRoad.element.positions.forEach { roadEdge: ElementPosition.Edge ->
                     val otherCoordinates = placedRoad.coordinates.oppositeCoordinates(roadEdge)
                     val otherTile: RotatedTile? = tiles[otherCoordinates]
                     if (otherTile == null) {
@@ -38,11 +38,11 @@ fun Board.getRoadFeatures(): Set<Feature.Road> {
                     } else {
                         val otherEdge = roadEdge.oppositeEdge()
                         // it is guaranteed to have a road
-                        val otherRoad: ElementGroup.Road = otherTile.elements.get(ElementKey.Road)
-                            .first { otherTileRoad: ElementGroup.Road ->
+                        val otherRoad: Element.Road = otherTile.elements.get(ElementKey.Road)
+                            .first { otherTileRoad: Element.Road ->
                                 otherEdge in otherTileRoad.positions
                             }
-                        followRoads(PlacedRoadGroup(coordinates = otherCoordinates, elementGroup = otherRoad))
+                        followRoads(PlacedRoad(coordinates = otherCoordinates, element = otherRoad))
                     }
                 }
             }
@@ -53,11 +53,11 @@ fun Board.getRoadFeatures(): Set<Feature.Road> {
                 roads = roadFeatures,
                 isFinished = isFinished,
             )
-            roadFeatures.forEach { placedRoad: PlacedRoadGroup ->
-                processedPlacedRoadGroups[placedRoad] = roadFeature
+            roadFeatures.forEach { placedRoad: PlacedRoad ->
+                processedPlacedRoads[placedRoad] = roadFeature
             }
         }
     }
 
-    return processedPlacedRoadGroups.values.toSet()
+    return processedPlacedRoads.values.toSet()
 }

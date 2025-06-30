@@ -1,40 +1,40 @@
 package me.khol.carcassonne
 
-interface ElementGroup<P : ElementPosition> {
+interface Element<P : ElementPosition> {
 
     val positions: Set<P>
 
-    fun rotate(rotation: Rotation): ElementGroup<P>
+    fun rotate(rotation: Rotation): Element<P>
 
-    data object Monastery : ElementGroup<ElementPosition.Center> {
-
-        override val positions = setOf(ElementPosition.Center)
-
-        override fun rotate(rotation: Rotation) = this
-    }
-
-    data object Garden : ElementGroup<ElementPosition.Center> {
+    data object Monastery : Element<ElementPosition.Center> {
 
         override val positions = setOf(ElementPosition.Center)
 
         override fun rotate(rotation: Rotation) = this
     }
 
-    data object RiverStart : ElementGroup<ElementPosition.Center> {
+    data object Garden : Element<ElementPosition.Center> {
 
         override val positions = setOf(ElementPosition.Center)
 
         override fun rotate(rotation: Rotation) = this
     }
 
-    data object RiverEnd : ElementGroup<ElementPosition.Center> {
+    data object RiverStart : Element<ElementPosition.Center> {
 
         override val positions = setOf(ElementPosition.Center)
 
         override fun rotate(rotation: Rotation) = this
     }
 
-    data object CropCircle : ElementGroup<ElementPosition.Center> {
+    data object RiverEnd : Element<ElementPosition.Center> {
+
+        override val positions = setOf(ElementPosition.Center)
+
+        override fun rotate(rotation: Rotation) = this
+    }
+
+    data object CropCircle : Element<ElementPosition.Center> {
 
         override val positions = setOf(ElementPosition.Center)
 
@@ -44,7 +44,7 @@ interface ElementGroup<P : ElementPosition> {
     @ConsistentCopyVisibility
     data class River private constructor(
         override val positions: Set<ElementPosition.Edge>,
-    ) : ElementGroup<ElementPosition.Edge> {
+    ) : Element<ElementPosition.Edge> {
 
         constructor(
             block: EdgeBuilder,
@@ -59,7 +59,7 @@ interface ElementGroup<P : ElementPosition> {
     data class City private constructor(
         override val positions: Set<ElementPosition.Edge>,
         val boons: Set<Boon.City>,
-    ) : ElementGroup<ElementPosition.Edge> {
+    ) : Element<ElementPosition.Edge> {
 
         constructor(
             vararg boons: Boon.City,
@@ -76,7 +76,7 @@ interface ElementGroup<P : ElementPosition> {
     data class Road private constructor(
         override val positions: Set<ElementPosition.Edge>,
         val boons: Set<Boon.Road>,
-    ) : ElementGroup<ElementPosition.Edge> {
+    ) : Element<ElementPosition.Edge> {
 
         constructor(
             vararg boons: Boon.Road,
@@ -93,7 +93,7 @@ interface ElementGroup<P : ElementPosition> {
     data class Field private constructor(
         override val positions: Set<ElementPosition.SplitEdge>,
         val connectedCities: Set<City>,
-    ) : ElementGroup<ElementPosition.SplitEdge> {
+    ) : Element<ElementPosition.SplitEdge> {
 
         constructor(
             vararg connectedCities: City,

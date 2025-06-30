@@ -2,7 +2,7 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
-import me.khol.carcassonne.ElementGroup
+import me.khol.carcassonne.Element
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.river.BB6F1
@@ -24,7 +24,7 @@ class GardenFeaturesTest {
         val gardenFeature = gardenFeatures.first()
         assertEquals(
             expected = Feature.Garden(
-                garden = PlacedGardenGroup(Coordinates(0, -1), ElementGroup.Garden),
+                garden = PlacedGarden(Coordinates(0, -1), Element.Garden),
                 neighborCount = 2,
             ),
             actual = gardenFeature,

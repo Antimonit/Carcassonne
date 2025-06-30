@@ -16,10 +16,10 @@ internal class TileTest {
             .map { it.tile }
 
         tiles.forEach { tile ->
-            tile.checkMatches(tile.edges.top, ElementPosition.Edge.Top, ElementGroup.Field { top })
-            tile.checkMatches(tile.edges.right, ElementPosition.Edge.Right, ElementGroup.Field { right })
-            tile.checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, ElementGroup.Field { bottom })
-            tile.checkMatches(tile.edges.left, ElementPosition.Edge.Left, ElementGroup.Field { left })
+            tile.checkMatches(tile.edges.top, ElementPosition.Edge.Top, Element.Field { top })
+            tile.checkMatches(tile.edges.right, ElementPosition.Edge.Right, Element.Field { right })
+            tile.checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, Element.Field { bottom })
+            tile.checkMatches(tile.edges.left, ElementPosition.Edge.Left, Element.Field { left })
 
             assertTrue(tile.checkDuplicateEdge(ElementKey.Field))
             assertTrue(tile.checkDuplicateEdge(ElementKey.Road))
@@ -31,7 +31,7 @@ internal class TileTest {
     private fun Tile.checkMatches(
         tileEdge: Tile.Edge,
         edge: ElementPosition.Edge,
-        splitEdges: ElementGroup.Field,
+        splitEdges: Element.Field,
     ) = with(elements) {
         when (tileEdge) {
             Tile.Edge.Field -> {
@@ -68,8 +68,8 @@ internal class TileTest {
         }
     }
 
-    private fun <P : ElementPosition, G : ElementGroup<P>> Tile.checkDuplicateEdge(
-        key: ElementKey<P, G>,
+    private fun <P : ElementPosition, E : Element<P>> Tile.checkDuplicateEdge(
+        key: ElementKey<P, E>,
     ): Boolean = elements[key]
         .map { it.positions }.flatten().groupingBy { it }.eachCount().entries
         .none { it.value > 1 }

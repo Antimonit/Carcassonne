@@ -1,7 +1,7 @@
 package me.khol.carcassonne.tiles.basic
 
 import me.khol.carcassonne.Boon
-import me.khol.carcassonne.ElementGroup.*
+import me.khol.carcassonne.Element.*
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.Tile.Edge.*
 import me.khol.carcassonne.Tile.Edges
