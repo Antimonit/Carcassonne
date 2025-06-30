@@ -2,7 +2,7 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
-import me.khol.carcassonne.ElementGroup
+import me.khol.carcassonne.Element
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
@@ -19,19 +19,19 @@ class FieldFeaturesTest {
             expected = setOf(
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field { bottom + leftBottom + rightBottom },
+                            element = Element.Field { bottom + leftBottom + rightBottom },
                         ),
                     ),
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field(
-                                ElementGroup.City { top },
+                            element = Element.Field(
+                                Element.City { top },
                             ) { leftTop + rightTop },
                         ),
                     ),
@@ -52,15 +52,15 @@ class FieldFeaturesTest {
 
         val bottomCity = Feature.City(
             cities = setOf(
-                PlacedCityGroup(Coordinates(0, 0), elementGroup = ElementGroup.City { top }),
-                PlacedCityGroup(Coordinates(0, -1), elementGroup = ElementGroup.City { bottom }),
+                PlacedCity(Coordinates(0, 0), element = Element.City { top }),
+                PlacedCity(Coordinates(0, -1), element = Element.City { bottom }),
             ),
             isFinished = true,
         )
         val topCity = Feature.City(
             cities = setOf(
-                PlacedCityGroup(Coordinates(0, -1), elementGroup = ElementGroup.City { top }),
-                PlacedCityGroup(Coordinates(0, -2), elementGroup = ElementGroup.City { bottom }),
+                PlacedCity(Coordinates(0, -1), element = Element.City { top }),
+                PlacedCity(Coordinates(0, -2), element = Element.City { bottom }),
             ),
             isFinished = true,
         )
@@ -69,19 +69,19 @@ class FieldFeaturesTest {
             expected = setOf(
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(x = 0, y = 0),
-                            elementGroup = ElementGroup.Field { bottom + leftBottom + rightBottom },
+                            element = Element.Field { bottom + leftBottom + rightBottom },
                         ),
                     ),
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(x = 0, y = 0),
-                            elementGroup = ElementGroup.Field(
-                                ElementGroup.City { top },
+                            element = Element.Field(
+                                Element.City { top },
                             ) { leftTop + rightTop },
                         ),
                     ),
@@ -89,11 +89,11 @@ class FieldFeaturesTest {
                 ),
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(x = 0, y = -1),
-                            elementGroup = ElementGroup.Field(
-                                ElementGroup.City { bottom },
-                                ElementGroup.City { top },
+                            element = Element.Field(
+                                Element.City { bottom },
+                                Element.City { top },
                             ) { left + right },
                         ),
                     ),
@@ -101,10 +101,10 @@ class FieldFeaturesTest {
                 ),
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(x = 0, y = -2),
-                            elementGroup = ElementGroup.Field(
-                                ElementGroup.City { bottom },
+                            element = Element.Field(
+                                Element.City { bottom },
                             ) { left + right + top }),
                     ),
                     connectedCities = setOf(topCity),
@@ -123,35 +123,35 @@ class FieldFeaturesTest {
             expected = setOf(
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field(ElementGroup.City { top }) { leftTop + rightTop },
+                            element = Element.Field(Element.City { top }) { leftTop + rightTop },
                         ),
                     ),
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field { leftBottom + bottomLeft },
+                            element = Element.Field { leftBottom + bottomLeft },
                         ),
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 1),
-                            elementGroup = ElementGroup.Field(ElementGroup.City { bottom }) { left + topLeft + rightBottom },
+                            element = Element.Field(Element.City { bottom }) { left + topLeft + rightBottom },
                         ),
                     ),
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field { rightBottom + bottomRight },
+                            element = Element.Field { rightBottom + bottomRight },
                         ),
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 1),
-                            elementGroup = ElementGroup.Field { rightTop + topRight },
+                            element = Element.Field { rightTop + topRight },
                         ),
                     ),
                     connectedCities = emptySet(),
@@ -167,34 +167,34 @@ class FieldFeaturesTest {
             expected = setOf(
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field(ElementGroup.City { top }) { leftTop + rightTop },
+                            element = Element.Field(Element.City { top }) { leftTop + rightTop },
                         ),
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field { leftBottom + bottomLeft },
+                            element = Element.Field { leftBottom + bottomLeft },
                         ),
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 1),
-                            elementGroup = ElementGroup.Field(ElementGroup.City { bottom }) { left + topLeft + rightBottom },
+                            element = Element.Field(Element.City { bottom }) { left + topLeft + rightBottom },
                         ),
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(-1, 0),
-                            elementGroup = ElementGroup.Field { all },
+                            element = Element.Field { all },
                         ),
                     ),
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
                     fields = setOf(
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 0),
-                            elementGroup = ElementGroup.Field { rightBottom + bottomRight },
+                            element = Element.Field { rightBottom + bottomRight },
                         ),
-                        PlacedFieldGroup(
+                        PlacedField(
                             coordinates = Coordinates(0, 1),
-                            elementGroup = ElementGroup.Field { rightTop + topRight },
+                            element = Element.Field { rightTop + topRight },
                         ),
                     ),
                     connectedCities = emptySet(),

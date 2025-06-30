@@ -16,5 +16,5 @@ fun <T : Iterable<E>, E> T.containsAll(elements: Iterable<E>): Boolean =
 fun <T : Iterable<E>, E> T.containsAny(elements: Iterable<E>): Boolean =
     elements.any { it in this }
 
-fun <P : ElementPosition, G : ElementGroup<P>> Elements.getElements(key: ElementKey<P, G>): List<Set<P>> =
+fun <P : ElementPosition, E : Element<P>> Elements.getElements(key: ElementKey<P, E>): List<Set<P>> =
     get(key).map { it.positions }

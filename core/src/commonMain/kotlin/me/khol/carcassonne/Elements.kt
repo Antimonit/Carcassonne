@@ -2,68 +2,68 @@ package me.khol.carcassonne
 
 interface Elements {
 
-    operator fun <P : ElementPosition, G : ElementGroup<P>> get(key: ElementKey<P, G>): List<G>
+    operator fun <P : ElementPosition, E : Element<P>> get(key: ElementKey<P, E>): List<E>
 
     fun rotate(rotation: Rotation): Elements
 }
 
 interface MutableElements : Elements {
 
-    fun <P : ElementPosition, G : ElementGroup<P>> add(key: ElementKey<P, G>, group: G)
+    fun <P : ElementPosition, E : Element<P>> add(key: ElementKey<P, E>, element: E)
 }
 
 fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
     mutableMapOf()
 ).apply(builder)
 
-fun MutableElements.add(field: ElementGroup.Field) = add(key = ElementKey.Field, group = field)
-fun MutableElements.add(road: ElementGroup.Road) = add(key = ElementKey.Road, group = road)
-fun MutableElements.add(city: ElementGroup.City) = add(key = ElementKey.City, group = city)
-fun MutableElements.add(monastery: ElementGroup.Monastery) = add(key = ElementKey.Monastery, group = monastery)
-fun MutableElements.add(garden: ElementGroup.Garden) = add(key = ElementKey.Garden, group = garden)
-fun MutableElements.add(riverStart: ElementGroup.RiverStart) = add(key = ElementKey.RiverStart, group = riverStart)
-fun MutableElements.add(river: ElementGroup.River) = add(key = ElementKey.River, group = river)
-fun MutableElements.add(riverEnd: ElementGroup.RiverEnd) = add(key = ElementKey.RiverEnd, group = riverEnd)
-fun MutableElements.add(cropCircle: ElementGroup.CropCircle) = add(key = ElementKey.CropCircle, group = cropCircle)
+fun MutableElements.add(field: Element.Field) = add(key = ElementKey.Field, element = field)
+fun MutableElements.add(road: Element.Road) = add(key = ElementKey.Road, element = road)
+fun MutableElements.add(city: Element.City) = add(key = ElementKey.City, element = city)
+fun MutableElements.add(monastery: Element.Monastery) = add(key = ElementKey.Monastery, element = monastery)
+fun MutableElements.add(garden: Element.Garden) = add(key = ElementKey.Garden, element = garden)
+fun MutableElements.add(riverStart: Element.RiverStart) = add(key = ElementKey.RiverStart, element = riverStart)
+fun MutableElements.add(river: Element.River) = add(key = ElementKey.River, element = river)
+fun MutableElements.add(riverEnd: Element.RiverEnd) = add(key = ElementKey.RiverEnd, element = riverEnd)
+fun MutableElements.add(cropCircle: Element.CropCircle) = add(key = ElementKey.CropCircle, element = cropCircle)
 
-fun MutableElements.field(vararg connectedCities: ElementGroup.City, block: SplitEdgeBuilder): ElementGroup.Field =
-    ElementGroup.Field(connectedCities = connectedCities, block = block).also(::add)
+fun MutableElements.field(vararg connectedCities: Element.City, block: SplitEdgeBuilder): Element.Field =
+    Element.Field(connectedCities = connectedCities, block = block).also(::add)
 
-fun MutableElements.road(vararg boons: Boon.Road, block: EdgeBuilder): ElementGroup.Road =
-    ElementGroup.Road(boons = boons, block = block).also(::add)
+fun MutableElements.road(vararg boons: Boon.Road, block: EdgeBuilder): Element.Road =
+    Element.Road(boons = boons, block = block).also(::add)
 
-fun MutableElements.city(vararg boons: Boon.City, block: EdgeBuilder): ElementGroup.City =
-    ElementGroup.City(boons = boons, block = block).also(::add)
+fun MutableElements.city(vararg boons: Boon.City, block: EdgeBuilder): Element.City =
+    Element.City(boons = boons, block = block).also(::add)
 
-fun MutableElements.monastery(): ElementGroup.Monastery =
-    ElementGroup.Monastery.also(::add)
+fun MutableElements.monastery(): Element.Monastery =
+    Element.Monastery.also(::add)
 
-fun MutableElements.garden(): ElementGroup.Garden =
-    ElementGroup.Garden.also(::add)
+fun MutableElements.garden(): Element.Garden =
+    Element.Garden.also(::add)
 
-fun MutableElements.riverStart(): ElementGroup.RiverStart =
-    ElementGroup.RiverStart.also(::add)
+fun MutableElements.riverStart(): Element.RiverStart =
+    Element.RiverStart.also(::add)
 
-fun MutableElements.river(block: EdgeBuilder): ElementGroup.River =
-    ElementGroup.River(block = block).also(::add)
+fun MutableElements.river(block: EdgeBuilder): Element.River =
+    Element.River(block = block).also(::add)
 
-fun MutableElements.riverEnd(): ElementGroup.RiverEnd =
-    ElementGroup.RiverEnd.also(::add)
+fun MutableElements.riverEnd(): Element.RiverEnd =
+    Element.RiverEnd.also(::add)
 
-fun MutableElements.cropCircle(): ElementGroup.CropCircle =
-    ElementGroup.CropCircle.also(::add)
+fun MutableElements.cropCircle(): Element.CropCircle =
+    Element.CropCircle.also(::add)
 
 private data class ElementsBuilder(
-    private val map: MutableMap<ElementKey<*, *>, List<ElementGroup<*>>>
+    private val map: MutableMap<ElementKey<*, *>, List<Element<*>>>
 ) : MutableElements {
 
-    override fun <P : ElementPosition, G : ElementGroup<P>> add(key: ElementKey<P, G>, group: G) {
-        map[key] = get(key) + group
+    override fun <P : ElementPosition, E : Element<P>> add(key: ElementKey<P, E>, element: E) {
+        map[key] = get(key) + element
     }
 
-    override fun <P : ElementPosition, G : ElementGroup<P>> get(key: ElementKey<P, G>): List<G> {
+    override fun <P : ElementPosition, E : Element<P>> get(key: ElementKey<P, E>): List<E> {
         @Suppress("UNCHECKED_CAST")
-        return map.getOrElse(key) { emptyList<G>() } as List<G>
+        return map.getOrElse(key) { emptyList<E>() } as List<E>
     }
 
     override fun rotate(rotation: Rotation): Elements {

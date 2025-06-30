@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import me.khol.carcassonne.ElementGroup
+import me.khol.carcassonne.Element
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.UiTiles
 import me.khol.carcassonne.ui.tile.tileSize
@@ -25,10 +25,10 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TileElementsOverlay(
-    onElementClick: (ElementGroup<*>) -> Unit,
+    onElementClick: (Element<*>) -> Unit,
     uiTile: UiTile,
 ) {
-    uiTile.uiElements.forEach { (elementGroup, uiElement) ->
+    uiTile.uiElements.forEach { (element, uiElement) ->
         val shape = uiElement.shape
         val interactionSource = remember { MutableInteractionSource() }
         val hovered by interactionSource.collectIsHoveredAsState()
@@ -46,7 +46,7 @@ fun TileElementsOverlay(
                     shape = shape,
                 )
                 .clickable {
-                    onElementClick(elementGroup)
+                    onElementClick(element)
                 }
                 .hoverable(interactionSource = interactionSource)
         )

@@ -9,14 +9,14 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.addSvg
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import me.khol.carcassonne.ElementGroup
+import me.khol.carcassonne.Element
 import me.khol.carcassonne.Tile
 import org.jetbrains.compose.resources.DrawableResource
 
 data class UiTile(
     val drawable: DrawableResource,
     val tile: Tile,
-    val uiElements: Map<ElementGroup<*>, UiElement>,
+    val uiElements: Map<Element<*>, UiElement>,
 ) {
     data class UiElement(
         val shape: Shape,
