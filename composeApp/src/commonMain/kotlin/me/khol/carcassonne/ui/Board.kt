@@ -25,6 +25,7 @@ import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.tiles.Tiles
+import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.GridScope.coordinates
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toUiTile
@@ -99,28 +100,32 @@ fun Board(
                     val possibilities = openSpaces.getValue(placingTile.coordinates)
                     val uiTile = tile.toUiTile()
                     val rotation = placingTile.rotatedTile.rotation
-                    Tile(
-                        drawable = uiTile.drawable,
-                        rotation = rotation,
-                        modifier = Modifier
-                            .coordinates(placingTile.coordinates)
-                            .clickable {
-                                onPlaceTile(possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
-                            }
-                    )
-                }
-                openSpaces.forEach { (coordinates, placedTiles) ->
-                    key(coordinates) {
-                        Box(
+                    key(placingTile.coordinates) {
+                        Tile(
+                            drawable = uiTile.drawable,
+                            rotation = rotation,
                             modifier = Modifier
-                                .padding(4.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .background(Color.Black.copy(alpha = 0.12f))
-                                .coordinates(coordinates)
+                                .coordinates(placingTile.coordinates)
                                 .clickable {
-                                    onPlaceTile(placedTiles.first())
+                                    onPlaceTile(possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
                                 }
                         )
+                    }
+                }
+                openSpaces.forEach { (coordinates, placedTiles) ->
+                    if (phase !is Phase.PlacingTile.Placed || phase.placedTile.coordinates != coordinates) {
+                        key(coordinates) {
+                            Box(
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .clip(RoundedCornerShape(4.dp))
+                                    .background(Color.Black.copy(alpha = 0.12f))
+                                    .coordinates(coordinates)
+                                    .clickable {
+                                        onPlaceTile(placedTiles.first())
+                                    }
+                            )
+                        }
                     }
                 }
             }
@@ -145,7 +150,7 @@ private fun BoardPreview() {
                             PlacedFigure(
                                 placedElement = PlacedElement(
                                     coordinates = Coordinates(-1, 0),
-                                    element = me.khol.carcassonne.tiles.basic.D.road,
+                                    element = D.road,
                                 ),
                                 figure = Figure.Meeple,
                             ),
