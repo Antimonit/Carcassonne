@@ -68,8 +68,8 @@ internal class TileTest {
         }
     }
 
-    private fun <P : ElementPosition, E : Element<P>> Tile.checkDuplicateEdge(
-        key: ElementKey<P, E>,
+    private fun <E : Element<ElementPosition>> Tile.checkDuplicateEdge(
+        key: ElementKey<E>,
     ): Boolean = elements[key]
         .map { it.positions }.flatten().groupingBy { it }.eachCount().entries
         .none { it.value > 1 }

@@ -2,14 +2,14 @@ package me.khol.carcassonne
 
 interface Elements {
 
-    operator fun <P : ElementPosition, E : Element<P>> get(key: ElementKey<P, E>): List<E>
+    operator fun <E : Element<ElementPosition>> get(key: ElementKey<E>): List<E>
 
     fun rotate(rotation: Rotation): Elements
 }
 
 interface MutableElements : Elements {
 
-    fun <P : ElementPosition, E : Element<P>> add(key: ElementKey<P, E>, element: E)
+    fun <E : Element<ElementPosition>> add(key: ElementKey<E>, element: E)
 }
 
 fun elements(builder: MutableElements.() -> Unit): Elements = ElementsBuilder(
@@ -54,14 +54,14 @@ fun MutableElements.cropCircle(): Element.CropCircle =
     Element.CropCircle.also(::add)
 
 private data class ElementsBuilder(
-    private val map: MutableMap<ElementKey<*, *>, List<Element<*>>>
+    private val map: MutableMap<ElementKey<*>, List<Element<*>>>,
 ) : MutableElements {
 
-    override fun <P : ElementPosition, E : Element<P>> add(key: ElementKey<P, E>, element: E) {
+    override fun <E : Element<ElementPosition>> add(key: ElementKey<E>, element: E) {
         map[key] = get(key) + element
     }
 
-    override fun <P : ElementPosition, E : Element<P>> get(key: ElementKey<P, E>): List<E> {
+    override fun <E : Element<ElementPosition>> get(key: ElementKey<E>): List<E> {
         @Suppress("UNCHECKED_CAST")
         return map.getOrElse(key) { emptyList<E>() } as List<E>
     }
