@@ -47,7 +47,7 @@ fun Board(
             )
         }
         when (phase) {
-            is Phase.PlacingMeeple -> {
+            is Phase.PlacingFigure -> {
                 val placingTile = phase.tile
                 val uiTile = placingTile.rotatedTile.tile.toUiTile()
                 val rotation = placingTile.rotatedTile.rotation

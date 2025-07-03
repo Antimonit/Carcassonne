@@ -18,18 +18,18 @@ sealed interface Phase {
         }
     }
 
-    sealed interface PlacingMeeple : Phase {
+    sealed interface PlacingFigure : Phase {
 
         val tile: PlacedTile
 
         data class Fresh(
             override val tile: PlacedTile,
-        ) : PlacingMeeple
+        ) : PlacingFigure
 
         data class Placed(
             override val tile: PlacedTile,
             val element: Element<*>,
-        ) : PlacingMeeple
+        ) : PlacingFigure
     }
 
     data object Scoring : Phase

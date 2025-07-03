@@ -67,7 +67,7 @@ fun App() {
                     .padding(12.dp)
             ) {
                 when (val phase = game.phase) {
-                    is Phase.PlacingMeeple -> {
+                    is Phase.PlacingFigure -> {
                         val onClick = {
                             val placing = phase.tile
                             game = game.copy(
@@ -124,7 +124,7 @@ fun App() {
                             is Phase.PlacingTile.Placed -> {
                                 val placing = phase.placedTile
                                 val onClick = {
-                                    game = game.copy(phase = Phase.PlacingMeeple.Fresh(placing))
+                                    game = game.copy(phase = Phase.PlacingFigure.Fresh(placing))
                                 }
                                 @OptIn(ExperimentalMaterialApi::class)
                                 Surface(
