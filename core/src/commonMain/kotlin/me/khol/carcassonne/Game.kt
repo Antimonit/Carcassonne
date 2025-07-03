@@ -8,6 +8,8 @@ data class Game(
     val remainingTiles: List<Tile>,
     val board: Board,
     val phase: Phase,
+    val players: List<Player>,
+    val currentPlayer: Player,
 ) {
 
     companion object {
@@ -15,6 +17,10 @@ data class Game(
         fun new(
             tilesets: List<Tileset>,
             startingTile: Tile,
+            players: List<Player> = listOf(
+                Player(name = "Green", color = Player.Color.Green),
+                Player(name = "Red", color = Player.Color.Red),
+            ),
             random: Random = Random(42),
         ): Game {
             val tiles = tilesets.flatMap { tileSet ->
@@ -34,6 +40,8 @@ data class Game(
                 phase = remainingTiles.firstOrNull()
                     ?.let { Phase.PlacingTile.Fresh(tile = it) }
                     ?: Phase.FinalScoring,
+                players = players,
+                currentPlayer = players.first(),
             )
         }
     }
