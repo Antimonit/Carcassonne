@@ -4,5 +4,5 @@ import me.khol.carcassonne.feature.PlacedElement
 
 data class PlacedFigure(
     val placedElement: PlacedElement<*>,
-    val figure: Figure,
+    val figure: PlayerFigure,
 )

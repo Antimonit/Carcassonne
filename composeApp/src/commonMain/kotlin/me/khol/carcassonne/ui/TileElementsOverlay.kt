@@ -16,8 +16,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
+import me.khol.carcassonne.Figure
+import me.khol.carcassonne.PlacedFigure
+import me.khol.carcassonne.Player
+import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.feature.PlacedField
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.UiTiles
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -68,7 +74,18 @@ private fun TileElementsOverlayPreview() {
                         uiTile = uiTile,
                     )
                     TileFiguresOverlay(
-                        figures = uiTile.uiElements.keys.take(1).toSet(),
+                        figures = listOf(
+                            PlacedFigure(
+                                placedElement = PlacedField(
+                                    coordinates = Coordinates(0,0),
+                                    element = me.khol.carcassonne.tiles.basic.A.field,
+                                ),
+                                figure = PlayerFigure(
+                                    figure = Figure.Meeple,
+                                    player = Player("Green", Player.Color.Green),
+                                ),
+                            )
+                        ),
                         rotation = rotation,
                         uiTile = uiTile,
                     )

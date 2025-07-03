@@ -21,6 +21,8 @@ import me.khol.carcassonne.Figure
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlacedTile
+import me.khol.carcassonne.Player
+import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.feature.PlacedElement
@@ -51,9 +53,7 @@ fun Board(
                 rotation = tile.rotation,
                 overlay = {
                     TileFiguresOverlay(
-                        figures = board.getFigures(coordinates)
-                            .map { it.placedElement.element }
-                            .toSet(),
+                        figures = board.getFigures(coordinates),
                         uiTile = uiTile,
                         rotation = tile.rotation,
                     )
@@ -73,7 +73,7 @@ fun Board(
                     overlay = {
                         TileElementsOverlay(
                             onElementClick = {
-                                onPlaceFigure(placingTile, it)
+                                onPlaceFigure(placingTile, it.rotate(rotation))
                             },
                             uiTile = uiTile,
                         )
@@ -81,7 +81,7 @@ fun Board(
                             is Phase.PlacingFigure.Fresh -> Unit
                             is Phase.PlacingFigure.Placed -> {
                                 TileFiguresOverlay(
-                                    figures = setOf(phase.element),
+                                    figures = listOf(phase.placedFigure),
                                     uiTile = uiTile,
                                     rotation = rotation,
                                 )
@@ -152,7 +152,10 @@ private fun BoardPreview() {
                                     coordinates = Coordinates(-1, 0),
                                     element = D.road,
                                 ),
-                                figure = Figure.Meeple,
+                                figure = PlayerFigure(
+                                    figure = Figure.Meeple,
+                                    player = Player("Green", Player.Color.Green),
+                                ),
                             ),
                         ),
                     )
