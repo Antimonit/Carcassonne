@@ -5,7 +5,7 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementPosition
 
-data class PlacedElement<E : Element<out ElementPosition>>(
+data class PlacedElement<E : Element<ElementPosition>>(
     val coordinates: Coordinates,
     val element: E,
 )
