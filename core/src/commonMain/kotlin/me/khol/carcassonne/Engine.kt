@@ -67,7 +67,12 @@ class Engine(
     fun confirmTilePlacement(phase: Phase.PlacingTile.Placed) {
         val placing = phase.placedTile
         _game.update { game ->
-            game.copy(phase = Phase.PlacingFigure.Fresh(placing))
+            game.copy(
+                phase = Phase.PlacingFigure.Fresh(placing),
+                currentPlayer = game.players.nextOf(game.currentPlayer),
+            )
         }
     }
 }
+
+fun <T> List<T>.nextOf(current: T): T = this[(indexOf(current) + 1) % size]
