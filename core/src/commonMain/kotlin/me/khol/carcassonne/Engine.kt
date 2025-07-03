@@ -31,7 +31,18 @@ class Engine(
 
     fun placeFigure(tile: PlacedTile, element: Element<*>) {
         _game.update { game ->
-            game.copy(phase = Phase.PlacingFigure.Placed(tile, element))
+            game.copy(
+                phase = Phase.PlacingFigure.Placed(
+                    tile = tile,
+                    placedFigure = PlacedFigure(
+                        placedElement = PlacedElement(tile.coordinates, element),
+                        figure = PlayerFigure(
+                            figure = Figure.Meeple,
+                            player = game.currentPlayer,
+                        ),
+                    ),
+                )
+            )
         }
     }
 
@@ -49,9 +60,12 @@ class Engine(
                             PlacedFigure(
                                 placedElement = PlacedElement(
                                     coordinates = placing.coordinates,
-                                    element = phase.element,
+                                    element = phase.placedFigure.placedElement.element,
                                 ),
-                                figure = Figure.Meeple,
+                                figure = PlayerFigure(
+                                    figure = Figure.Meeple,
+                                    player = game.currentPlayer,
+                                ),
                             ),
                         )
                     },

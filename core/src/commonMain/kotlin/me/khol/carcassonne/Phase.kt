@@ -38,7 +38,7 @@ sealed interface Phase {
 
         data class Placed(
             override val tile: PlacedTile,
-            val element: Element<*>,
+            val placedFigure: PlacedFigure,
         ) : PlacingFigure, Undoable {
 
             override fun undo() = Fresh(tile = tile)
