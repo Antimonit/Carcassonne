@@ -1,14 +1,14 @@
 package me.khol.carcassonne
 
-sealed class ElementKey<P : ElementPosition, E : Element<P>> {
+sealed class ElementKey<E : Element<ElementPosition>> {
 
-    data object Field : ElementKey<ElementPosition.SplitEdge, Element.Field>()
-    data object Road : ElementKey<ElementPosition.Edge, Element.Road>()
-    data object City : ElementKey<ElementPosition.Edge, Element.City>()
-    data object Monastery : ElementKey<ElementPosition.Center, Element.Monastery>()
-    data object Garden : ElementKey<ElementPosition.Center, Element.Garden>()
-    data object RiverStart : ElementKey<ElementPosition.Center, Element.RiverStart>()
-    data object River : ElementKey<ElementPosition.Edge, Element.River>()
-    data object RiverEnd : ElementKey<ElementPosition.Center, Element.RiverEnd>()
-    data object CropCircle : ElementKey<ElementPosition.Center, Element.CropCircle>()
+    data object Field : ElementKey<Element.Field>()
+    data object Road : ElementKey<Element.Road>()
+    data object City : ElementKey<Element.City>()
+    data object Monastery : ElementKey<Element.Monastery>()
+    data object Garden : ElementKey<Element.Garden>()
+    data object RiverStart : ElementKey<Element.RiverStart>()
+    data object River : ElementKey<Element.River>()
+    data object RiverEnd : ElementKey<Element.RiverEnd>()
+    data object CropCircle : ElementKey<Element.CropCircle>()
 }
