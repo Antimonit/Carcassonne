@@ -1,6 +1,6 @@
 package me.khol.carcassonne
 
-sealed class ElementKey<E : Element<ElementPosition>> {
+open class ElementKey<E : Element<ElementPosition>> {
 
     data object Field : ElementKey<Element.Field>()
     data object Road : ElementKey<Element.Road>()
