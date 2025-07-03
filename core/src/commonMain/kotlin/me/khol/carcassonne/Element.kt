@@ -1,6 +1,6 @@
 package me.khol.carcassonne
 
-interface Element<P : ElementPosition> {
+interface Element<out P : ElementPosition> {
 
     val positions: Set<P>
 
