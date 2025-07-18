@@ -2,14 +2,13 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.surroundingCoordinates
 
 fun Board.getGardenFeatures(): Set<Feature.Garden> {
     val processedPlacedGardens: MutableMap<PlacedGarden, Feature.Garden> = mutableMapOf()
 
     tiles.forEach { (coordinates, tile) ->
-        val tileGardens = tile.elements.get(ElementKey.Garden)
+        val tileGardens = tile.elements[Element.Garden]
 
         // There can be at most a single garden on a tile
         tileGardens.forEach { garden: Element.Garden ->

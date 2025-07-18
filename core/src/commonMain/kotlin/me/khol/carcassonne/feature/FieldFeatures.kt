@@ -2,7 +2,6 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.oppositeCoordinates
@@ -15,7 +14,7 @@ fun Board.getFieldFeatures(): Set<Feature.Field> {
     val processedPlacedFields: MutableMap<PlacedField, Feature.Field> = mutableMapOf()
 
     tiles.forEach { (coordinates, tile) ->
-        val tileFields = tile.elements.get(ElementKey.Field)
+        val tileFields = tile.elements[Element.Field]
 
         tileFields.forEach { field: Element.Field ->
             val placedField = PlacedField(coordinates = coordinates, element = field)
@@ -35,7 +34,7 @@ fun Board.getFieldFeatures(): Set<Feature.Field> {
                     if (otherTile != null) {
                         val otherEdge = fieldEdge.oppositeEdge()
                         // it is guaranteed to have a field
-                        val otherField: Element.Field = otherTile.elements.get(ElementKey.Field)
+                        val otherField: Element.Field = otherTile.elements[Element.Field]
                             .first { otherTileField: Element.Field ->
                                 otherEdge in otherTileField.positions
                             }

@@ -6,40 +6,23 @@ interface Element<out P : ElementPosition> {
 
     fun rotate(rotation: Rotation): Element<P>
 
-    data object Monastery : Element<ElementPosition.Center> {
+    interface Center : Element<ElementPosition.Center> {
 
-        override val positions = setOf(ElementPosition.Center)
-
-        override fun rotate(rotation: Rotation) = this
-    }
-
-    data object Garden : Element<ElementPosition.Center> {
-
-        override val positions = setOf(ElementPosition.Center)
+        override val positions
+            get() = setOf(ElementPosition.Center)
 
         override fun rotate(rotation: Rotation) = this
     }
 
-    data object RiverStart : Element<ElementPosition.Center> {
+    data object Monastery : Center, ElementKey<Monastery>
 
-        override val positions = setOf(ElementPosition.Center)
+    data object Garden : Center, ElementKey<Garden>
 
-        override fun rotate(rotation: Rotation) = this
-    }
+    data object RiverStart : Center, ElementKey<RiverStart>
 
-    data object RiverEnd : Element<ElementPosition.Center> {
+    data object RiverEnd : Center, ElementKey<RiverEnd>
 
-        override val positions = setOf(ElementPosition.Center)
-
-        override fun rotate(rotation: Rotation) = this
-    }
-
-    data object CropCircle : Element<ElementPosition.Center> {
-
-        override val positions = setOf(ElementPosition.Center)
-
-        override fun rotate(rotation: Rotation) = this
-    }
+    data object CropCircle : Center, ElementKey<CropCircle>
 
     @ConsistentCopyVisibility
     data class River private constructor(
@@ -53,6 +36,8 @@ interface Element<out P : ElementPosition> {
         override fun rotate(rotation: Rotation) = River(
             positions = positions.map { it.rotate(rotation) }.toSet(),
         )
+
+        companion object : ElementKey<River>
     }
 
     @ConsistentCopyVisibility
@@ -70,6 +55,8 @@ interface Element<out P : ElementPosition> {
             positions = positions.map { it.rotate(rotation) }.toSet(),
             boons = boons,
         )
+
+        companion object : ElementKey<City>
     }
 
     @ConsistentCopyVisibility
@@ -87,6 +74,8 @@ interface Element<out P : ElementPosition> {
             positions = positions.map { it.rotate(rotation) }.toSet(),
             boons = boons,
         )
+
+        companion object : ElementKey<Road>
     }
 
     @ConsistentCopyVisibility
@@ -104,5 +93,7 @@ interface Element<out P : ElementPosition> {
             positions = positions.map { it.rotate(rotation) }.toSet(),
             connectedCities = connectedCities.map { it.rotate(rotation) }.toSet(),
         )
+
+        companion object : ElementKey<Field>
     }
 }

@@ -2,7 +2,6 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.oppositeCoordinates
@@ -12,7 +11,7 @@ fun Board.getCityFeatures(): Set<Feature.City> {
     val processedPlacedCities: MutableMap<PlacedCity, Feature.City> = mutableMapOf()
 
     tiles.forEach { (coordinates, tile) ->
-        val tileCities = tile.elements.get(ElementKey.City)
+        val tileCities = tile.elements[Element.City]
 
         tileCities.forEach { city: Element.City ->
             val placedCity = PlacedCity(coordinates = coordinates, element = city)
@@ -36,7 +35,7 @@ fun Board.getCityFeatures(): Set<Feature.City> {
                     } else {
                         val otherEdge = cityEdge.oppositeEdge()
                         // it is guaranteed to have a city
-                        val otherCity: Element.City = otherTile.elements.get(ElementKey.City)
+                        val otherCity: Element.City = otherTile.elements[Element.City]
                             .first { otherTileCity: Element.City ->
                                 otherEdge in otherTileCity.positions
                             }

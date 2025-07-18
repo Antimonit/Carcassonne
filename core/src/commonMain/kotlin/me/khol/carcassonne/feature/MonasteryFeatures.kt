@@ -2,14 +2,13 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.surroundingCoordinates
 
 fun Board.getMonasteryFeatures(): Set<Feature.Monastery> {
     val processedPlacedMonasteries: MutableMap<PlacedMonastery, Feature.Monastery> = mutableMapOf()
 
     tiles.forEach { (coordinates, tile) ->
-        val tileMonasteries = tile.elements.get(ElementKey.Monastery)
+        val tileMonasteries = tile.elements[Element.Monastery]
 
         // There can be at most a single monastery on a tile
         tileMonasteries.forEach { monastery: Element.Monastery ->

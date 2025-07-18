@@ -21,10 +21,10 @@ internal class TileTest {
             tile.checkMatches(tile.edges.bottom, ElementPosition.Edge.Bottom, Element.Field { bottom })
             tile.checkMatches(tile.edges.left, ElementPosition.Edge.Left, Element.Field { left })
 
-            assertTrue(tile.checkDuplicateEdge(ElementKey.Field))
-            assertTrue(tile.checkDuplicateEdge(ElementKey.Road))
-            assertTrue(tile.checkDuplicateEdge(ElementKey.City))
-            assertTrue(tile.checkDuplicateEdge(ElementKey.River))
+            assertTrue(tile.checkDuplicateEdge(Element.Field))
+            assertTrue(tile.checkDuplicateEdge(Element.Road))
+            assertTrue(tile.checkDuplicateEdge(Element.City))
+            assertTrue(tile.checkDuplicateEdge(Element.River))
         }
     }
 
@@ -35,35 +35,35 @@ internal class TileTest {
     ) = with(elements) {
         when (tileEdge) {
             Tile.Edge.Field -> {
-                getElements(ElementKey.Field).anyContainsAll(splitEdges.positions)
-                getElements(ElementKey.Field).anyContainsAll(splitEdges.positions)
-                getElements(ElementKey.Road).noneContainsAny(edge)
-                getElements(ElementKey.City).noneContainsAny(edge)
-                getElements(ElementKey.River).noneContainsAny(edge)
+                getElements(Element.Field).anyContainsAll(splitEdges.positions)
+                getElements(Element.Field).anyContainsAll(splitEdges.positions)
+                getElements(Element.Road).noneContainsAny(edge)
+                getElements(Element.City).noneContainsAny(edge)
+                getElements(Element.River).noneContainsAny(edge)
             }
             Tile.Edge.Road -> {
-                getElements(ElementKey.Field).let {
+                getElements(Element.Field).let {
                     splitEdges.positions.forEach { position -> it.anyContainsAll(position) }
                 }
-                getElements(ElementKey.Road).anyContainsAll(edge)
-                getElements(ElementKey.City).noneContainsAny(edge)
-                getElements(ElementKey.River).noneContainsAny(edge)
+                getElements(Element.Road).anyContainsAll(edge)
+                getElements(Element.City).noneContainsAny(edge)
+                getElements(Element.River).noneContainsAny(edge)
             }
             Tile.Edge.City -> {
-                getElements(ElementKey.Field).let {
+                getElements(Element.Field).let {
                     splitEdges.positions.forEach { position -> it.noneContainsAny(position) }
                 }
-                getElements(ElementKey.Road).noneContainsAny(edge)
-                getElements(ElementKey.City).anyContainsAll(edge)
-                getElements(ElementKey.River).noneContainsAny(edge)
+                getElements(Element.Road).noneContainsAny(edge)
+                getElements(Element.City).anyContainsAll(edge)
+                getElements(Element.River).noneContainsAny(edge)
             }
             Tile.Edge.River -> {
-                getElements(ElementKey.Field).let {
+                getElements(Element.Field).let {
                     splitEdges.positions.forEach { position -> it.anyContainsAll(position) }
                 }
-                getElements(ElementKey.Road).noneContainsAny(edge)
-                getElements(ElementKey.City).noneContainsAny(edge)
-                getElements(ElementKey.River).anyContainsAll(edge)
+                getElements(Element.Road).noneContainsAny(edge)
+                getElements(Element.City).noneContainsAny(edge)
+                getElements(Element.River).anyContainsAll(edge)
             }
         }
     }
