@@ -18,7 +18,7 @@ fun Board.getMonasteryFeatures(): Set<Feature.Monastery> {
             val surroundingTiles = surroundingCoordinates.mapNotNull { tiles[it] }
 
             val monasteryFeature = Feature.Monastery(
-                monastery = placedMonastery,
+                placedMonastery = placedMonastery,
                 neighborCount = surroundingTiles.count(),
             )
             processedPlacedMonasteries[placedMonastery] = monasteryFeature

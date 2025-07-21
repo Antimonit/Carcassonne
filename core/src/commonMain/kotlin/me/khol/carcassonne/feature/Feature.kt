@@ -19,32 +19,32 @@ typealias PlacedGarden = PlacedElement<Element.Garden>
 interface Feature {
 
     data class Field(
-        val fields: Set<PlacedField>,
+        val placedFields: Set<PlacedField>,
         val connectedCities: Set<City>,
     ) : Feature
 
     data class City(
-        val cities: Set<PlacedCity>,
+        val placedCities: Set<PlacedCity>,
         val isFinished: Boolean,
     ) : Feature {
 
         val hasCathedral: Boolean
-            get() = cities.any { it.element.boons.contains(Boon.City.Cathedral) }
+            get() = placedCities.any { it.element.boons.contains(Boon.City.Cathedral) }
         val coatOfArms: Int
-            get() = cities.count { it.element.boons.contains(Boon.City.CoatOfArms) }
+            get() = placedCities.count { it.element.boons.contains(Boon.City.CoatOfArms) }
     }
 
     data class Road(
-        val roads: Set<PlacedRoad>,
+        val placedRoads: Set<PlacedRoad>,
         val isFinished: Boolean,
     ) : Feature {
 
         val hasInn: Boolean
-            get() = roads.any { it.element.boons.contains(Boon.Road.Inn) }
+            get() = placedRoads.any { it.element.boons.contains(Boon.Road.Inn) }
     }
 
     data class Monastery(
-        val monastery: PlacedMonastery,
+        val placedMonastery: PlacedMonastery,
         val neighborCount: Int,
     ) : Feature {
 
@@ -53,7 +53,7 @@ interface Feature {
     }
 
     data class Garden(
-        val garden: PlacedGarden,
+        val placedGarden: PlacedGarden,
         val neighborCount: Int,
     ) : Feature {
 

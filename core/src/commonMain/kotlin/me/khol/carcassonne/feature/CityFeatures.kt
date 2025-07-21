@@ -47,7 +47,7 @@ fun Board.getCityFeatures(): Set<Feature.City> {
             followCities(placedCity)
 
             val cityFeature = Feature.City(
-                cities = placedCities,
+                placedCities = placedCities,
                 isFinished = isFinished,
             )
             placedCities.forEach { placedCity: PlacedCity ->

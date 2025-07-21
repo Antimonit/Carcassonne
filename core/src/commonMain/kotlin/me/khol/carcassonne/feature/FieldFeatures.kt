@@ -47,7 +47,7 @@ fun Board.getFieldFeatures(): Set<Feature.Field> {
 
             val connectedCities: List<Feature.City> = placedFields.flatMap { placedField: PlacedField ->
                 cityFeatures.filter { cityFeature: Feature.City ->
-                    cityFeature.cities.any { placedCity: PlacedCity ->
+                    cityFeature.placedCities.any { placedCity: PlacedCity ->
                         placedCity.coordinates == placedField.coordinates &&
                             placedCity.element in placedField.element.connectedCities
                     }
@@ -55,7 +55,7 @@ fun Board.getFieldFeatures(): Set<Feature.Field> {
             }
 
             val fieldFeature = Feature.Field(
-                fields = placedFields,
+                placedFields = placedFields,
                 connectedCities = connectedCities.filter { it.isFinished }.toSet(),
             )
             placedFields.forEach { placedField: PlacedField ->

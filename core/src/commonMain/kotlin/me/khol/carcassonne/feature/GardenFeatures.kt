@@ -18,7 +18,7 @@ fun Board.getGardenFeatures(): Set<Feature.Garden> {
             val surroundingTiles = surroundingCoordinates.mapNotNull { tiles[it] }
 
             val gardenFeature = Feature.Garden(
-                garden = placedGarden,
+                placedGarden = placedGarden,
                 neighborCount = surroundingTiles.count(),
             )
             processedPlacedGardens[placedGarden] = gardenFeature

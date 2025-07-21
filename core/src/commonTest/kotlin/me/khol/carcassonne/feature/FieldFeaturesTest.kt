@@ -18,7 +18,7 @@ class FieldFeaturesTest {
         assertEquals(
             expected = setOf(
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(0, 0),
                             element = Element.Field { bottom + leftBottom + rightBottom },
@@ -27,7 +27,7 @@ class FieldFeaturesTest {
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(0, 0),
                             element = Element.Field(
@@ -51,14 +51,14 @@ class FieldFeaturesTest {
             .placeTile(Coordinates(0, -2), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180), emptyList())
 
         val bottomCity = Feature.City(
-            cities = setOf(
+            placedCities = setOf(
                 PlacedCity(Coordinates(0, 0), element = Element.City { top }),
                 PlacedCity(Coordinates(0, -1), element = Element.City { bottom }),
             ),
             isFinished = true,
         )
         val topCity = Feature.City(
-            cities = setOf(
+            placedCities = setOf(
                 PlacedCity(Coordinates(0, -1), element = Element.City { top }),
                 PlacedCity(Coordinates(0, -2), element = Element.City { bottom }),
             ),
@@ -68,7 +68,7 @@ class FieldFeaturesTest {
         assertEquals(
             expected = setOf(
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(x = 0, y = 0),
                             element = Element.Field { bottom + leftBottom + rightBottom },
@@ -77,7 +77,7 @@ class FieldFeaturesTest {
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(x = 0, y = 0),
                             element = Element.Field(
@@ -88,7 +88,7 @@ class FieldFeaturesTest {
                     connectedCities = setOf(bottomCity),
                 ),
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(x = 0, y = -1),
                             element = Element.Field(
@@ -100,7 +100,7 @@ class FieldFeaturesTest {
                     connectedCities = setOf(bottomCity, topCity),
                 ),
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(x = 0, y = -2),
                             element = Element.Field(
@@ -122,7 +122,7 @@ class FieldFeaturesTest {
         assertEquals(
             expected = setOf(
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(0, 0),
                             element = Element.Field(Element.City { top }) { leftTop + rightTop },
@@ -131,7 +131,7 @@ class FieldFeaturesTest {
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(0, 0),
                             element = Element.Field { leftBottom + bottomLeft },
@@ -144,7 +144,7 @@ class FieldFeaturesTest {
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(0, 0),
                             element = Element.Field { rightBottom + bottomRight },
@@ -166,7 +166,7 @@ class FieldFeaturesTest {
         assertEquals(
             expected = setOf(
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(0, 0),
                             element = Element.Field(Element.City { top }) { leftTop + rightTop },
@@ -187,7 +187,7 @@ class FieldFeaturesTest {
                     connectedCities = emptySet(),
                 ),
                 Feature.Field(
-                    fields = setOf(
+                    placedFields = setOf(
                         PlacedField(
                             coordinates = Coordinates(0, 0),
                             element = Element.Field { rightBottom + bottomRight },

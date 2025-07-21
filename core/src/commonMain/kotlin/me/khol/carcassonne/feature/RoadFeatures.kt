@@ -49,7 +49,7 @@ fun Board.getRoadFeatures(): Set<Feature.Road> {
             followRoads(placedRoad)
 
             val roadFeature = Feature.Road(
-                roads = roadFeatures,
+                placedRoads = roadFeatures,
                 isFinished = isFinished,
             )
             roadFeatures.forEach { placedRoad: PlacedRoad ->

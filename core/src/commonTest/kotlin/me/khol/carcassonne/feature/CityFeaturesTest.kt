@@ -22,7 +22,7 @@ class CityFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.City(
-                        cities = setOf(
+                        placedCities = setOf(
                             PlacedCity(Coordinates(0, 0), element = Element.City { top }),
                         ),
                         isFinished = false,
@@ -43,7 +43,7 @@ class CityFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.City(
-                        cities = setOf(
+                        placedCities = setOf(
                             PlacedCity(Coordinates(0, 0), element = Element.City { top }),
                             PlacedCity(Coordinates(0, -1), element = Element.City(Boon.City.CoatOfArms) { top + bottom }),
                             PlacedCity(Coordinates(0, -2), element = Element.City { bottom }),
@@ -66,13 +66,13 @@ class CityFeaturesTest {
         assertEquals(
             expected = setOf(
                 Feature.City(
-                    cities = setOf(
+                    placedCities = setOf(
                         PlacedCity(Coordinates(0, 0), element = Element.City { top }),
                     ),
                     isFinished = false,
                 ),
                 Feature.City(
-                    cities = setOf(
+                    placedCities = setOf(
                         PlacedCity(Coordinates(1, 0), element = Element.City { top }),
                     ),
                     isFinished = false,
@@ -88,7 +88,7 @@ class CityFeaturesTest {
         assertEquals(
             expected = setOf(
                 Feature.City(
-                    cities = setOf(
+                    placedCities = setOf(
                         PlacedCity(Coordinates(0, 0), element = Element.City { top }),
                         PlacedCity(Coordinates(1, 0), element = Element.City { top }),
                         PlacedCity(Coordinates(0, -1), element = Element.City { top + right + bottom }),

@@ -16,9 +16,9 @@ class RoadFeaturesTest {
         val board = Board.starting(startingTile = Tiles.Basic.W)
         assertEquals(
             expected = setOf(
-                Feature.Road(roads = setOf(PlacedRoad(Coordinates(0, 0), Element.Road { left })), isFinished = false),
-                Feature.Road(roads = setOf(PlacedRoad(Coordinates(0, 0), Element.Road { right })), isFinished = false),
-                Feature.Road(roads = setOf(PlacedRoad(Coordinates(0, 0), Element.Road { bottom })), isFinished = false),
+                Feature.Road(placedRoads = setOf(PlacedRoad(Coordinates(0, 0), Element.Road { left })), isFinished = false),
+                Feature.Road(placedRoads = setOf(PlacedRoad(Coordinates(0, 0), Element.Road { right })), isFinished = false),
+                Feature.Road(placedRoads = setOf(PlacedRoad(Coordinates(0, 0), Element.Road { bottom })), isFinished = false),
             ),
             actual = board.getRoadFeatures(),
         )
@@ -33,13 +33,13 @@ class RoadFeaturesTest {
         assertEquals(
             expected = setOf(
                 Feature.Road(
-                    roads = setOf(
+                    placedRoads = setOf(
                         PlacedRoad(Coordinates(0, 0), Element.Road { left }),
                     ),
                     isFinished = false,
                 ),
                 Feature.Road(
-                    roads = setOf(
+                    placedRoads = setOf(
                         PlacedRoad(Coordinates(0, 0), Element.Road { right }),
                         PlacedRoad(Coordinates(1, 0), Element.Road { left + bottom }),
                         PlacedRoad(Coordinates(1, 1), Element.Road { top + left }),

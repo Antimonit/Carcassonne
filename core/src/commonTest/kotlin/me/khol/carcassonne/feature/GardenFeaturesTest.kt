@@ -24,7 +24,7 @@ class GardenFeaturesTest {
         val gardenFeature = gardenFeatures.first()
         assertEquals(
             expected = Feature.Garden(
-                garden = PlacedGarden(Coordinates(0, -1), Element.Garden),
+                placedGarden = PlacedGarden(Coordinates(0, -1), Element.Garden),
                 neighborCount = 2,
             ),
             actual = gardenFeature,
