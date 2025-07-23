@@ -2,11 +2,6 @@ package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.ElementPosition
-import me.khol.carcassonne.RotatedTile
-import me.khol.carcassonne.oppositeCoordinates
-import me.khol.carcassonne.oppositeEdge
-import kotlin.collections.forEach
 
 fun Board.getFieldFeatures(): Set<Feature.Field> {
     val cityFeatures: Set<Feature.City> = getCityFeatures()
@@ -28,19 +23,10 @@ fun Board.getFieldFeatures(): Set<Feature.Field> {
                 if (placedField in placedFields)
                     return
                 placedFields += placedField
-                placedField.element.positions.forEach { fieldEdge: ElementPosition.SplitEdge ->
-                    val otherCoordinates = placedField.coordinates.oppositeCoordinates(fieldEdge)
-                    val otherTile: RotatedTile? = tiles[otherCoordinates]
-                    if (otherTile != null) {
-                        val otherEdge = fieldEdge.oppositeEdge()
-                        // it is guaranteed to have a field
-                        val otherField: Element.Field = otherTile.elements[Element.Field]
-                            .first { otherTileField: Element.Field ->
-                                otherEdge in otherTileField.positions
-                            }
-                        followFields(PlacedField(coordinates = otherCoordinates, element = otherField))
-                    }
-                }
+
+                val neighbors = placedField.neighborElements(board = this, key = Element.Field)
+
+                neighbors.filterNotNull().forEach(::followFields)
             }
 
             followFields(placedField)

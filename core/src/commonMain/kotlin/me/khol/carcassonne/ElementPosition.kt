@@ -104,23 +104,3 @@ interface ElementPosition {
             all[(all.indexOf(this) + rotation.ordinal * 2) % all.size]
     }
 }
-
-fun ElementPosition.Edge.oppositeEdge(): ElementPosition.Edge =
-    when (this) {
-        ElementPosition.Edge.Top -> ElementPosition.Edge.Bottom
-        ElementPosition.Edge.Right -> ElementPosition.Edge.Left
-        ElementPosition.Edge.Bottom -> ElementPosition.Edge.Top
-        ElementPosition.Edge.Left -> ElementPosition.Edge.Right
-    }
-
-fun ElementPosition.SplitEdge.oppositeEdge(): ElementPosition.SplitEdge =
-    when (this) {
-        ElementPosition.SplitEdge.TopLeft -> ElementPosition.SplitEdge.BottomLeft
-        ElementPosition.SplitEdge.TopRight -> ElementPosition.SplitEdge.BottomRight
-        ElementPosition.SplitEdge.RightTop -> ElementPosition.SplitEdge.LeftTop
-        ElementPosition.SplitEdge.RightBottom -> ElementPosition.SplitEdge.LeftBottom
-        ElementPosition.SplitEdge.BottomLeft -> ElementPosition.SplitEdge.TopLeft
-        ElementPosition.SplitEdge.BottomRight -> ElementPosition.SplitEdge.TopRight
-        ElementPosition.SplitEdge.LeftTop -> ElementPosition.SplitEdge.RightTop
-        ElementPosition.SplitEdge.LeftBottom -> ElementPosition.SplitEdge.RightBottom
-    }

@@ -7,6 +7,7 @@ import me.khol.carcassonne.ElementPosition
 
 data class PlacedElement<E : Element<ElementPosition>>(
     val coordinates: Coordinates,
+    // Already rotated element
     val element: E,
 )
 

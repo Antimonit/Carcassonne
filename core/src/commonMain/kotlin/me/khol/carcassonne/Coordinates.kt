@@ -25,23 +25,3 @@ fun Coordinates.surroundingCoordinates(): Set<Coordinates> {
         }
     }
 }
-
-fun Coordinates.oppositeCoordinates(edge: ElementPosition.Edge): Coordinates =
-    when (edge) {
-        ElementPosition.Edge.Top -> top
-        ElementPosition.Edge.Right -> right
-        ElementPosition.Edge.Bottom -> bottom
-        ElementPosition.Edge.Left -> left
-    }
-
-fun Coordinates.oppositeCoordinates(edge: ElementPosition.SplitEdge): Coordinates =
-    when (edge) {
-        ElementPosition.SplitEdge.TopLeft -> top
-        ElementPosition.SplitEdge.TopRight -> top
-        ElementPosition.SplitEdge.RightTop -> right
-        ElementPosition.SplitEdge.RightBottom -> right
-        ElementPosition.SplitEdge.BottomLeft -> bottom
-        ElementPosition.SplitEdge.BottomRight -> bottom
-        ElementPosition.SplitEdge.LeftTop -> left
-        ElementPosition.SplitEdge.LeftBottom -> left
-    }
