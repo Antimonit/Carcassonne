@@ -28,6 +28,7 @@ import me.khol.carcassonne.Phase
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
+import me.khol.carcassonne.ui.hud.History
 import me.khol.carcassonne.ui.hud.UndoButton
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toUiTile
@@ -159,5 +160,12 @@ fun App() {
                 UndoButton(onClick = engine::undo)
             }
         }
+
+        History(
+            history = game.history,
+            modifier = Modifier
+                .padding(8.dp)
+                .align(alignment = Alignment.BottomEnd)
+        )
     }
 }

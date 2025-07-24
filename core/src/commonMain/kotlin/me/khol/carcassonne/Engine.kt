@@ -50,27 +50,39 @@ class Engine(
         val placing = phase.tile
         _game.update { game ->
             val remainingTiles = game.remainingTiles.drop(1)
-            game.copy(
-                board = game.board.placeTile(
-                    coordinates = placing.coordinates,
-                    tile = placing.rotatedTile,
-                    placedFigures = when (phase) {
-                        is Phase.PlacingFigure.Fresh -> emptyList()
-                        is Phase.PlacingFigure.Placed -> listOf(
-                            PlacedFigure(
-                                placedElement = PlacedElement(
-                                    coordinates = placing.coordinates,
-                                    element = phase.placedFigure.placedElement.element,
-                                ),
-                                figure = PlayerFigure(
-                                    figure = Figure.Meeple,
-                                    player = game.currentPlayer,
-                                ),
+            val board = game.board.placeTile(
+                coordinates = placing.coordinates,
+                tile = placing.rotatedTile,
+                placedFigures = when (phase) {
+                    is Phase.PlacingFigure.Fresh -> emptyList()
+                    is Phase.PlacingFigure.Placed -> listOf(
+                        PlacedFigure(
+                            placedElement = PlacedElement(
+                                coordinates = placing.coordinates,
+                                element = phase.placedFigure.placedElement.element,
                             ),
-                        )
-                    },
-                ),
+                            figure = PlayerFigure(
+                                figure = Figure.Meeple,
+                                player = game.currentPlayer,
+                            ),
+                        ),
+                    )
+                },
+            )
+            game.copy(
+                board = board,
                 remainingTiles = remainingTiles,
+                history = game.history.copy(
+                    events = game.history.events + History.Event.TilePlacement(
+                        player = game.currentPlayer,
+                        placedTile = phase.tile,
+                        placedFigure = when (phase) {
+                            is Phase.PlacingFigure.Fresh -> null
+                            is Phase.PlacingFigure.Placed -> phase.placedFigure
+                        },
+                        board = board.copy(),
+                    )
+                ),
                 phase = remainingTiles.firstOrNull()
                     ?.let(Phase.PlacingTile::Fresh)
                     ?: Phase.FinalScoring,

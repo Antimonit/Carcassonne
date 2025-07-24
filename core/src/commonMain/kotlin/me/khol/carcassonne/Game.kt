@@ -8,6 +8,7 @@ data class Game(
     val remainingTiles: List<Tile>,
     val board: Board,
     val phase: Phase,
+    val history: History,
     val players: List<Player>,
     val currentPlayer: Player,
 ) {
@@ -40,6 +41,7 @@ data class Game(
                 phase = remainingTiles.firstOrNull()
                     ?.let { Phase.PlacingTile.Fresh(tile = it) }
                     ?: Phase.FinalScoring,
+                history = History(events = emptyList()),
                 players = players,
                 currentPlayer = players.first(),
             )
