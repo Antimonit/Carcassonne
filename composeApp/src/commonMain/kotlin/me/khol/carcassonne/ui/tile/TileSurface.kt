@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -37,7 +37,7 @@ fun TileSurface(
             .size(tileSize)
             .aspectRatio(1f)
             .hoverable(interactionSource = interactionSource),
-        elevation = elevation,
+        shadowElevation = elevation,
         shape = RoundedCornerShape(4.dp),
     ) {
         contents()

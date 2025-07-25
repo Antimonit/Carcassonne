@@ -7,11 +7,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
@@ -66,7 +65,7 @@ fun App() {
         ) {
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                elevation = 8.dp,
+                shadowElevation = 8.dp,
             ) {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -77,12 +76,11 @@ fun App() {
                         is Phase.PlacingFigure -> {
                             Text(
                                 text = "Place a meeple",
-                                style = MaterialTheme.typography.body2,
+                                style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier
                                     .align(alignment = Alignment.CenterHorizontally)
                             )
 
-                            @OptIn(ExperimentalMaterialApi::class)
                             Surface(
                                 onClick = { engine.confirmFigurePlacement(phase) },
                                 shape = RoundedCornerShape(4.dp),
@@ -113,7 +111,7 @@ fun App() {
                         is Phase.PlacingTile -> {
                             Text(
                                 text = "${game.remainingTiles.size} tiles left",
-                                style = MaterialTheme.typography.body2,
+                                style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier
                                     .align(alignment = Alignment.CenterHorizontally)
                             )
@@ -125,7 +123,6 @@ fun App() {
                                     )
                                 }
                                 is Phase.PlacingTile.Placed -> {
-                                    @OptIn(ExperimentalMaterialApi::class)
                                     Surface(
                                         onClick = { engine.confirmTilePlacement(phase) },
                                         shape = RoundedCornerShape(4.dp),
@@ -148,7 +145,7 @@ fun App() {
                         Phase.FinalScoring -> {
                             Text(
                                 text = "No tiles left",
-                                style = MaterialTheme.typography.body2,
+                                style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier
                                     .align(alignment = Alignment.CenterHorizontally)
                             )

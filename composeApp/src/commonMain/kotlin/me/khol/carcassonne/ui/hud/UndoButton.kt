@@ -2,10 +2,9 @@ package me.khol.carcassonne.ui.hud
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.runtime.Composable
@@ -18,11 +17,10 @@ fun UndoButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    @OptIn(ExperimentalMaterialApi::class)
     Surface(
         onClick = onClick,
         shape = RoundedCornerShape(16.dp),
-        elevation = 8.dp,
+        shadowElevation = 8.dp,
         modifier = modifier,
     ) {
         Icon(
