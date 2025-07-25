@@ -19,7 +19,7 @@ typealias PlacedRoad = PlacedElement<Element.Road>
 typealias PlacedMonastery = PlacedElement<Element.Monastery>
 typealias PlacedGarden = PlacedElement<Element.Garden>
 
-interface Feature {
+sealed interface Feature {
 
     val placedElements: Set<PlacedElement<*>>
     val figures: List<PlayerFigure>

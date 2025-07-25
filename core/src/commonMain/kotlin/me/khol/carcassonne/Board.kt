@@ -86,6 +86,12 @@ data class Board(
             }
         }
     }
+
+    fun removeFigures(figures: List<PlacedFigure>): Board = copy(
+        figures = this.figures.mapValues { (_, placedFigures) ->
+            placedFigures - figures
+        }
+    )
 }
 
 fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {

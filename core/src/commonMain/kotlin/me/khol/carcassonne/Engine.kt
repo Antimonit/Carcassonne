@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import me.khol.carcassonne.feature.PlacedElement
-import kotlin.collections.plus
 
 class Engine(
     initialGame: Game,
@@ -52,7 +51,7 @@ class Engine(
         val placing = phase.tile
         _game.update { game ->
             val remainingTiles = game.remainingTiles.drop(1)
-            val board = game.board.placeTile(
+            val placedBoard = game.board.placeTile(
                 coordinates = placing.coordinates,
                 tile = placing.rotatedTile,
                 placedFigures = when (phase) {
@@ -71,23 +70,38 @@ class Engine(
                     )
                 },
             )
+
+            val scoringEvents = scoringEvents(
+                board = placedBoard,
+                currentPlayer = game.currentPlayer,
+            )
+
+            val tilePlacementEvent = History.Event.TilePlacement(
+                player = game.currentPlayer,
+                placedTile = phase.tile,
+                placedFigure = when (phase) {
+                    is Phase.PlacingFigure.Fresh -> null
+                    is Phase.PlacingFigure.Placed -> phase.placedFigure
+                },
+                board = placedBoard.copy(),
+            )
+
+            val scoredBoard = placedBoard.removeFigures(scoringEvents.flatMap { it.figures })
+
             game.copy(
-                board = board,
+                board = scoredBoard,
                 remainingTiles = remainingTiles,
                 history = game.history.copy(
-                    events = game.history.events + History.Event.TilePlacement(
-                        player = game.currentPlayer,
-                        placedTile = phase.tile,
-                        placedFigure = when (phase) {
-                            is Phase.PlacingFigure.Fresh -> null
-                            is Phase.PlacingFigure.Placed -> phase.placedFigure
-                        },
-                        board = board.copy(),
-                    )
+                    events = game.history.events + tilePlacementEvent + scoringEvents
                 ),
                 phase = remainingTiles.firstOrNull()
                     ?.let(Phase.PlacingTile::Fresh)
                     ?: Phase.FinalScoring,
+                scoreboard = scoringEvents.fold(game.scoreboard) { scoreboard, score ->
+                    score.scoringPlayers.fold(scoreboard) { scoreboard, player ->
+                        scoreboard.addScore(player = player, points = score.points)
+                    }
+                },
                 currentPlayer = game.players.nextOf(game.currentPlayer),
             )
         }
@@ -105,6 +119,7 @@ class Engine(
         }
     }
 }
+
 
 fun Board.validElements(placedTile: PlacedTile): Set<Element<*>> {
     val coordinates = placedTile.coordinates

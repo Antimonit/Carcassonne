@@ -86,6 +86,7 @@ fun App() {
                         SimpleBoard(
                             board = when (val event = analysis.event) {
                                 is History.Event.TilePlacement -> event.board
+                                is History.Event.Scoring -> event.board
                             },
                             modifier = Modifier
                         )

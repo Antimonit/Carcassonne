@@ -36,13 +36,13 @@ fun History(
             shape = RoundedCornerShape(16.dp),
             border = BorderStroke(1.dp, Color.Black.copy(alpha = 0.12f)),
             modifier = modifier
-            .graphicsLayer {
-                scaleX = 0.5f
-                scaleY = 0.5f
-                transformOrigin = TransformOrigin(1f, 0.5f)
-            }
+                .graphicsLayer {
+                    scaleX = 0.5f
+                    scaleY = 0.5f
+                    transformOrigin = TransformOrigin(1f, 0.5f)
+                }
         ) {
-            BoxWithConstraints {
+            Box {
                 val state = rememberPagerState(initialPage = history.events.indices.last) { history.events.size }
                 val scope = rememberCoroutineScope()
                 val density = LocalDensity.current
@@ -56,7 +56,8 @@ fun History(
                 }
 
                 val itemHeight = tileSize + 4.dp // for the border
-                val initialMaxHeightPx = with(density) { maxHeight.roundToPx() }
+                val itemWidth = tileSize + 4.dp + 16.dp
+                val initialMaxHeightPx = with(density) { 1000.dp.roundToPx() }
                 var pagerHeight by remember { mutableStateOf(initialMaxHeightPx) }
 
                 val padding = 8.dp
@@ -82,6 +83,7 @@ fun History(
                     contentPadding = contentPadding,
                     modifier = Modifier
                         .fillMaxHeight()
+                        .width(itemWidth + padding * 2)
                         .onSizeChanged { size ->
                             pagerHeight = size.height
                         }
@@ -140,6 +142,12 @@ fun Event(
                 modifier = modifier,
             )
         }
+        is History.Event.Scoring -> {
+            ScoringEvent(
+                event = event,
+                modifier = modifier,
+            )
+        }
     }
 }
 
@@ -154,7 +162,8 @@ fun TilePlacementEvent(
         modifier = modifier,
     ) {
         Row(
-            modifier = Modifier.padding(2.dp)
+            modifier = Modifier
+                .padding(2.dp)
         ) {
             Spacer(modifier = Modifier.width(16.dp))
             val uiTile = event.placedTile.rotatedTile.tile.toUiTile()
@@ -172,6 +181,30 @@ fun TilePlacementEvent(
                     }
                 },
             )
+        }
+    }
+}
+
+@Composable
+fun ScoringEvent(
+    event: History.Event.Scoring,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        color = event.triggerPlayer.color.uiColor(),
+        shape = RoundedCornerShape(4.dp),
+        modifier = modifier,
+    ) {
+        Row(
+            modifier = Modifier.padding(2.dp)
+                .fillMaxWidth()
+                .fillMaxHeight()
+        ) {
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(text = event.scoringPlayers.joinToString(", ") { it.name })
+                Text(text = "${event.points}")
+            }
         }
     }
 }
