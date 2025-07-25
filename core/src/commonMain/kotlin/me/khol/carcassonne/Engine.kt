@@ -59,7 +59,8 @@ class Engine(
                 remainingTiles = remainingTiles,
                 phase = remainingTiles.firstOrNull()
                     ?.let(Phase.PlacingTile::Fresh)
-                    ?: Phase.FinalScoring
+                    ?: Phase.FinalScoring,
+                currentPlayer = game.players.nextOf(game.currentPlayer),
             )
         }
     }
@@ -69,7 +70,6 @@ class Engine(
         _game.update { game ->
             game.copy(
                 phase = Phase.PlacingFigure.Fresh(placing),
-                currentPlayer = game.players.nextOf(game.currentPlayer),
             )
         }
     }
