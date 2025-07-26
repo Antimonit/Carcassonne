@@ -165,7 +165,7 @@ fun App() {
             history = game.history,
             modifier = Modifier
                 .padding(8.dp)
-                .align(alignment = Alignment.BottomEnd)
+                .align(alignment = Alignment.CenterEnd)
         )
     }
 }

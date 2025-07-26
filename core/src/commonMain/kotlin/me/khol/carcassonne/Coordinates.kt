@@ -15,6 +15,12 @@ data class Coordinates(
     }
 }
 
+operator fun Coordinates.plus(other: Coordinates) =
+    Coordinates(x + other.x, y + other.y)
+
+operator fun Coordinates.minus(other: Coordinates) =
+    Coordinates(x - other.x, y - other.y)
+
 /**
  * Used by Monastery and Garden features.
  */

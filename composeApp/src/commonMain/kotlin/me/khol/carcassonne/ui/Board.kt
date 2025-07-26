@@ -26,6 +26,7 @@ import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.minus
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.GridScope.coordinates
@@ -131,6 +132,36 @@ fun Board(
             }
             Phase.Scoring -> Unit
             Phase.FinalScoring -> Unit
+        }
+    }
+}
+
+@Composable
+fun SimpleBoard(
+    board: Board,
+    center: Coordinates,
+    modifier: Modifier = Modifier,
+) {
+    GridLayout(
+        cellSize = tileSize,
+        cellSpacing = 4.dp,
+        modifier = modifier,
+    ) {
+        board.tiles.forEach { (coordinates, tile) ->
+            val uiTile = tile.tile.toUiTile()
+            Tile(
+                drawable = uiTile.drawable,
+                rotation = tile.rotation,
+                overlay = {
+                    TileFiguresOverlay(
+                        figures = board.getFigures(coordinates),
+                        uiTile = uiTile,
+                        rotation = tile.rotation,
+                    )
+                },
+                modifier = Modifier
+                    .coordinates(coordinates - center)
+            )
         }
     }
 }
