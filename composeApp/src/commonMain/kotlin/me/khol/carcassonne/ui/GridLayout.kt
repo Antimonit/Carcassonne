@@ -2,6 +2,7 @@ package me.khol.carcassonne.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -9,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.node.ModifierNodeElement
@@ -100,6 +102,10 @@ private fun GridLayoutPreview() {
                 cellSize = 72.dp,
                 cellSpacing = 12.dp,
                 modifier = Modifier
+                    .background(Color.Blue)
+                    .padding(32.dp)
+                    .background(Color.Yellow)
+                    .clipToBounds()
                     .size(300.dp)
             ) {
                 listOf(
