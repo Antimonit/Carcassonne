@@ -26,7 +26,6 @@ import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.feature.PlacedElement
-import me.khol.carcassonne.minus
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.GridScope.coordinates
@@ -139,7 +138,6 @@ fun Board(
 @Composable
 fun SimpleBoard(
     board: Board,
-    center: Coordinates,
     modifier: Modifier = Modifier,
 ) {
     GridLayout(
@@ -160,7 +158,7 @@ fun SimpleBoard(
                     )
                 },
                 modifier = Modifier
-                    .coordinates(coordinates - center)
+                    .coordinates(coordinates)
             )
         }
     }
