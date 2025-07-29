@@ -25,6 +25,7 @@ import androidx.compose.ui.window.Dialog
 import me.khol.carcassonne.Engine
 import me.khol.carcassonne.Game
 import me.khol.carcassonne.History
+import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.ui.hud.History
@@ -51,6 +52,7 @@ fun App() {
                 initialGame = Game.new(
                     tilesets = listOf(basicTileset),
                     startingTile = Tiles.Basic.D,
+                    players = listOf(Players.green, Players.red),
                 )
             )
         }

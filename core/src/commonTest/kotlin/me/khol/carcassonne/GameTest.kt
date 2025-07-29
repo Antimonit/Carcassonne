@@ -1,5 +1,6 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
 import kotlin.random.Random
@@ -16,6 +17,7 @@ class GameTest {
         val game = Game.new(
             tilesets = listOf(tileset),
             startingTile = startingTile,
+            players = listOf(Players.red, Players.green),
             random = Random(1),
         )
 

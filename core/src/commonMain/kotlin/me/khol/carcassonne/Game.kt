@@ -1,6 +1,5 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tileset
 import kotlin.random.Random
 
@@ -19,8 +18,8 @@ data class Game(
         fun new(
             tilesets: List<Tileset>,
             startingTile: Tile,
-            players: List<Player> = listOf(Players.green, Players.red),
-            random: Random = Random(42),
+            players: List<Player>,
+            random: Random = Random,
         ): Game {
             val tiles = tilesets.flatMap { tileSet ->
                 tileSet.tileCounts.flatMap { tileCount ->
