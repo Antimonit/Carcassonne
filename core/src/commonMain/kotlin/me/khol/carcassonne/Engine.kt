@@ -129,4 +129,7 @@ fun Board.validElements(placedTile: PlacedTile): Set<Element<*>> {
     return validElements
 }
 
-fun <T> List<T>.nextOf(current: T): T = this[(indexOf(current) + 1) % size]
+fun <T> List<T>.nextOf(current: T): T {
+    require(current in this) { "Could not find $current in $this" }
+    return this[(indexOf(current) + 1) % size]
+}
