@@ -10,6 +10,7 @@ data class Game(
     val phase: Phase,
     val history: History,
     val players: List<Player>,
+    val scoreboard: Scoreboard,
     val currentPlayer: Player,
 ) {
 
@@ -40,6 +41,7 @@ data class Game(
                     ?: Phase.FinalScoring,
                 history = History(events = emptyList()),
                 players = players,
+                scoreboard = Scoreboard(players),
                 currentPlayer = players.first(),
             )
         }
