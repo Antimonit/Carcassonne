@@ -15,10 +15,14 @@ import androidx.compose.ui.zIndex
 import carcassonne.composeapp.generated.resources.Res
 import carcassonne.composeapp.generated.resources.*
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.Figure
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.Player
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.figure.Abbot
+import me.khol.carcassonne.figure.Builder
+import me.khol.carcassonne.figure.Figure
+import me.khol.carcassonne.figure.Meeple
+import me.khol.carcassonne.figure.Pig
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.tileSize
 import org.jetbrains.compose.resources.DrawableResource
@@ -71,7 +75,7 @@ private fun Figure.drawable(
     player: Player,
     isField: Boolean,
 ): DrawableResource = when (this) {
-    Figure.Meeple -> if (isField) {
+    Meeple -> if (isField) {
         when (player.color) {
             Player.Color.Black -> Res.drawable.figure_farmer_black
             Player.Color.Blue -> Res.drawable.figure_farmer_blue
@@ -90,7 +94,7 @@ private fun Figure.drawable(
             Player.Color.Yellow -> Res.drawable.figure_meeple_yellow
         }
     }
-    Figure.Abbot -> when (player.color) {
+    Abbot -> when (player.color) {
         Player.Color.Black -> Res.drawable.figure_abbot_black
         Player.Color.Blue -> Res.drawable.figure_abbot_blue
         Player.Color.Green -> Res.drawable.figure_abbot_green
@@ -98,6 +102,7 @@ private fun Figure.drawable(
         Player.Color.Red -> Res.drawable.figure_abbot_red
         Player.Color.Yellow -> Res.drawable.figure_abbot_yellow
     }
-    Figure.Builder -> TODO()
-    Figure.Pig -> TODO()
+    Builder -> TODO()
+    Pig -> TODO()
+    else -> TODO()
 }
