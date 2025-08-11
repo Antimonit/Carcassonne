@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.figure.Meeple
 
 class Engine(
     initialGame: Game,
@@ -37,7 +38,7 @@ class Engine(
                     placedFigure = PlacedFigure(
                         placedElement = PlacedElement(tile.coordinates, element),
                         figure = PlayerFigure(
-                            figure = Figure.Meeple,
+                            figure = Meeple,
                             player = game.currentPlayer,
                         ),
                     ),
@@ -63,7 +64,7 @@ class Engine(
                                 element = phase.placedFigure.placedElement.element,
                             ),
                             figure = PlayerFigure(
-                                figure = Figure.Meeple,
+                                figure = Meeple,
                                 player = game.currentPlayer,
                             ),
                         ),
