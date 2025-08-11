@@ -5,6 +5,7 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.PlacedFigure
+import me.khol.carcassonne.PlayerFigure
 
 data class PlacedElement<E : Element<ElementPosition>>(
     val coordinates: Coordinates,
@@ -21,10 +22,12 @@ typealias PlacedGarden = PlacedElement<Element.Garden>
 interface Feature {
 
     val placedElements: Set<PlacedElement<*>>
+    val figures: List<PlayerFigure>
 
     data class Field(
         val placedFields: Set<PlacedField>,
         val connectedCities: Set<City>,
+        override val figures: List<PlayerFigure>,
     ) : Feature {
         override val placedElements = placedFields
     }
@@ -32,6 +35,7 @@ interface Feature {
     data class City(
         val placedCities: Set<PlacedCity>,
         val isFinished: Boolean,
+        override val figures: List<PlayerFigure>,
     ) : Feature {
         override val placedElements = placedCities
 
@@ -44,6 +48,7 @@ interface Feature {
     data class Road(
         val placedRoads: Set<PlacedRoad>,
         val isFinished: Boolean,
+        override val figures: List<PlayerFigure>,
     ) : Feature {
         override val placedElements = placedRoads
 
@@ -54,6 +59,7 @@ interface Feature {
     data class Monastery(
         val placedMonastery: PlacedMonastery,
         val neighborCount: Int,
+        override val figures: List<PlayerFigure>,
     ) : Feature {
         override val placedElements = setOf(placedMonastery)
 
@@ -64,6 +70,7 @@ interface Feature {
     data class Garden(
         val placedGarden: PlacedGarden,
         val neighborCount: Int,
+        override val figures: List<PlayerFigure>,
     ) : Feature {
         override val placedElements = setOf(placedGarden)
 

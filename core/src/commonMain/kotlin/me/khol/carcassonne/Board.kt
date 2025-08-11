@@ -34,7 +34,9 @@ data class Board(
 
     fun getTile(coordinates: Coordinates): RotatedTile? = tiles[coordinates]
 
-    fun getFigures(coordinates: Coordinates): List<PlacedFigure> = figures[coordinates] ?: emptyList()
+    fun getFigures(coordinates: Coordinates): List<PlacedFigure> = figures[coordinates].orEmpty()
+
+    fun getFigures(placedElement: PlacedElement<*>): List<PlacedFigure> = figures[placedElement.coordinates].orEmpty().filter { it == placedElement }
 
     fun placeTile(coordinates: Coordinates, tile: RotatedTile, placedFigures: List<PlacedFigure>): Board {
         require(coordinates !in tiles.keys) {

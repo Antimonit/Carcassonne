@@ -5,4 +5,3 @@ import me.khol.carcassonne.Element
 
 fun Board.getGardenFeatures(): Set<Feature.Garden> =
     getCenterFeatures(Element.Garden, Feature::Garden)
-
