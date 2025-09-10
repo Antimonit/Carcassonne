@@ -1,6 +1,6 @@
 [versions]
 # https://github.com/JetBrains/kotlin/releases
-kotlin = "2.2.10"
+kotlin = "2.2.20"
 # https://mvnrepository.com/artifact/com.android.tools.build/gradle
 android = "8.13.0"
 # https://github.com/Kotlin/kotlinx.coroutines/releases
