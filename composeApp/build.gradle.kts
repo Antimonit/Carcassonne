@@ -74,7 +74,7 @@ kotlin {
 
 android {
     namespace = "me.khol.carcassonne"
-    compileSdk = 35
+    compileSdk = 36
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
