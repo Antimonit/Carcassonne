@@ -29,7 +29,7 @@ class NeighborElementsTest {
 
         assertEquals(
             expected = setOf(Tiles.Basic.D.road.rotated(rotation = Rotation.ROTATE_0).placed(0,0)),
-            actual = placedRoad.neighborElements(board = board, key = Element.Road),
+            actual = placedRoad.neighborElements(tiles = board.tiles, key = Element.Road),
         )
     }
 
@@ -53,7 +53,7 @@ class NeighborElementsTest {
                 Tiles.Basic.D.fieldTop.rotated(rotation = Rotation.ROTATE_0).placed(0,0),
                 Tiles.Basic.D.fieldBottom.rotated(rotation = Rotation.ROTATE_0).placed(0,0),
             ),
-            actual = placedField.neighborElements(board = board, key = Element.Field),
+            actual = placedField.neighborElements(tiles = board.tiles, key = Element.Field),
         )
     }
 }
