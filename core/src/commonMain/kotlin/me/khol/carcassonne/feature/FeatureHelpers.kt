@@ -33,7 +33,7 @@ fun <E : Element<ElementPosition.Edge>, F : Feature> Board.getEdgeFeatures(
                     return
                 placedElements += current
 
-                val neighbors = current.neighborElements(board = this, key = key)
+                val neighbors = current.neighborElements(tiles = tiles, key = key)
 
                 if (neighbors.contains(null)) {
                     isFinished = false
@@ -79,7 +79,7 @@ fun <E : Element<ElementPosition.SplitEdge>, F : Feature> Board.getSplitEdgeFeat
                     return
                 placedElements += current
 
-                val neighbors = current.neighborElements(board = this, key = key)
+                val neighbors = current.neighborElements(tiles = tiles, key = key)
                 neighbors.filterNotNull().forEach(::follow)
             }
 

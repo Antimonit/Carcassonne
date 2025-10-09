@@ -32,7 +32,7 @@ class NeighborElementsTest {
 
         assertEquals(
             expected = setOf(PlacedRoad(Coordinates(0,0), D.road)),
-            actual = placedRoad.neighborElements(board = board, key = Element.Road),
+            actual = placedRoad.neighborElements(tiles = board.tiles, key = Element.Road),
         )
     }
 
@@ -59,7 +59,7 @@ class NeighborElementsTest {
                 PlacedField(Coordinates(0,0), D.fieldTop),
                 PlacedField(Coordinates(0,0), D.fieldBottom),
             ),
-            actual = placedField.neighborElements(board = board, key = Element.Field),
+            actual = placedField.neighborElements(tiles = board.tiles, key = Element.Field),
         )
     }
 }

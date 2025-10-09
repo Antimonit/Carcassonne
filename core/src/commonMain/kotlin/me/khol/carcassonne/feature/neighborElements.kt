@@ -1,6 +1,5 @@
 package me.khol.carcassonne.feature
 
-import me.khol.carcassonne.Board
 import me.khol.carcassonne.BoardTiles
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
@@ -13,10 +12,10 @@ import kotlin.jvm.JvmName
  */
 @JvmName("neighborEdgeElement")
 fun <E : Element<ElementPosition.Edge>> PlacedElement<E>.neighborElements(
-    board: Board,
+    tiles: BoardTiles,
     key: ElementKey<E>,
 ): Collection<PlacedElement<E>?> = neighborElements(
-    tiles = board.tiles,
+    tiles = tiles,
     key = key,
     oppositeCoordinates = { edge ->
         when (edge) {
@@ -41,10 +40,10 @@ fun <E : Element<ElementPosition.Edge>> PlacedElement<E>.neighborElements(
  */
 @JvmName("neighborSplitEdgeElement")
 fun <E : Element<ElementPosition.SplitEdge>> PlacedElement<E>.neighborElements(
-    board: Board,
+    tiles: BoardTiles,
     key: ElementKey<E>,
 ): Collection<PlacedElement<E>?> = neighborElements(
-    tiles = board.tiles,
+    tiles = tiles,
     key = key,
     oppositeCoordinates = { edge ->
         when (edge) {
