@@ -5,9 +5,12 @@ import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.feature.contains
 import me.khol.carcassonne.feature.getAllFeatures
 
+typealias BoardTiles = Map<Coordinates, RotatedTile>
+typealias BoardFigures = Map<Coordinates, List<PlacedFigure>>
+
 data class Board(
-    val tiles: Map<Coordinates, RotatedTile>,
-    val figures: Map<Coordinates, List<PlacedFigure>>,
+    val tiles: BoardTiles,
+    val figures: BoardFigures,
 ) {
 
     val openSpaces: Set<Coordinates> = tiles.keys

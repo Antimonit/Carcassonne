@@ -1,6 +1,7 @@
 package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
+import me.khol.carcassonne.BoardTiles
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementKey
@@ -15,7 +16,7 @@ fun <E : Element<ElementPosition.Edge>> PlacedElement<E>.neighborElements(
     board: Board,
     key: ElementKey<E>,
 ): Collection<PlacedElement<E>?> = neighborElements(
-    board = board,
+    tiles = board.tiles,
     key = key,
     oppositeCoordinates = { edge ->
         when (edge) {
@@ -43,7 +44,7 @@ fun <E : Element<ElementPosition.SplitEdge>> PlacedElement<E>.neighborElements(
     board: Board,
     key: ElementKey<E>,
 ): Collection<PlacedElement<E>?> = neighborElements(
-    board = board,
+    tiles = board.tiles,
     key = key,
     oppositeCoordinates = { edge ->
         when (edge) {
@@ -72,14 +73,14 @@ fun <E : Element<ElementPosition.SplitEdge>> PlacedElement<E>.neighborElements(
 )
 
 private fun <P : ElementPosition, E : Element<P>> PlacedElement<E>.neighborElements(
-    board: Board,
+    tiles: BoardTiles,
     key: ElementKey<E>,
     oppositeCoordinates: Coordinates.(P) -> Coordinates,
     oppositeEdge: P.() -> P,
 ): Set<PlacedElement<E>?> =
     element.positions.mapTo(mutableSetOf()) { elementPosition ->
         val oppositeCoordinates = coordinates.oppositeCoordinates(elementPosition)
-        val otherTile = board.tiles[oppositeCoordinates]
+        val otherTile = tiles[oppositeCoordinates]
         if (otherTile == null) {
             // empty space on board
             null
