@@ -1,5 +1,6 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
 import kotlin.test.Test
@@ -8,8 +9,8 @@ import kotlin.test.assertIs
 
 class EngineTest {
 
-    val playerRed = Player("Red", Player.Color.Red)
-    val playerGreen = Player("Green", Player.Color.Green)
+    val playerRed = Players.red
+    val playerGreen = Players.green
     val engine = Engine(
         initialGame = Game.new(
             tilesets = listOf(basicTileset),

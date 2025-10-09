@@ -21,11 +21,11 @@ import me.khol.carcassonne.Figure
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlacedTile
-import me.khol.carcassonne.Player
 import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.GridScope.coordinates
@@ -183,7 +183,7 @@ private fun BoardPreview() {
                                 ),
                                 figure = PlayerFigure(
                                     figure = Figure.Meeple,
-                                    player = Player("Green", Player.Color.Green),
+                                    player = Players.green,
                                 ),
                             ),
                         ),

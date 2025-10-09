@@ -20,10 +20,10 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.Figure
 import me.khol.carcassonne.PlacedFigure
-import me.khol.carcassonne.Player
 import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.feature.PlacedField
+import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.UiTiles
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -82,7 +82,7 @@ private fun TileElementsOverlayPreview() {
                                 ),
                                 figure = PlayerFigure(
                                     figure = Figure.Meeple,
-                                    player = Player("Green", Player.Color.Green),
+                                    player = Players.green,
                                 ),
                             )
                         ),
