@@ -4,6 +4,7 @@ import me.khol.carcassonne.Boon
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementPosition
+import me.khol.carcassonne.PlacedFigure
 
 data class PlacedElement<E : Element<ElementPosition>>(
     val coordinates: Coordinates,
@@ -19,15 +20,20 @@ typealias PlacedGarden = PlacedElement<Element.Garden>
 
 interface Feature {
 
+    val placedElements: Set<PlacedElement<*>>
+
     data class Field(
         val placedFields: Set<PlacedField>,
         val connectedCities: Set<City>,
-    ) : Feature
+    ) : Feature {
+        override val placedElements = placedFields
+    }
 
     data class City(
         val placedCities: Set<PlacedCity>,
         val isFinished: Boolean,
     ) : Feature {
+        override val placedElements = placedCities
 
         val hasCathedral: Boolean
             get() = placedCities.any { it.element.boons.contains(Boon.City.Cathedral) }
@@ -39,6 +45,7 @@ interface Feature {
         val placedRoads: Set<PlacedRoad>,
         val isFinished: Boolean,
     ) : Feature {
+        override val placedElements = placedRoads
 
         val hasInn: Boolean
             get() = placedRoads.any { it.element.boons.contains(Boon.Road.Inn) }
@@ -48,6 +55,7 @@ interface Feature {
         val placedMonastery: PlacedMonastery,
         val neighborCount: Int,
     ) : Feature {
+        override val placedElements = setOf(placedMonastery)
 
         val isFinished: Boolean
             get() = neighborCount == 9
@@ -57,8 +65,12 @@ interface Feature {
         val placedGarden: PlacedGarden,
         val neighborCount: Int,
     ) : Feature {
+        override val placedElements = setOf(placedGarden)
 
         val isFinished: Boolean
             get() = neighborCount == 9
     }
 }
+
+infix operator fun Feature.contains(placedFigure : PlacedFigure): Boolean =
+    placedFigure.placedElement in placedElements
