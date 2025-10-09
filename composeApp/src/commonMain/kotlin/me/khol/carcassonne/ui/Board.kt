@@ -17,15 +17,13 @@ import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.Figure
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlacedTile
-import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.feature.PlacedElement
-import me.khol.carcassonne.fixtures.Players
+import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.GridScope.coordinates
@@ -181,10 +179,7 @@ private fun BoardPreview() {
                                     coordinates = Coordinates(-1, 0),
                                     element = D.road,
                                 ),
-                                figure = PlayerFigure(
-                                    figure = Figure.Meeple,
-                                    player = Players.green,
-                                ),
+                                figure = PlayerFigures.greenMeeple,
                             ),
                         ),
                     )
