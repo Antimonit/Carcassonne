@@ -1,5 +1,9 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.feature.Feature
+import me.khol.carcassonne.feature.contains
+import me.khol.carcassonne.feature.getAllFeatures
+
 data class Board(
     val tiles: Map<Coordinates, RotatedTile>,
     val figures: Map<Coordinates, List<PlacedFigure>>,
@@ -42,8 +46,15 @@ data class Board(
             "Cannot place tile ${tile.tile.name} at $coordinates as it does not match edges with one or more neighbors."
         }
 
-        return Board(
+        val boardWithTile = copy(
             tiles = tiles + (coordinates to tile),
+        )
+
+        placedFigures.forEach {
+            boardWithTile.checkOccupiedFeatures(it)
+        }
+
+        return boardWithTile.copy(
             figures = figures + mapOf(coordinates to placedFigures),
         )
     }
@@ -72,4 +83,19 @@ data class Board(
             }
         }
     }
+}
+
+private fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
+    getAllFeatures()
+        .find { it.placedElements.contains(placedFigure.placedElement) }
+        ?.let { feature ->
+            val featureFigures = findFiguresForFeature(feature)
+            require(featureFigures.isEmpty()) {
+                "Cannot add a figure to an already occupied feature"
+            }
+        }
+}
+
+private fun Board.findFiguresForFeature(feature: Feature): List<PlacedFigure> {
+    return figures.values.flatten().filter { it in feature }
 }
