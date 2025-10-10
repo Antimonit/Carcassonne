@@ -2,6 +2,8 @@ package me.khol.carcassonne
 
 interface Elements {
 
+    fun all(): List<Element<*>>
+
     operator fun <E : Element<ElementPosition>> get(key: ElementKey<E>): List<E>
 
     fun rotate(rotation: Rotation): Elements
@@ -56,6 +58,10 @@ fun MutableElements.cropCircle(): Element.CropCircle =
 private data class ElementsBuilder(
     private val map: MutableMap<ElementKey<*>, List<Element<*>>>,
 ) : MutableElements {
+
+    override fun all(): List<Element<*>> {
+        return map.values.flatten()
+    }
 
     override fun <E : Element<ElementPosition>> add(key: ElementKey<E>, element: E) {
         map[key] = get(key) + element
