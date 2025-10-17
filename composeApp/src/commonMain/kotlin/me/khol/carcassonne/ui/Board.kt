@@ -74,6 +74,7 @@ fun Board(
                                 onPlaceFigure(placingTile, it.rotate(rotation))
                             },
                             uiTile = uiTile,
+                            validElements = phase.validElements,
                         )
                         when (phase) {
                             is Phase.PlacingFigure.Fresh -> Unit

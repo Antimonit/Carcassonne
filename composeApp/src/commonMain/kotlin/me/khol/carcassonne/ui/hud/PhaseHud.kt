@@ -180,6 +180,7 @@ private fun PhaseHudPlacingFigurePreview() {
                         ),
                         coordinates = Coordinates(1, 0),
                     ),
+                    validElements = emptySet(),
                 ),
                 remainingTilesCount = 71,
                 confirmTilePlacement = {},

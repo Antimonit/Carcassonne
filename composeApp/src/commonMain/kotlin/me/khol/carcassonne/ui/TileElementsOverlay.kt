@@ -30,30 +30,33 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun TileElementsOverlay(
     onElementClick: (Element<*>) -> Unit,
     uiTile: UiTile,
+    validElements: Set<Element<*>>,
 ) {
-    uiTile.uiElements.forEach { (element, uiElement) ->
-        val shape = uiElement.shape
-        val interactionSource = remember { MutableInteractionSource() }
-        val hovered by interactionSource.collectIsHoveredAsState()
+    uiTile.uiElements
+        .filterKeys { it in validElements }
+        .forEach { (element, uiElement) ->
+            val shape = uiElement.shape
+            val interactionSource = remember { MutableInteractionSource() }
+            val hovered by interactionSource.collectIsHoveredAsState()
 
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .clip(shape = shape)
-                .background(
-                    brush = if (hovered) {
-                        Brush.linearGradient(listOf(Color.Red.copy(alpha = 0.5f), Color.Blue.copy(alpha = 0.5f)))
-                    } else {
-                        Brush.linearGradient(listOf(Color.Transparent, Color.Transparent))
-                    },
-                    shape = shape,
-                )
-                .clickable {
-                    onElementClick(element)
-                }
-                .hoverable(interactionSource = interactionSource)
-        )
-    }
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .clip(shape = shape)
+                    .background(
+                        brush = if (hovered) {
+                            Brush.linearGradient(listOf(Color.Red.copy(alpha = 0.5f), Color.Blue.copy(alpha = 0.5f)))
+                        } else {
+                            Brush.linearGradient(listOf(Color.Transparent, Color.Transparent))
+                        },
+                        shape = shape,
+                    )
+                    .clickable {
+                        onElementClick(element)
+                    }
+                    .hoverable(interactionSource = interactionSource)
+            )
+        }
 }
 
 @Preview
@@ -70,6 +73,7 @@ private fun TileElementsOverlayPreview() {
                     TileElementsOverlay(
                         onElementClick = {},
                         uiTile = uiTile,
+                        validElements = UiTiles.Basic.A.uiElements.keys,
                     )
                     TileFiguresOverlay(
                         figures = listOf(

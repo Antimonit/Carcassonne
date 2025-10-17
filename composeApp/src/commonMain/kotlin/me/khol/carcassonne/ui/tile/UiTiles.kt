@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.ui.Tile
-import me.khol.carcassonne.ui.TileElementsOverlay
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 object UiTiles {
@@ -100,12 +99,6 @@ private fun AllBasicTilesPreview() {
                     Tile(
                         drawable = tile.drawable,
                         rotation = Rotation.ROTATE_0,
-                        overlay = {
-                            TileElementsOverlay(
-                                onElementClick = {},
-                                uiTile = tile,
-                            )
-                        }
                     )
                 }
             }

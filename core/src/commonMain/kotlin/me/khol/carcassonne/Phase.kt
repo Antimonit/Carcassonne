@@ -28,20 +28,37 @@ sealed interface Phase {
     sealed interface PlacingFigure : Phase {
 
         val tile: PlacedTile
+        val validElements: Set<Element<*>>
 
         data class Fresh(
             override val tile: PlacedTile,
+            override val validElements: Set<Element<*>>,
         ) : PlacingFigure, Undoable {
+
+            init {
+                val allElements = tile.rotatedTile.tile.elements.all()
+                validElements.forEach {
+                    check(it in allElements) { "Could not find $it in $allElements" }
+                }
+            }
 
             override fun undo() = PlacingTile.Placed(placedTile = tile)
         }
 
         data class Placed(
             override val tile: PlacedTile,
+            override val validElements: Set<Element<*>>,
             val placedFigure: PlacedFigure,
         ) : PlacingFigure, Undoable {
 
-            override fun undo() = Fresh(tile = tile)
+            init {
+                val allElements = tile.rotatedTile.tile.elements.all()
+                validElements.forEach {
+                    check(it in allElements) { "Could not find $it in $allElements" }
+                }
+            }
+
+            override fun undo() = Fresh(tile = tile, validElements = validElements)
         }
     }
 

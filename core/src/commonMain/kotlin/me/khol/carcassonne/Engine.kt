@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import me.khol.carcassonne.feature.PlacedElement
+import kotlin.collections.plus
 
 class Engine(
     initialGame: Game,
@@ -41,6 +42,7 @@ class Engine(
                             player = game.currentPlayer,
                         ),
                     ),
+                    validElements = game.board.validElements(tile),
                 )
             )
         }
@@ -95,10 +97,36 @@ class Engine(
         val placing = phase.placedTile
         _game.update { game ->
             game.copy(
-                phase = Phase.PlacingFigure.Fresh(placing),
+                phase = Phase.PlacingFigure.Fresh(
+                    tile = placing,
+                    validElements = game.board.validElements(placing),
+                ),
             )
         }
     }
+}
+
+fun Board.validElements(placedTile: PlacedTile): Set<Element<*>> {
+    val coordinates = placedTile.coordinates
+    val rotatedTile = placedTile.rotatedTile
+
+    val boardWithTile = copy(
+        tiles = tiles + (coordinates to rotatedTile),
+    )
+
+    val validElements = rotatedTile.tile.elements.all()
+        .filter {
+            val element = PlacedElement(
+                coordinates = coordinates,
+                element = it.rotate(rotatedTile.rotation),
+            )
+            val feature = boardWithTile.elementToFeature(element)
+            val featureFigures = boardWithTile.findFiguresForFeature(feature)
+            featureFigures.isEmpty()
+        }
+        .toSet()
+
+    return validElements
 }
 
 fun <T> List<T>.nextOf(current: T): T = this[(indexOf(current) + 1) % size]

@@ -65,7 +65,8 @@ class EngineTest {
                 tile = PlacedTile(
                     rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
                     coordinates = Coordinates(1, 0),
-                )
+                ),
+                validElements = setOf(),
             )
         )
         assertEquals(playerGreen, engine.game.value.currentPlayer)
@@ -74,7 +75,8 @@ class EngineTest {
                 tile = PlacedTile(
                     rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
                     coordinates = Coordinates(2, 0),
-                )
+                ),
+                validElements = setOf(),
             )
         )
         assertEquals(playerRed, engine.game.value.currentPlayer)

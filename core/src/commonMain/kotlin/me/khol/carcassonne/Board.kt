@@ -1,6 +1,7 @@
 package me.khol.carcassonne
 
 import me.khol.carcassonne.feature.Feature
+import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.feature.contains
 import me.khol.carcassonne.feature.getAllFeatures
 
@@ -85,17 +86,18 @@ data class Board(
     }
 }
 
-private fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
-    getAllFeatures()
-        .find { it.placedElements.contains(placedFigure.placedElement) }
-        ?.let { feature ->
-            val featureFigures = findFiguresForFeature(feature)
-            require(featureFigures.isEmpty()) {
-                "Cannot add a figure to an already occupied feature"
-            }
-        }
+fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
+    val feature = elementToFeature(placedFigure.placedElement)
+    val featureFigures = findFiguresForFeature(feature)
+    require(featureFigures.isEmpty()) {
+        "Cannot add a figure to an already occupied feature"
+    }
 }
 
-private fun Board.findFiguresForFeature(feature: Feature): List<PlacedFigure> {
+fun Board.elementToFeature(placedElement: PlacedElement<*>): Feature {
+    return getAllFeatures().first { it.placedElements.contains(placedElement) }
+}
+
+fun Board.findFiguresForFeature(feature: Feature): List<PlacedFigure> {
     return figures.values.flatten().filter { it in feature }
 }
