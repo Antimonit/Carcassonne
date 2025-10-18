@@ -67,7 +67,9 @@ fun App() {
         GameSurface(
             background = background,
         ) {
-            PanningWindow {
+            GamePanningWindow(
+                game = game,
+            ) {
                 when (val analysis = analysis) {
                     is Analysis.Off -> {
                         Board(

@@ -8,11 +8,7 @@ import androidx.compose.foundation.gestures.calculateZoom
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -22,8 +18,9 @@ import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.toOffset
+import kotlinx.coroutines.launch
 
-private fun Float.coerceZoom(): Float = coerceIn(0.4f, 2f)
+fun Float.coerceZoom(): Float = coerceIn(0.4f, 2f)
 
 /**
  * A pan and zoom container.
@@ -33,14 +30,15 @@ private fun Float.coerceZoom(): Float = coerceIn(0.4f, 2f)
  */
 @Composable
 fun PanningWindow(
+    state: PanZoomState,
+    modifier: Modifier = Modifier,
     contents: @Composable () -> Unit,
 ) {
-    var pan by remember { mutableStateOf(Offset.Zero) }
-    var zoom by remember { mutableFloatStateOf(1f) }
+    val coroutineScope = rememberCoroutineScope()
 
     Box(
         contentAlignment = Alignment.Center,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             // Handle mouse scroll zoom
             .pointerInput(Unit) {
@@ -51,13 +49,17 @@ fun PanningWindow(
                             val scrollDelta = change.scrollDelta.y
                             val gestureZoom = 1f - scrollDelta / 50f
 
-                            val oldScale = zoom
-                            val newScale = (zoom * gestureZoom).coerceZoom()
+                            val oldScale = state.zoom
+                            val newScale = (state.zoom * gestureZoom).coerceZoom()
 
                             // Zoom toward pointer position
                             val pointerOffset = change.position - size.center.toOffset()
-                            pan += (pointerOffset / oldScale) - (pointerOffset / newScale)
-                            zoom = newScale
+                            val newPan = state.pan + (pointerOffset / oldScale) - (pointerOffset / newScale)
+
+                            coroutineScope.launch {
+                                state.panAnimatable.snapTo(newPan)
+                                state.zoomAnimatable.snapTo(newScale)
+                            }
                         }
                     }
                 }
@@ -77,13 +79,17 @@ fun PanningWindow(
                             val currentPan = event.calculatePan()
 
                             if (currentZoom != 1f || currentPan != Offset.Zero) {
-                                val oldScale = zoom
-                                val newScale = (zoom * currentZoom).coerceZoom()
+                                val oldScale = state.zoom
+                                val newScale = (state.zoom * currentZoom).coerceZoom()
 
                                 // Zoom toward centroid, then apply pan
                                 val centroidOffset = currentCentroid - size.center.toOffset()
-                                pan += (centroidOffset / oldScale) - (centroidOffset / newScale) - (currentPan / oldScale)
-                                zoom = newScale
+                                val newPan = state.pan + (centroidOffset / oldScale) - (centroidOffset / newScale) - (currentPan / oldScale)
+
+                                coroutineScope.launch {
+                                    state.panAnimatable.snapTo(newPan)
+                                    state.zoomAnimatable.snapTo(newScale)
+                                }
 
                                 event.changes.forEach { it.consume() }
                             }
@@ -92,10 +98,10 @@ fun PanningWindow(
                 }
             }
             .graphicsLayer {
-                translationX = -pan.x * zoom
-                translationY = -pan.y * zoom
-                scaleX = zoom
-                scaleY = zoom
+                translationX = -state.pan.x * state.zoom
+                translationY = -state.pan.y * state.zoom
+                scaleX = state.zoom
+                scaleY = state.zoom
                 transformOrigin = TransformOrigin(0.5f, 0.5f)
             }
     ) {
