@@ -28,6 +28,7 @@ import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.GridScope.coordinates
 import me.khol.carcassonne.ui.tile.tileSize
+import me.khol.carcassonne.ui.tile.tileSpacing
 import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -41,7 +42,7 @@ fun Board(
 ) {
     GridLayout(
         cellSize = tileSize,
-        cellSpacing = 4.dp,
+        cellSpacing = tileSpacing,
         modifier = modifier,
     ) {
         board.tiles.forEach { (coordinates, tile) ->

@@ -21,6 +21,7 @@ import me.khol.carcassonne.ui.zIndexOnHover
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val tileSize = 128.dp
+val tileSpacing = 4.dp
 
 @Composable
 fun TileSurface(
