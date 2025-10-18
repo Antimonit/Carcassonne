@@ -2,7 +2,6 @@ package me.khol.carcassonne.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -14,13 +13,11 @@ fun GameSurface(
     background: Color,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    MaterialTheme {
-        Surface(
-            color = background,
-        ) {
-            Box {
-                content()
-            }
+    Surface(
+        color = background,
+    ) {
+        Box {
+            content()
         }
     }
 }
