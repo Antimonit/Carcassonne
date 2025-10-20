@@ -35,4 +35,9 @@ class PanZoomState {
             launch { zoomAnimatable.animateTo(zoom, animationSpec = spring()) }
         }
     }
+
+    suspend fun snapTo(offset: Offset, zoom: Float) {
+        panAnimatable.snapTo(offset)
+        zoomAnimatable.snapTo(zoom)
+    }
 }

@@ -57,8 +57,7 @@ fun PanningWindow(
                             val newPan = state.pan + (pointerOffset / oldScale) - (pointerOffset / newScale)
 
                             coroutineScope.launch {
-                                state.panAnimatable.snapTo(newPan)
-                                state.zoomAnimatable.snapTo(newScale)
+                                state.snapTo(offset = newPan, zoom = newScale)
                             }
                         }
                     }
@@ -87,8 +86,7 @@ fun PanningWindow(
                                 val newPan = state.pan + (centroidOffset / oldScale) - (centroidOffset / newScale) - (currentPan / oldScale)
 
                                 coroutineScope.launch {
-                                    state.panAnimatable.snapTo(newPan)
-                                    state.zoomAnimatable.snapTo(newScale)
+                                    state.snapTo(offset = newPan, zoom = newScale)
                                 }
 
                                 event.changes.forEach { it.consume() }
