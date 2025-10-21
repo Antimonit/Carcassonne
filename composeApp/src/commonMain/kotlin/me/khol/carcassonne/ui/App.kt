@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import me.khol.carcassonne.Engine
 import me.khol.carcassonne.Game
 import me.khol.carcassonne.History
@@ -90,6 +91,18 @@ fun App() {
                 }
             }
 
+            var remainingTilesDialogOpen by remember { mutableStateOf(false) }
+
+            if (remainingTilesDialogOpen) {
+                Dialog(
+                    onDismissRequest = { remainingTilesDialogOpen = false },
+                ) {
+                    RemainingTilesDialogContent(
+                        tiles = game.remainingTiles,
+                    )
+                }
+            }
+
             AnimatedVisibility(
                 visible = analysis is Analysis.Off,
                 enter = slideInVertically { it },
@@ -102,6 +115,7 @@ fun App() {
                     remainingTilesCount = game.remainingTiles.size,
                     confirmTilePlacement = engine::confirmTilePlacement,
                     confirmFigurePlacement = engine::confirmFigurePlacement,
+                    onTilesLeftClick = { remainingTilesDialogOpen = true },
                     undo = engine::undo,
                     modifier = Modifier
                         .padding(16.dp)
