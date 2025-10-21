@@ -25,8 +25,8 @@ fun GamePanningWindow(
 
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
 
-    LaunchedEffect(game) {
-        val phase = game.phase
+    val phase = game.phase
+    LaunchedEffect(phase, containerSize) {
         if (phase is Phase.PlacingFigure.Fresh) {
             val coordinates = phase.tile.coordinates
             val targetPan = Offset(
@@ -40,29 +40,31 @@ fun GamePanningWindow(
             )
         } else if (phase is Phase.PlacingTile.Fresh && containerSize != IntSize.Zero) {
             val keys = game.board.possibleSpacesForTile(phase.tile).keys + game.board.tiles.keys
-            val minX = keys.minOf { it.x }
-            val maxX = keys.maxOf { it.x }
-            val minY = keys.minOf { it.y }
-            val maxY = keys.maxOf { it.y }
-
-            // Calculate bounding box of all tiles in pixel coordinates:
-            // * Tiles are centered at their `coordinate * spacing`.
-            // * Each tile extends 0.5 * spacing from its center.
-            // * Add padding of 0.25 * spacing so that the tiles are not crammed to the edge of the screen.
-            val boardRect = Rect(
-                left = (minX - 0.75f) * spacing,
-                top = (minY - 0.75f) * spacing,
-                right = (maxX + 0.75f) * spacing,
-                bottom = (maxY + 0.75f) * spacing,
+            val bounds = Rect(
+                left = keys.minOf { it.x } * spacing,
+                top = keys.minOf { it.y } * spacing,
+                right = keys.maxOf { it.x } * spacing,
+                bottom = keys.maxOf { it.y } * spacing,
             )
 
-            // Calculate zoom to fit the board rect in the container
-            val zoomX = containerSize.width / boardRect.width
-            val zoomY = containerSize.height / boardRect.height
+            state.setPanBounds(bounds)
+
+            val zoom = run {
+                // Calculate bounding box of all tiles in pixel coordinates:
+                // * Tiles are centered at their `coordinate * spacing`.
+                // * Each tile extends 0.5 * spacing from its center.
+                // * Add padding of 0.25 * spacing so that the tiles are not crammed to the edge of the screen.
+                val boardRect = bounds.inflate(0.75f * spacing)
+
+                // Calculate the minimum zoom to fit the board rect in the container
+                val zoomX = containerSize.width / boardRect.width
+                val zoomY = containerSize.height / boardRect.height
+                minOf(zoomX, zoomY)
+            }
 
             state.scrollTo(
-                offset = boardRect.center,
-                zoom = minOf(zoomX, zoomY).coerceZoom(),
+                offset = bounds.center,
+                zoom = zoom,
             )
         }
     }

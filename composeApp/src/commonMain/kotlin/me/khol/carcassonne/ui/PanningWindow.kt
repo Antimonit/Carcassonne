@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.center
 import androidx.compose.ui.unit.toOffset
 import kotlinx.coroutines.launch
 
-fun Float.coerceZoom(): Float = coerceIn(0.4f, 2f)
-
 /**
  * A pan and zoom container.
  *
@@ -50,7 +48,7 @@ fun PanningWindow(
                             val gestureZoom = 1f - scrollDelta / 50f
 
                             val oldScale = state.zoom
-                            val newScale = (state.zoom * gestureZoom).coerceZoom()
+                            val newScale = state.zoom * gestureZoom
 
                             // Zoom toward pointer position
                             val pointerOffset = change.position - size.center.toOffset()
@@ -79,7 +77,7 @@ fun PanningWindow(
 
                             if (currentZoom != 1f || currentPan != Offset.Zero) {
                                 val oldScale = state.zoom
-                                val newScale = (state.zoom * currentZoom).coerceZoom()
+                                val newScale = state.zoom * currentZoom
 
                                 // Zoom toward centroid, then apply pan
                                 val centroidOffset = currentCentroid - size.center.toOffset()
