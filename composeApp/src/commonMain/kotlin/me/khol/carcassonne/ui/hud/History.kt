@@ -192,6 +192,7 @@ fun ScoringEvent(
 ) {
     Surface(
         color = event.triggerPlayer.color.uiColor(),
+        contentColor = event.triggerPlayer.color.uiOnColor(),
         shape = RoundedCornerShape(4.dp),
         modifier = modifier,
     ) {
@@ -209,11 +210,20 @@ fun ScoringEvent(
     }
 }
 
-private fun Player.Color.uiColor(): Color = when (this) {
+fun Player.Color.uiColor(): Color = when (this) {
     Player.Color.Black -> Color(0xFF323031)
     Player.Color.Blue -> Color(0xFF1C70B1)
     Player.Color.Green -> Color(0xFF33A647)
     Player.Color.Pink -> Color(0xFFEA7FB6)
     Player.Color.Red -> Color(0xFFD71F26)
     Player.Color.Yellow -> Color(0xFFEDE035)
+}
+
+fun Player.Color.uiOnColor(): Color = when (this) {
+    Player.Color.Black -> Color(0xFFFFFFFF)
+    Player.Color.Blue -> Color(0xFFFFFFFF)
+    Player.Color.Green -> Color(0xFFFFFFFF7)
+    Player.Color.Pink -> Color(0xFF000000)
+    Player.Color.Red -> Color(0xFFFFFFFF)
+    Player.Color.Yellow -> Color(0xFF000000)
 }

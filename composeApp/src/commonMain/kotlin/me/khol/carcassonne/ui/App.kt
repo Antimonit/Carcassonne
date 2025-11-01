@@ -30,6 +30,7 @@ import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.ui.hud.History
 import me.khol.carcassonne.ui.hud.PhaseHud
+import me.khol.carcassonne.ui.hud.PlayerListHud
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 sealed interface Analysis {
@@ -105,6 +106,12 @@ fun App() {
                     )
                 }
             }
+
+            PlayerListHud(
+                game = game,
+                modifier = Modifier
+                    .align(alignment = Alignment.TopStart)
+            )
 
             AnimatedVisibility(
                 visible = analysis is Analysis.Off,
