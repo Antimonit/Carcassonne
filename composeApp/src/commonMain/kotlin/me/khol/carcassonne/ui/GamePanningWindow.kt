@@ -26,8 +26,11 @@ fun GamePanningWindow(
     var containerSize by remember { mutableStateOf(IntSize.Zero) }
 
     val phase = game.phase
-    LaunchedEffect(phase, containerSize) {
-        if (phase is Phase.PlacingFigure.Fresh) {
+    val isPlacingTile = phase is Phase.PlacingTile
+    val isPlacingFigure = phase is Phase.PlacingFigure
+
+    LaunchedEffect(isPlacingTile, isPlacingFigure, containerSize) {
+        if (isPlacingFigure) {
             val coordinates = phase.tile.coordinates
             val targetPan = Offset(
                 x = coordinates.x * spacing,
@@ -38,7 +41,7 @@ fun GamePanningWindow(
                 offset = targetPan,
                 zoom = 1.5f,
             )
-        } else if (phase is Phase.PlacingTile.Fresh && containerSize != IntSize.Zero) {
+        } else if (isPlacingTile && containerSize != IntSize.Zero) {
             val keys = game.board.possibleSpacesForTile(phase.tile).keys + game.board.tiles.keys
             val bounds = Rect(
                 left = keys.minOf { it.x } * spacing,
