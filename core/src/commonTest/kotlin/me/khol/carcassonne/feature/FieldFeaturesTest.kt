@@ -25,6 +25,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
@@ -36,6 +37,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
             ),
             actual = board.getFieldFeatures(),
@@ -56,6 +58,7 @@ class FieldFeaturesTest {
                 PlacedCity(Coordinates(0, -1), element = Element.City { bottom }),
             ),
             isFinished = true,
+            figures = emptyList(),
         )
         val topCity = Feature.City(
             placedCities = setOf(
@@ -63,6 +66,7 @@ class FieldFeaturesTest {
                 PlacedCity(Coordinates(0, -2), element = Element.City { bottom }),
             ),
             isFinished = true,
+            figures = emptyList(),
         )
 
         assertEquals(
@@ -75,6 +79,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
@@ -86,6 +91,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = setOf(bottomCity),
+                    figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
@@ -98,6 +104,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = setOf(bottomCity, topCity),
+                    figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
@@ -108,6 +115,7 @@ class FieldFeaturesTest {
                             ) { left + right + top }),
                     ),
                     connectedCities = setOf(topCity),
+                    figures = emptyList(),
                 ),
             ),
             actual = newBoard.getFieldFeatures(),
@@ -129,6 +137,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
@@ -142,6 +151,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
@@ -155,6 +165,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
             ),
             actual = board.getFieldFeatures(),
@@ -185,6 +196,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
@@ -198,6 +210,7 @@ class FieldFeaturesTest {
                         ),
                     ),
                     connectedCities = emptySet(),
+                    figures = emptyList(),
                 ),
             ),
             actual = newBoard.getFieldFeatures(),

@@ -26,6 +26,7 @@ class GardenFeaturesTest {
             expected = Feature.Garden(
                 placedGarden = PlacedGarden(Coordinates(0, -1), Element.Garden),
                 neighborCount = 2,
+                figures = emptyList(),
             ),
             actual = gardenFeature,
         )

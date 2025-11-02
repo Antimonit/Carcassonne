@@ -26,6 +26,7 @@ class CityFeaturesTest {
                             PlacedCity(Coordinates(0, 0), element = Element.City { top }),
                         ),
                         isFinished = false,
+                        figures = emptyList(),
                     ),
                     actual = this,
                 )
@@ -49,6 +50,7 @@ class CityFeaturesTest {
                             PlacedCity(Coordinates(0, -2), element = Element.City { bottom }),
                         ),
                         isFinished = true,
+                        figures = emptyList(),
                     ),
                     actual = this,
                 )
@@ -70,12 +72,14 @@ class CityFeaturesTest {
                         PlacedCity(Coordinates(0, 0), element = Element.City { top }),
                     ),
                     isFinished = false,
+                    figures = emptyList(),
                 ),
                 Feature.City(
                     placedCities = setOf(
                         PlacedCity(Coordinates(1, 0), element = Element.City { top }),
                     ),
                     isFinished = false,
+                    figures = emptyList(),
                 ),
             ),
             actual = board.getCityFeatures(),
@@ -95,6 +99,7 @@ class CityFeaturesTest {
                         PlacedCity(Coordinates(1, -1), element = Element.City { top + left + bottom }),
                     ),
                     isFinished = false,
+                    figures = emptyList(),
                 ),
             ),
             actual = newBoard.getCityFeatures(),

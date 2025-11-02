@@ -26,6 +26,7 @@ class MonasteryFeaturesTest {
                     expected = Feature.Monastery(
                         placedMonastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery),
                         neighborCount = 2,
+                        figures = emptyList(),
                     ),
                     actual = this,
                 )
@@ -51,6 +52,7 @@ class MonasteryFeaturesTest {
                     expected = Feature.Monastery(
                         placedMonastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery),
                         neighborCount = 9,
+                        figures = emptyList(),
                     ),
                     actual = this,
                 )
