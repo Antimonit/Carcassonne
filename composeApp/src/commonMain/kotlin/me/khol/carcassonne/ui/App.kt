@@ -102,7 +102,8 @@ fun App() {
                     onDismissRequest = { remainingTilesDialogOpen = false },
                 ) {
                     RemainingTilesDialogContent(
-                        tiles = game.remainingTiles,
+                        allTiles = game.tiles,
+                        remainingTiles = game.remainingTiles,
                     )
                 }
             }
