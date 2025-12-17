@@ -10,7 +10,7 @@ compose-multiplatform = "1.9.3"
 # https://github.com/JetBrains/compose-hot-reload/releases
 compose-hotReload = "1.0.0"
 # https://developer.android.com/jetpack/androidx/releases/activity#declaring_dependencies
-androidx-activityCompose = "1.12.0"
+androidx-activityCompose = "1.12.2"
 # https://github.com/Kotlin/kotlinx-kover/releases
 kover = "0.9.4"
 
