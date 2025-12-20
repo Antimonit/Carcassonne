@@ -1,4 +1,4 @@
-package me.khol.carcassonne
+package me.khol.carcassonne.android
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
