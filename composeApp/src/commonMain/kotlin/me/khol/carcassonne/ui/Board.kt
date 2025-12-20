@@ -16,7 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
-import me.khol.carcassonne.Element
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlacedTile
@@ -37,7 +36,7 @@ fun Board(
     board: Board,
     phase: Phase,
     onPlaceTile: (PlacedTile) -> Unit,
-    onPlaceFigure: (PlacedTile, Element<*>) -> Unit,
+    onPlaceFigure: (PlacedTile, PlacedFigure) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     GridLayout(
@@ -72,10 +71,11 @@ fun Board(
                     overlay = {
                         TileElementsOverlay(
                             onElementClick = {
-                                onPlaceFigure(placingTile, it.rotate(rotation))
+                                onPlaceFigure(placingTile, it)
                             },
                             uiTile = uiTile,
-                            validElements = phase.validElements,
+                            rotation = rotation,
+                            validMeeplePlacements = phase.validFigurePlacements,
                         )
                         when (phase) {
                             is Phase.PlacingFigure.Fresh -> Unit
@@ -192,7 +192,7 @@ private fun BoardPreview() {
                     .placeTile(coordinates = Coordinates(0, 1), tile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_180), placedFigures = emptyList()),
                 phase = Phase.PlacingTile.Fresh(Tiles.Basic.D),
                 onPlaceTile = { tile -> },
-                onPlaceFigure = { tile, element -> },
+                onPlaceFigure = { tile, figure -> },
             )
         }
     }

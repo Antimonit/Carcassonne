@@ -28,17 +28,20 @@ sealed interface Phase {
     sealed interface PlacingFigure : Phase {
 
         val tile: PlacedTile
-        val validElements: Set<Element<*>>
+        val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>
 
         data class Fresh(
             override val tile: PlacedTile,
-            override val validElements: Set<Element<*>>,
+            override val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>,
         ) : PlacingFigure, Undoable {
 
             init {
-                val allElements = tile.rotatedTile.tile.elements.all()
-                validElements.forEach {
-                    check(it in allElements) { "Could not find $it in $allElements" }
+                val allElements = tile.rotatedTile.asTile().elements.all()
+                check(validFigurePlacements.size == allElements.size) {
+                    "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
+                }
+                check(validFigurePlacements.keys == allElements.toSet()) {
+                    "Elements in validFigurePlacements and allElements do not match."
                 }
             }
 
@@ -47,18 +50,21 @@ sealed interface Phase {
 
         data class Placed(
             override val tile: PlacedTile,
-            override val validElements: Set<Element<*>>,
+            override val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>,
             val placedFigure: PlacedFigure,
         ) : PlacingFigure, Undoable {
 
             init {
-                val allElements = tile.rotatedTile.tile.elements.all()
-                validElements.forEach {
-                    check(it in allElements) { "Could not find $it in $allElements" }
+                val allElements = tile.rotatedTile.asTile().elements.all()
+                check(validFigurePlacements.size == allElements.size) {
+                    "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
+                }
+                check(validFigurePlacements.keys == allElements.toSet()) {
+                    "Elements in validFigurePlacements and allElements do not match."
                 }
             }
 
-            override fun undo() = Fresh(tile = tile, validElements = validElements)
+            override fun undo() = Fresh(tile = tile, validFigurePlacements = validFigurePlacements)
         }
     }
 

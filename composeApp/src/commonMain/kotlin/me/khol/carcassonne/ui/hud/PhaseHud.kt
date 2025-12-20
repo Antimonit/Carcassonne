@@ -198,7 +198,7 @@ private fun PhaseHudPlacingFigurePreview() {
                         ),
                         coordinates = Coordinates(1, 0),
                     ),
-                    validElements = emptySet(),
+                    validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
                 ),
                 remainingTilesCount = 71,
                 confirmTilePlacement = {},

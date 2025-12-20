@@ -1,5 +1,7 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
@@ -46,7 +48,13 @@ class EngineTest {
                 rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
                 coordinates = Coordinates(1, 0),
             ),
-            element = me.khol.carcassonne.tiles.basic.D.road,
+            placedFigure = PlacedFigure(
+                PlacedElement(
+                    coordinates = Coordinates(1, 0),
+                    element = me.khol.carcassonne.tiles.basic.D.road,
+                ),
+                figure = PlayerFigures.greenMeeple,
+            )
         )
         assertIs<Phase.PlacingFigure.Placed>(engine.game.value.phase)
         engine.undo()
@@ -66,7 +74,7 @@ class EngineTest {
                     rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
                     coordinates = Coordinates(1, 0),
                 ),
-                validElements = setOf(),
+                validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
             )
         )
         assertEquals(playerGreen, engine.game.value.currentPlayer)
@@ -76,7 +84,7 @@ class EngineTest {
                     rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
                     coordinates = Coordinates(2, 0),
                 ),
-                validElements = setOf(),
+                validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
             )
         )
         assertEquals(playerRed, engine.game.value.currentPlayer)

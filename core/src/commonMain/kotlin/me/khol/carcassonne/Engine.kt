@@ -5,7 +5,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.figure.Abbot
+import me.khol.carcassonne.figure.Builder
+import me.khol.carcassonne.figure.LargeMeeple
+import me.khol.carcassonne.figure.Mayor
 import me.khol.carcassonne.figure.Meeple
+import me.khol.carcassonne.figure.Pig
 
 class Engine(
     initialGame: Game,
@@ -30,19 +35,13 @@ class Engine(
         }
     }
 
-    fun placeFigure(tile: PlacedTile, element: Element<*>) {
+    fun placeFigure(tile: PlacedTile, placedFigure: PlacedFigure) {
         _game.update { game ->
             game.copy(
                 phase = Phase.PlacingFigure.Placed(
                     tile = tile,
-                    placedFigure = PlacedFigure(
-                        placedElement = PlacedElement(tile.coordinates, element),
-                        figure = PlayerFigure(
-                            figure = Meeple,
-                            player = game.currentPlayer,
-                        ),
-                    ),
-                    validElements = game.board.validElements(tile),
+                    placedFigure = placedFigure,
+                    validFigurePlacements = game.board.validFigurePlacements(tile, game.currentPlayer),
                 )
             )
         }
@@ -103,7 +102,7 @@ class Engine(
             game.copy(
                 phase = Phase.PlacingFigure.Fresh(
                     tile = placing,
-                    validElements = game.board.validElements(placing),
+                    validFigurePlacements = game.board.validFigurePlacements(placing, game.currentPlayer),
                 ),
             )
         }
@@ -111,7 +110,7 @@ class Engine(
 }
 
 
-fun Board.validElements(placedTile: PlacedTile): Set<Element<*>> {
+fun Board.validFigurePlacements(placedTile: PlacedTile, currentPlayer: Player): Map<Element<*>, List<PlacedFigure>> {
     val coordinates = placedTile.coordinates
     val rotatedTile = placedTile.rotatedTile
 
@@ -119,18 +118,21 @@ fun Board.validElements(placedTile: PlacedTile): Set<Element<*>> {
         tiles = tiles + (coordinates to rotatedTile),
     )
 
-    val validElements = rotatedTile.tile.elements.all()
-        .filter {
+    return rotatedTile.tile.elements.all()
+        .associate { element ->
             val element = PlacedElement(
                 coordinates = coordinates,
-                element = it.rotate(rotatedTile.rotation),
+                element = element.rotate(rotatedTile.rotation),
             )
             val feature = boardWithTile.elementToFeature(element)
-            feature.figures.isEmpty()
-        }
-        .toSet()
+            val validFigurePlacements =
+                listOf(Meeple, Abbot/*, LargeMeeple, Mayor, Pig, Builder*/)
+                    .filter { figure -> figure.canBePlaced(feature, currentPlayer) }
+                    .map { PlayerFigure(figure = it, player = currentPlayer) }
+                    .map { PlacedFigure(placedElement = element, figure = it) }
 
-    return validElements
+            element.element to validFigurePlacements
+        }
 }
 
 fun <T> List<T>.nextOf(current: T): T {

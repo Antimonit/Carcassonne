@@ -2,8 +2,8 @@ package me.khol.carcassonne
 
 import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.PlacedElement
-import me.khol.carcassonne.feature.contains
 import me.khol.carcassonne.feature.getAllFeatures
+import me.khol.carcassonne.feature.getCityFeatures
 
 data class Board(
     val tiles: Map<Coordinates, RotatedTile>,
