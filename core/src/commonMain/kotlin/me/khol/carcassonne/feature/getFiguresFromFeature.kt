@@ -1,10 +1,9 @@
 package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
-import me.khol.carcassonne.PlayerFigure
+import me.khol.carcassonne.PlacedFigure
 
 fun Board.getFiguresFromFeature(
     placedElements: Collection<PlacedElement<*>>
-): List<PlayerFigure> = placedElements
+): List<PlacedFigure> = placedElements
     .flatMap { getFigures(it) }
-    .map { it.figure }

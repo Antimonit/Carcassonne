@@ -8,5 +8,5 @@ data object Pig : Figure {
     override fun presence(feature: Feature): Int = 0
 
     override fun canBePlaced(feature: Feature, player: Player): Boolean =
-        feature is Feature.Field && feature.figures.any { it.player == player }
+        feature is Feature.Field && feature.figures.any { it.figure.player == player }
 }

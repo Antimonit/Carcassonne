@@ -4,7 +4,7 @@ import me.khol.carcassonne.Board
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.ElementPosition
-import me.khol.carcassonne.PlayerFigure
+import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.surroundingCoordinates
 
 /**
@@ -12,7 +12,7 @@ import me.khol.carcassonne.surroundingCoordinates
  */
 fun <E : Element<ElementPosition.Edge>, F : Feature> Board.getEdgeFeatures(
     key: ElementKey<E>,
-    createFeature: (placedElements: Set<PlacedElement<E>>, isFinished: Boolean, figures: List<PlayerFigure>) -> F,
+    createFeature: (placedElements: Set<PlacedElement<E>>, isFinished: Boolean, figures: List<PlacedFigure>) -> F,
 ): Set<F> {
     val processedElements: MutableMap<PlacedElement<E>, F> = mutableMapOf()
 
@@ -59,7 +59,7 @@ fun <E : Element<ElementPosition.Edge>, F : Feature> Board.getEdgeFeatures(
  */
 fun <E : Element<ElementPosition.SplitEdge>, F : Feature> Board.getSplitEdgeFeatures(
     key: ElementKey<E>,
-    createFeature: (placedElements: Set<PlacedElement<E>>, figures: List<PlayerFigure>) -> F,
+    createFeature: (placedElements: Set<PlacedElement<E>>, figures: List<PlacedFigure>) -> F,
 ): Set<F> {
     val processedElements: MutableMap<PlacedElement<E>, F> = mutableMapOf()
 
@@ -100,7 +100,7 @@ fun <E : Element<ElementPosition.SplitEdge>, F : Feature> Board.getSplitEdgeFeat
  */
 fun <E : Element<ElementPosition.Center>, F : Feature> Board.getCenterFeatures(
     key: ElementKey<E>,
-    createFeature: (placedElement: PlacedElement<E>, neighborCount: Int, figures: List<PlayerFigure>) -> F,
+    createFeature: (placedElement: PlacedElement<E>, neighborCount: Int, figures: List<PlacedFigure>) -> F,
 ): Set<F> {
     val processedElements: MutableMap<PlacedElement<E>, F> = mutableMapOf()
 

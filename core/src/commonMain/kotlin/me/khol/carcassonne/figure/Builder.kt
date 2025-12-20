@@ -9,10 +9,10 @@ data object Builder : Figure {
 
     override fun canBePlaced(feature: Feature, player: Player): Boolean =
         when (feature) {
-            is Feature.City -> feature.figures.any { it.player == player }
+            is Feature.City -> feature.figures.any { it.figure.player == player }
             is Feature.Field -> false
             is Feature.Garden -> false
             is Feature.Monastery -> false
-            is Feature.Road -> feature.figures.any { it.player == player }
+            is Feature.Road -> feature.figures.any { it.figure.player == player }
         }
 }
