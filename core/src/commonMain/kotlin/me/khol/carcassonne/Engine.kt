@@ -57,18 +57,7 @@ class Engine(
                 tile = placing.rotatedTile,
                 placedFigures = when (phase) {
                     is Phase.PlacingFigure.Fresh -> emptyList()
-                    is Phase.PlacingFigure.Placed -> listOf(
-                        PlacedFigure(
-                            placedElement = PlacedElement(
-                                coordinates = placing.coordinates,
-                                element = phase.placedFigure.placedElement.element,
-                            ),
-                            figure = PlayerFigure(
-                                figure = Meeple,
-                                player = game.currentPlayer,
-                            ),
-                        ),
-                    )
+                    is Phase.PlacingFigure.Placed -> listOf(phase.placedFigure)
                 },
             )
 
