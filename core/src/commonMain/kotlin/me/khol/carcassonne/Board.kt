@@ -36,7 +36,7 @@ data class Board(
 
     fun getFigures(coordinates: Coordinates): List<PlacedFigure> = figures[coordinates].orEmpty()
 
-    fun getFigures(placedElement: PlacedElement<*>): List<PlacedFigure> = figures[placedElement.coordinates].orEmpty().filter { it == placedElement }
+    fun getFigures(placedElement: PlacedElement<*>): List<PlacedFigure> = figures[placedElement.coordinates].orEmpty().filter { it.placedElement == placedElement }
 
     fun placeTile(coordinates: Coordinates, tile: RotatedTile, placedFigures: List<PlacedFigure>): Board {
         require(coordinates !in tiles.keys) {
@@ -96,16 +96,11 @@ data class Board(
 
 fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
     val feature = elementToFeature(placedFigure.placedElement)
-    val featureFigures = findFiguresForFeature(feature)
-    require(featureFigures.isEmpty()) {
+    require(feature.figures.isEmpty()) {
         "Cannot add a figure to an already occupied feature"
     }
 }
 
 fun Board.elementToFeature(placedElement: PlacedElement<*>): Feature {
     return getAllFeatures().first { it.placedElements.contains(placedElement) }
-}
-
-fun Board.findFiguresForFeature(feature: Feature): List<PlacedFigure> {
-    return figures.values.flatten().filter { it in feature }
 }

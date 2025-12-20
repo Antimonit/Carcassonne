@@ -136,8 +136,7 @@ fun Board.validElements(placedTile: PlacedTile): Set<Element<*>> {
                 element = it.rotate(rotatedTile.rotation),
             )
             val feature = boardWithTile.elementToFeature(element)
-            val featureFigures = boardWithTile.findFiguresForFeature(feature)
-            featureFigures.isEmpty()
+            feature.figures.isEmpty()
         }
         .toSet()
 

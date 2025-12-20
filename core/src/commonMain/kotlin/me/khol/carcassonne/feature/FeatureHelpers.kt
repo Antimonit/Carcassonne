@@ -44,7 +44,7 @@ fun <E : Element<ElementPosition.Edge>, F : Feature> Board.getEdgeFeatures(
 
             follow(placedElement)
 
-            val figures = getFiguresFromFeature(listOf(placedElement))
+            val figures = getFiguresFromFeature(placedElements)
 
             val feature = createFeature(placedElements, isFinished, figures)
             placedElements.forEach { processedElements[it] = feature }
@@ -85,7 +85,7 @@ fun <E : Element<ElementPosition.SplitEdge>, F : Feature> Board.getSplitEdgeFeat
 
             follow(placedElement)
 
-            val figures = getFiguresFromFeature(listOf(placedElement))
+            val figures = getFiguresFromFeature(placedElements)
 
             val feature = createFeature(placedElements, figures)
             placedElements.forEach { processedElements[it] = feature }
