@@ -4,6 +4,8 @@ import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.feature.getAllFeatures
 import me.khol.carcassonne.feature.getCityFeatures
+import me.khol.carcassonne.figure.Abbot
+import me.khol.carcassonne.figure.Meeple
 
 data class Board(
     val tiles: Map<Coordinates, RotatedTile>,
@@ -96,7 +98,9 @@ data class Board(
 
 fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
     val feature = elementToFeature(placedFigure.placedElement)
-    require(feature.figures.isEmpty()) {
+    val figure = placedFigure.figure.figure
+    val player = placedFigure.figure.player
+    require(figure.canBePlaced(feature, player)) {
         "Cannot add a figure to an already occupied feature"
     }
 }
