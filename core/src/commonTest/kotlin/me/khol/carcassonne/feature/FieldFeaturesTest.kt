@@ -3,9 +3,12 @@ package me.khol.carcassonne.feature
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
+import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.tiles.Tiles
+import me.khol.carcassonne.tiles.basic.E
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -214,6 +217,36 @@ class FieldFeaturesTest {
                 ),
             ),
             actual = newBoard.getFieldFeatures(),
+        )
+    }
+
+    @Test
+    fun `field features with figures`() {
+        val figureOne = PlacedFigure(
+            placedElement = PlacedElement(
+                coordinates = Coordinates(0, -1),
+                element = E.field.rotate(Rotation.ROTATE_180),
+            ),
+            figure = PlayerFigures.greenMeeple,
+        )
+        val figureTwo = PlacedFigure(
+            placedElement = PlacedElement(
+                coordinates = Coordinates(1, 0),
+                element = E.field.rotate(Rotation.ROTATE_180),
+            ),
+            figure = PlayerFigures.greenMeeple,
+        )
+
+        val board = Board.starting(startingTile = Tiles.Basic.E)
+            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180), listOf(figureOne))
+            .placeTile(Coordinates(1, 0), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180), listOf(figureTwo))
+            .placeTile(Coordinates(1, -1), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_0), emptyList())
+
+        assertEquals(
+            expected = setOf(
+                setOf(figureOne, figureTwo)
+            ),
+            actual = board.getFieldFeatures().map { it.figures.toSet() }.toSet(),
         )
     }
 }
