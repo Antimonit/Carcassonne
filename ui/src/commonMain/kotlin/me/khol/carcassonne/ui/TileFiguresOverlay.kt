@@ -103,9 +103,9 @@ fun Figure.drawable(
         Player.Color.Red -> Res.drawable.figure_abbot_red
         Player.Color.Yellow -> Res.drawable.figure_abbot_yellow
     }
-    Builder -> TODO()
-    Pig -> TODO()
-    else -> TODO()
+    Builder -> Res.drawable.figure_abbot_yellow
+    Pig -> Res.drawable.figure_abbot_yellow
+    else -> Res.drawable.figure_abbot_yellow
 }
 
 @Preview
