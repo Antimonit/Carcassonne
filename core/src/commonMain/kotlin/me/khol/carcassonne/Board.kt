@@ -128,6 +128,7 @@ fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
     val figure = placedFigure.figure.figure
     val player = placedFigure.figure.player
     require(figure.canBePlaced(feature, player)) {
+        // TODO: Improve the error message
         "Cannot add a figure to an already occupied feature"
     }
 }
