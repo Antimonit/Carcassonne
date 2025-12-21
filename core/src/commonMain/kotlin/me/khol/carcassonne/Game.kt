@@ -46,4 +46,25 @@ data class Game(
             )
         }
     }
+
+    fun remainingBoardSpaceCounts(): Map<Coordinates, Int> =
+        board.openSpaces.associateWith { centerSpace ->
+            val top = board.getTile(centerSpace.top)?.edges?.bottom
+            val right = board.getTile(centerSpace.right)?.edges?.left
+            val bottom = board.getTile(centerSpace.bottom)?.edges?.top
+            val left = board.getTile(centerSpace.left)?.edges?.right
+
+            remainingTiles.count { tile ->
+                Rotation.entries.map { rotation ->
+                    RotatedTile(tile, rotation)
+                }.any { rotatedTile ->
+                    listOfNotNull(
+                        top?.let { rotatedTile.edges.top == it },
+                        bottom?.let { rotatedTile.edges.bottom == it },
+                        left?.let { rotatedTile.edges.left == it },
+                        right?.let { rotatedTile.edges.right == it },
+                    ).all { it }
+                }
+            }
+        }
 }

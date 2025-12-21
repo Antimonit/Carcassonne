@@ -76,6 +76,9 @@ fun App() {
             ) {
                 when (val analysis = analysis) {
                     is Analysis.Off -> {
+                        RemainingBoardSpaceCountsHints(
+                            game = game,
+                        )
                         Board(
                             board = game.board,
                             phase = game.phase,

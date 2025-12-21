@@ -198,5 +198,5 @@ private fun BoardPreview() {
     }
 }
 
-private fun Modifier.coordinates(coordinates: Coordinates): Modifier =
+fun Modifier.coordinates(coordinates: Coordinates): Modifier =
     this.coordinates(x = coordinates.x, y = coordinates.y)
