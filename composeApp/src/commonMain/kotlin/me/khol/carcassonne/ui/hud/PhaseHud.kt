@@ -151,7 +151,14 @@ fun PhaseHud(
                         )
                     }
 
-                    Phase.Scoring -> Unit
+                    is Phase.Scoring -> {
+                        Text(
+                            text = "Scoring",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally)
+                        )
+                    }
                 }
             }
         }

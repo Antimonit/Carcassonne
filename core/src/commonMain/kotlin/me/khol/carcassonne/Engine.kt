@@ -1,16 +1,25 @@
 package me.khol.carcassonne
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.figure.Abbot
 import me.khol.carcassonne.figure.Meeple
 
 class Engine(
     initialGame: Game,
+    dispatcher: CoroutineDispatcher = Dispatchers.Default,
 ) {
+
+    private val scope = CoroutineScope(Job() + dispatcher)
 
     private val _game = MutableStateFlow(initialGame)
     val game: StateFlow<Game> = _game.asStateFlow()
@@ -48,51 +57,69 @@ class Engine(
     }
 
     fun confirmFigurePlacement(phase: Phase.PlacingFigure) {
-        val placing = phase.placedTile
-        _game.update { game ->
-            val remainingTiles = game.remainingTiles.drop(1)
-            val placedBoard = game.board.placeTile(
-                coordinates = placing.coordinates,
-                tile = placing.rotatedTile,
-                placedFigures = when (phase) {
-                    is Phase.PlacingFigure.Fresh -> emptyList()
-                    is Phase.PlacingFigure.Placed -> listOf(phase.placedFigure)
-                },
-            )
+        scope.launch {
+            val placedGame = _game.value.let { game ->
+                val placing = phase.placedTile
+                val remainingTiles = game.remainingTiles.drop(1)
+                val placedBoard = game.board.placeTile(
+                    coordinates = placing.coordinates,
+                    tile = placing.rotatedTile,
+                    placedFigures = when (phase) {
+                        is Phase.PlacingFigure.Fresh -> emptyList()
+                        is Phase.PlacingFigure.Placed -> listOf(phase.placedFigure)
+                    },
+                )
+                val tilePlacementEvent = History.Event.TilePlacement(
+                    player = game.currentPlayer,
+                    placedTile = phase.placedTile,
+                    placedFigure = when (phase) {
+                        is Phase.PlacingFigure.Fresh -> null
+                        is Phase.PlacingFigure.Placed -> phase.placedFigure
+                    },
+                    board = placedBoard.copy(),
+                )
+                game.copy(
+                    board = placedBoard,
+                    remainingTiles = remainingTiles,
+                    history = game.history.addEvent(tilePlacementEvent),
+                )
+            }
+
+            var nextGame = placedGame
 
             val scoringEvents = scoringEvents(
-                board = placedBoard,
-                currentPlayer = game.currentPlayer,
+                board = placedGame.board,
+                currentPlayer = placedGame.currentPlayer,
             )
 
-            val tilePlacementEvent = History.Event.TilePlacement(
-                player = game.currentPlayer,
-                placedTile = phase.placedTile,
-                placedFigure = when (phase) {
-                    is Phase.PlacingFigure.Fresh -> null
-                    is Phase.PlacingFigure.Placed -> phase.placedFigure
-                },
-                board = placedBoard.copy(),
-            )
+            // We need to process one event at the time since in some expansions
+            // players might take actions during scoring that trigger changes on
+            // the board, such as removing meeples.
+            scoringEvents.forEach { scoringEvent ->
+                _game.value = nextGame.copy(
+                    phase = Phase.Scoring(scoringEvent),
+                )
+                delay(2500)
+                nextGame = _game.value.let {
+                    it.copy(
+                        board = it.board.removeFigures(scoringEvent.figures),
+                        history = it.history.addEvent(scoringEvent),
+                        scoreboard = it.scoreboard.addScores(
+                            players = scoringEvent.scoringPlayers,
+                            points = scoringEvent.points,
+                        ),
+                    )
+                }
+            }
 
-            val scoredBoard = placedBoard.removeFigures(scoringEvents.flatMap { it.figures })
-
-            game.copy(
-                board = scoredBoard,
-                remainingTiles = remainingTiles,
-                history = game.history.copy(
-                    events = game.history.events + tilePlacementEvent + scoringEvents
-                ),
-                phase = remainingTiles.firstOrNull()
-                    ?.let(Phase.PlacingTile::Fresh)
-                    ?: Phase.FinalScoring,
-                scoreboard = scoringEvents.fold(game.scoreboard) { scoreboard, score ->
-                    score.scoringPlayers.fold(scoreboard) { scoreboard, player ->
-                        scoreboard.addScore(player = player, points = score.points)
-                    }
-                },
-                currentPlayer = game.players.nextOf(game.currentPlayer),
-            )
+            _game.value = nextGame.let {
+                it.copy(
+                    phase = it.remainingTiles.firstOrNull()
+                        ?.let(Phase.PlacingTile::Fresh)
+                        ?: Phase.FinalScoring,
+                    currentPlayer = it.players.nextOf(it.currentPlayer),
+                )
+            }
         }
     }
 

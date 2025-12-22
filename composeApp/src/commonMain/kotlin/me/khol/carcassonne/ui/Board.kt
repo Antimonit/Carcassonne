@@ -48,6 +48,12 @@ fun Board(
             RotatedTile(
                 rotatedUiTile = rotatedUiTile,
                 overlay = {
+                    if (phase is Phase.Scoring)  {
+                        TileScoringOverlay(
+                            coordinates = coordinates,
+                            scoringEvent = phase.scoringEvent,
+                        )
+                    }
                     TileFiguresOverlay(
                         figures = board.getFigures(coordinates),
                         rotatedUiTile = rotatedUiTile,
@@ -120,7 +126,9 @@ fun Board(
                     }
                 }
             }
-            Phase.Scoring -> Unit
+            is Phase.Scoring -> {
+                // handled as an overlay
+            }
             Phase.FinalScoring -> Unit
         }
     }

@@ -1,15 +1,23 @@
 package me.khol.carcassonne
 
+import app.cash.turbine.test
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.runTest
+import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
 import kotlin.test.Test
+import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
 
 class EngineTest {
+
+    private val dispatcher: TestDispatcher = StandardTestDispatcher()
 
     val playerRed = Players.red
     val playerGreen = Players.green
@@ -19,6 +27,7 @@ class EngineTest {
             startingTile = Tiles.Basic.D.tile,
             players = listOf(playerRed, playerGreen)
         ),
+        dispatcher = dispatcher,
     )
 
     @Test
@@ -74,5 +83,95 @@ class EngineTest {
             )
         )
         assertEquals(playerRed, engine.game.value.currentPlayer)
+    }
+
+    @Test
+    fun `placing a tile scores all features`() = runTest(dispatcher) {
+        val tileL = Tiles.Basic.L.tile.rotated(Rotation.ROTATE_270)
+        val tileP = Tiles.Basic.P.tile.rotated(Rotation.ROTATE_180)
+
+        engine.game.test {
+            awaitItem()
+
+            engine.confirmFigurePlacement(
+                phase = Phase.PlacingFigure.Fresh(
+                    placedTile = tileL.placed(-1, 0),
+                    validFigurePlacements = tileL.rotatedElements.all().associateWith { emptyList() },
+                )
+            )
+            awaitItem()
+
+            engine.confirmFigurePlacement(
+                phase = Phase.PlacingFigure.Placed(
+                    placedTile = tileP.placed(1, 0),
+                    validFigurePlacements = tileP.rotatedElements.all().associateWith { emptyList() },
+                    placedFigure = PlacedFigure(
+                        placedElement = Tiles.Basic.P.road.rotated(Rotation.ROTATE_180).placed(1, 0),
+                        figure = PlayerFigures.greenMeeple,
+                    ),
+                )
+            )
+            awaitItem()
+
+            engine.confirmFigurePlacement(
+                phase = Phase.PlacingFigure.Placed(
+                    placedTile = tileP.placed(0, -1),
+                    validFigurePlacements = tileP.rotatedElements.all().associateWith { emptyList() },
+                    placedFigure = PlacedFigure(
+                        placedElement = Tiles.Basic.P.city.rotated(Rotation.ROTATE_180).placed(0, -1),
+                        figure = PlayerFigures.redMeeple,
+                    ),
+                )
+            )
+            with(awaitItem()) {
+                assertIs<Phase.PlacingTile.Fresh>(phase)
+                assertIs<History.Event.TilePlacement>(history.events.last())
+            }
+            expectNoEvents()
+
+            // This tile placement triggers scoring for two players for two separate features.
+            engine.confirmFigurePlacement(
+                phase = Phase.PlacingFigure.Fresh(
+                    placedTile = tileL.placed(1, -1),
+                    validFigurePlacements = tileL.rotatedElements.all().associateWith { emptyList() },
+                )
+            )
+
+            // Zoom on to the green player scoring but do not update scoreboard or history yet.
+            with(awaitItem()) {
+                assertIs<Phase.Scoring>(phase)
+                assertContains(phase.scoringEvent.scoringPlayers, Players.green)
+                assertIs<Feature.Road>(phase.scoringEvent.feature)
+
+                assertEquals(0, scoreboard.getScore(Players.red))
+                assertEquals(0, scoreboard.getScore(Players.green))
+
+                assertIs<History.Event.TilePlacement>(history.events.last())
+            }
+
+            // Wait for the first scoring to end, update scoreboard and history, and
+            // immediately proceed to zoom on the red player scoring.
+            with(awaitItem()) {
+                assertIs<Phase.Scoring>(phase)
+                assertContains(phase.scoringEvent.scoringPlayers, Players.red)
+                assertIs<Feature.City>(phase.scoringEvent.feature)
+
+                assertEquals(0, scoreboard.getScore(Players.red))
+                assertEquals(4, scoreboard.getScore(Players.green))
+
+                assertIs<History.Event.Scoring>(history.events.last())
+            }
+
+            // Wait for the second scoring to end, update scoreboard and history, and
+            // proceed with placing tile.
+            with(awaitItem()) {
+                assertIs<Phase.PlacingTile>(phase)
+
+                assertEquals(6, scoreboard.getScore(Players.red))
+                assertEquals(4, scoreboard.getScore(Players.green))
+
+                assertIs<History.Event.Scoring>(history.events.last())
+            }
+        }
     }
 }

@@ -1,5 +1,7 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.feature.Feature
+
 sealed interface Phase {
 
     interface Undoable {
@@ -68,7 +70,9 @@ sealed interface Phase {
         }
     }
 
-    data object Scoring : Phase
+    data class Scoring(
+        val scoringEvent: History.Event.Scoring,
+    ) : Phase
 
     data object FinalScoring : Phase
 }
