@@ -98,7 +98,7 @@ fun Board(
                 if (phase is Phase.PlacingTile.Placed) {
                     val placingTile = phase.placedTile
                     val possibilities = openSpaces.getValue(placingTile.coordinates)
-                    val uiTile = tile.toUiTile()
+                    val uiTile = placingTile.rotatedTile.tile.toUiTile()
                     val rotation = placingTile.rotatedTile.rotation
                     key(placingTile.coordinates) {
                         Tile(
