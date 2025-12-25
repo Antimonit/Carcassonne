@@ -44,16 +44,14 @@ fun Board(
         cellSpacing = tileSpacing,
         modifier = modifier,
     ) {
-        board.tiles.forEach { (coordinates, tile) ->
-            val uiTile = tile.tile.toUiTile()
-            Tile(
-                drawable = uiTile.drawable,
-                rotation = tile.rotation,
+        board.tiles.forEach { (coordinates, rotatedTile) ->
+            val rotatedUiTile = rotatedTile.toUiTile()
+            RotatedTile(
+                rotatedUiTile = rotatedUiTile,
                 overlay = {
                     TileFiguresOverlay(
                         figures = board.getFigures(coordinates),
-                        uiTile = uiTile,
-                        rotation = tile.rotation,
+                        rotatedUiTile = rotatedUiTile,
                     )
                 },
                 modifier = Modifier
@@ -63,18 +61,15 @@ fun Board(
         when (phase) {
             is Phase.PlacingFigure -> {
                 val placingTile = phase.placedTile
-                val uiTile = placingTile.rotatedTile.tile.toUiTile()
-                val rotation = placingTile.rotatedTile.rotation
-                Tile(
-                    drawable = uiTile.drawable,
-                    rotation = rotation,
+                val rotatedUiTile = placingTile.rotatedTile.toUiTile()
+                RotatedTile(
+                    rotatedUiTile = rotatedUiTile,
                     overlay = {
                         TileElementsOverlay(
                             onElementClick = {
                                 onPlaceFigure(placingTile, it)
                             },
-                            uiTile = uiTile,
-                            rotation = rotation,
+                            rotatedUiTile = rotatedUiTile,
                             validMeeplePlacements = phase.validFigurePlacements,
                         )
                         when (phase) {
@@ -82,8 +77,7 @@ fun Board(
                             is Phase.PlacingFigure.Placed -> {
                                 TileFiguresOverlay(
                                     figures = listOf(phase.placedFigure),
-                                    uiTile = uiTile,
-                                    rotation = rotation,
+                                    rotatedUiTile = rotatedUiTile,
                                 )
                             }
                         }
@@ -98,12 +92,10 @@ fun Board(
                 if (phase is Phase.PlacingTile.Placed) {
                     val placingTile = phase.placedTile
                     val possibilities = openSpaces.getValue(placingTile.coordinates)
-                    val uiTile = placingTile.rotatedTile.tile.toUiTile()
-                    val rotation = placingTile.rotatedTile.rotation
+                    val rotatedUiTile = placingTile.rotatedTile.toUiTile()
                     key(placingTile.coordinates) {
-                        Tile(
-                            drawable = uiTile.drawable,
-                            rotation = rotation,
+                        RotatedTile(
+                            rotatedUiTile = rotatedUiTile,
                             modifier = Modifier
                                 .coordinates(placingTile.coordinates)
                                 .clickable {
@@ -146,15 +138,13 @@ fun SimpleBoard(
         modifier = modifier,
     ) {
         board.tiles.forEach { (coordinates, tile) ->
-            val uiTile = tile.tile.toUiTile()
-            Tile(
-                drawable = uiTile.drawable,
-                rotation = tile.rotation,
+            val rotatedUiTile = tile.toUiTile()
+            RotatedTile(
+                rotatedUiTile = rotatedUiTile,
                 overlay = {
                     TileFiguresOverlay(
                         figures = board.getFigures(coordinates),
-                        uiTile = uiTile,
-                        rotation = tile.rotation,
+                        rotatedUiTile = rotatedUiTile,
                     )
                 },
                 modifier = Modifier

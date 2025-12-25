@@ -3,7 +3,7 @@ package me.khol.carcassonne.ui.tile
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
-import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.ui.Tile
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -46,6 +46,12 @@ object UiTiles {
         val X = me.khol.carcassonne.ui.tile.basic.X
     }
 }
+
+fun RotatedTile.toUiTile(): RotatedUiTile =
+    RotatedUiTile(
+        uiTile = tile.toUiTile(),
+        rotation = rotation,
+    )
 
 fun Tile.toUiTile(): UiTile =
     with(UiTiles.Basic) {
@@ -98,7 +104,6 @@ private fun AllBasicTilesPreview() {
                 chunk.forEach { tile ->
                     Tile(
                         drawable = tile.drawable,
-                        rotation = Rotation.ROTATE_0,
                     )
                 }
             }

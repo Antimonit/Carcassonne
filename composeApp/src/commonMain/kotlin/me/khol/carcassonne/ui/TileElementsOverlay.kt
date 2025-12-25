@@ -20,24 +20,23 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.feature.PlacedField
 import me.khol.carcassonne.fixtures.PlayerFigures
-import me.khol.carcassonne.ui.tile.UiTile
-import me.khol.carcassonne.ui.tile.UiTiles
+import me.khol.carcassonne.rotated
+import me.khol.carcassonne.tiles.Tiles
+import me.khol.carcassonne.ui.tile.RotatedUiTile
+import me.khol.carcassonne.ui.tile.asUiTile
+import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TileElementsOverlay(
     onElementClick: (PlacedFigure) -> Unit,
-    uiTile: UiTile,
-    rotation: Rotation,
+    rotatedUiTile: RotatedUiTile,
     validMeeplePlacements: Map<Element<*>, List<PlacedFigure>>,
 ) {
-    // The UiTile is not rotated but Elements and PlacedFigures are.
-    // The whole TileElementsOverlay is visually rotated from the outside.
-    uiTile.uiElements
-        .mapKeys { validMeeplePlacements.getValue(it.key.rotate(rotation)) }
+    rotatedUiTile.asUiTile().uiElements
+        .mapKeys { validMeeplePlacements.getValue(it.key) }
         .filterKeys { it.isNotEmpty() }
         .forEach { (placedFigures, uiElement) ->
             val shape = uiElement.shape
@@ -71,17 +70,14 @@ fun TileElementsOverlay(
 private fun TileElementsOverlayPreview() {
     MaterialTheme {
         Surface {
-            val uiTile = UiTiles.Basic.A
-            val rotation = Rotation.ROTATE_0
-            Tile(
-                drawable = uiTile.drawable,
-                rotation = rotation,
+            val rotatedUiTile = Tiles.Basic.A.rotated(Rotation.ROTATE_90).toUiTile()
+            RotatedTile(
+                rotatedUiTile = rotatedUiTile,
                 overlay = {
                     TileElementsOverlay(
                         onElementClick = {},
-                        uiTile = uiTile,
-                        rotation = rotation,
-                        validMeeplePlacements = UiTiles.Basic.A.uiElements.keys.associateWith { emptyList() },
+                        rotatedUiTile = rotatedUiTile,
+                        validMeeplePlacements = rotatedUiTile.asUiTile().uiElements.keys.associateWith { emptyList() },
                     )
                     TileFiguresOverlay(
                         figures = listOf(
@@ -93,8 +89,7 @@ private fun TileElementsOverlayPreview() {
                                 figure = PlayerFigures.greenMeeple,
                             )
                         ),
-                        rotation = rotation,
-                        uiTile = uiTile,
+                        rotatedUiTile = rotatedUiTile,
                     )
                 },
                 modifier = Modifier

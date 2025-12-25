@@ -118,7 +118,6 @@ fun PhaseHud(
                             is Phase.PlacingTile.Fresh -> {
                                 Tile(
                                     drawable = phase.tile.toUiTile().drawable,
-                                    rotation = Rotation.ROTATE_0,
                                 )
                             }
 

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import me.khol.carcassonne.History
 import me.khol.carcassonne.Player
-import me.khol.carcassonne.ui.Tile
+import me.khol.carcassonne.ui.RotatedTile
 import me.khol.carcassonne.ui.TileFiguresOverlay
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toUiTile
@@ -166,17 +166,15 @@ fun TilePlacementEvent(
                 .padding(2.dp)
         ) {
             Spacer(modifier = Modifier.width(16.dp))
-            val uiTile = event.placedTile.rotatedTile.tile.toUiTile()
-            Tile(
-                drawable = uiTile.drawable,
-                rotation = event.placedTile.rotatedTile.rotation,
+            val rotatedUiTile = event.placedTile.rotatedTile.toUiTile()
+            RotatedTile(
+                rotatedUiTile = rotatedUiTile,
                 overlay = {
                     val placedFigure = event.placedFigure
                     if (placedFigure != null) {
                         TileFiguresOverlay(
                             figures = listOf(placedFigure),
-                            uiTile = uiTile,
-                            rotation = event.placedTile.rotatedTile.rotation,
+                            rotatedUiTile = rotatedUiTile,
                         )
                     }
                 },

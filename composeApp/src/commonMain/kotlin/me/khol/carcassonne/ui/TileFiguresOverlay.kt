@@ -23,7 +23,8 @@ import me.khol.carcassonne.figure.Builder
 import me.khol.carcassonne.figure.Figure
 import me.khol.carcassonne.figure.Meeple
 import me.khol.carcassonne.figure.Pig
-import me.khol.carcassonne.ui.tile.UiTile
+import me.khol.carcassonne.ui.tile.RotatedUiTile
+import me.khol.carcassonne.ui.tile.asUiTile
 import me.khol.carcassonne.ui.tile.tileSize
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
@@ -31,13 +32,12 @@ import org.jetbrains.compose.resources.imageResource
 @Composable
 fun TileFiguresOverlay(
     figures: List<PlacedFigure>,
-    rotation: Rotation,
-    uiTile: UiTile,
+    rotatedUiTile: RotatedUiTile,
 ) {
-    uiTile.uiElements.forEach { (element, uiElement) ->
+    rotatedUiTile.asUiTile().uiElements.forEach { (element, uiElement) ->
         val figurePlacement = uiElement.figurePlacement
 
-        val figure: PlacedFigure? = figures.find { it.placedElement.element == element.rotate(rotation) }
+        val figure: PlacedFigure? = figures.find { it.placedElement.element == element }
         if (figure != null) {
             Box(
                 modifier = Modifier
@@ -58,7 +58,7 @@ fun TileFiguresOverlay(
                         .align(Alignment.Center)
                         .offset(tileSize * (figurePlacement.x - 0.5f), tileSize * (figurePlacement.y - 0.5f))
                         .rotate(
-                            degrees = when (rotation) {
+                            degrees = when (rotatedUiTile.rotation) {
                                 Rotation.ROTATE_0 -> 0f
                                 Rotation.ROTATE_90 -> -90f
                                 Rotation.ROTATE_180 -> -180f

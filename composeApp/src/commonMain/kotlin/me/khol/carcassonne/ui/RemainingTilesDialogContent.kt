@@ -30,7 +30,6 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
@@ -158,7 +157,6 @@ private fun RemainingTile(
 
         Tile(
             drawable = usage.tile.toUiTile().drawable,
-            rotation = Rotation.ROTATE_0,
             modifier = Modifier
                 .size(112.dp)
                 .graphicsLayer {
