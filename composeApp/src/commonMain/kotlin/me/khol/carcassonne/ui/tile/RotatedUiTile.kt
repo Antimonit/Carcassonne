@@ -10,9 +10,6 @@ data class RotatedUiTile(
 
 fun RotatedUiTile.asUiTile(): UiTile =
     uiTile.copy(
-        tile = uiTile.tile.copy(
-            edges = uiTile.tile.edges.rotate(rotation),
-            elements = uiTile.tile.elements.rotate(rotation),
-        ),
+        tile = uiTile.tile.rotate(rotation),
         uiElements = uiTile.uiElements.mapKeys { it.key.rotate(rotation) },
     )

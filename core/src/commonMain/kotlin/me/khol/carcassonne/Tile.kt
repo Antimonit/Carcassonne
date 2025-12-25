@@ -21,6 +21,12 @@ data class Tile(
     )
 }
 
+fun Tile.rotate(rotation: Rotation) =
+    copy(
+        edges = edges.rotate(rotation),
+        elements = elements.rotate(rotation),
+    )
+
 fun Tile.Edges.rotate(rotation: Rotation): Tile.Edges =
     when (rotation) {
         Rotation.ROTATE_0 -> Tile.Edges(top = top, right = right, bottom = bottom, left = left)

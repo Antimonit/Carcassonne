@@ -52,7 +52,7 @@ private fun RotatedTilePreview() {
     RotatedTile(
         rotatedUiTile = RotatedUiTile(
             uiTile = A,
-            rotation = Rotation.ROTATE_0,
+            rotation = Rotation.ROTATE_90,
         ),
     )
 }
