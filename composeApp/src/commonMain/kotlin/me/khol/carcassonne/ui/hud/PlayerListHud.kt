@@ -26,6 +26,7 @@ import carcassonne.composeapp.generated.resources.Res
 import carcassonne.composeapp.generated.resources.ic_meeple_outline
 import carcassonne.composeapp.generated.resources.ic_star_outline
 import me.khol.carcassonne.Game
+import me.khol.carcassonne.figure.Meeple
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -64,8 +65,9 @@ fun PlayerListHud(
                         .padding(start = 32.dp, end = 16.dp)
                 ) {
                     val score = game.scoreboard.getScore(player)
-                    val placedMeeples = game.board.figures.values.flatten().count { it.figure.player == player }
-                    val remainingMeeples = 7 - placedMeeples
+                    val figureCounts = game.figureSupply.getCounts(player)
+                    // TODO: Show other figure types too
+                    val remainingMeeples = figureCounts.getValue(Meeple)
                     Text(
                         text = player.name,
                         maxLines = 1,

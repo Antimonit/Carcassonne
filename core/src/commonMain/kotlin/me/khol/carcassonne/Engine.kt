@@ -37,7 +37,11 @@ class Engine(
                 phase = Phase.PlacingFigure.Placed(
                     placedTile = tile,
                     placedFigure = placedFigure,
-                    validFigurePlacements = game.board.validFigurePlacements(tile, game.currentPlayer),
+                    validFigurePlacements = game.board.validFigurePlacements(
+                        placedTile = tile,
+                        currentPlayer = game.currentPlayer,
+                        figureSupply = game.figureSupply,
+                    ),
                 )
             )
         }
@@ -98,14 +102,22 @@ class Engine(
             game.copy(
                 phase = Phase.PlacingFigure.Fresh(
                     placedTile = placing,
-                    validFigurePlacements = game.board.validFigurePlacements(placing, game.currentPlayer),
+                    validFigurePlacements = game.board.validFigurePlacements(
+                        placedTile = placing,
+                        currentPlayer = game.currentPlayer,
+                        figureSupply = game.figureSupply,
+                    ),
                 ),
             )
         }
     }
 }
 
-fun Board.validFigurePlacements(placedTile: PlacedTile, currentPlayer: Player): Map<RotatedElement<*>, List<PlacedFigure>> {
+fun Board.validFigurePlacements(
+    placedTile: PlacedTile,
+    currentPlayer: Player,
+    figureSupply: FigureSupply,
+): Map<RotatedElement<*>, List<PlacedFigure>> {
     val coordinates = placedTile.coordinates
     val rotatedTile = placedTile.rotatedTile
 
@@ -118,6 +130,7 @@ fun Board.validFigurePlacements(placedTile: PlacedTile, currentPlayer: Player): 
         val feature = boardWithTile.elementToFeature(placedElement)
         listOf(Meeple, Abbot/*, LargeMeeple, Mayor, Pig, Builder*/)
             .filter { figure -> figure.canBePlaced(feature, currentPlayer) }
+            .filter { figure -> figureSupply.canPlace(currentPlayer, figure) }
             .map { PlayerFigure(figure = it, player = currentPlayer) }
             .map { PlacedFigure(placedElement = placedElement, figure = it) }
     }

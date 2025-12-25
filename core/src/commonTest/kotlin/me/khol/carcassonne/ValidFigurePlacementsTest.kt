@@ -1,6 +1,7 @@
 package me.khol.carcassonne
 
 import me.khol.carcassonne.feature.placed
+import me.khol.carcassonne.figure.Meeple
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
@@ -26,6 +27,7 @@ class ValidFigurePlacementsTest {
         val placements = board.validFigurePlacements(
             placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(-1, 0),
             currentPlayer = Players.green,
+            figureSupply = FigureSupply(remainingFigureCount = mapOf(Players.green to mapOf(Meeple to 7)))
         )
 
         assertEquals(
