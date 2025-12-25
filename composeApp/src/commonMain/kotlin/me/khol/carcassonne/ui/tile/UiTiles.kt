@@ -103,7 +103,7 @@ private fun AllBasicTilesPreview() {
             Row {
                 chunk.forEach { tile ->
                     Tile(
-                        drawable = tile.drawable,
+                        tile = tile,
                     )
                 }
             }

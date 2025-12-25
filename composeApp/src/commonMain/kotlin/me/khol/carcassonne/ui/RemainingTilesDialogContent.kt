@@ -156,7 +156,7 @@ private fun RemainingTile(
         }
 
         Tile(
-            drawable = usage.tile.toUiTile().drawable,
+            tile = usage.tile.toUiTile(),
             modifier = Modifier
                 .size(112.dp)
                 .graphicsLayer {

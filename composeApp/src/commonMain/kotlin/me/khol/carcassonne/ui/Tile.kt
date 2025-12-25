@@ -5,14 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import me.khol.carcassonne.ui.tile.TileSurface
+import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.basic.A
-import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Tile(
-    drawable: DrawableResource,
+    tile: UiTile,
     overlay: @Composable () -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
@@ -20,7 +20,7 @@ fun Tile(
         modifier = modifier
     ) {
         Image(
-            bitmap = imageResource(drawable),
+            bitmap = imageResource(tile.drawable),
             contentDescription = null,
             filterQuality = FilterQuality.High,
         )
@@ -41,6 +41,6 @@ fun shortestAngle(current: Float, target: Float): Float {
 @Composable
 private fun TilePreview() {
     Tile(
-        drawable = A.drawable,
+        tile = A,
     )
 }

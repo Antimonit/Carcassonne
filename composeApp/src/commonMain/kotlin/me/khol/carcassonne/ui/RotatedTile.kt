@@ -18,7 +18,7 @@ fun RotatedTile(
     modifier: Modifier = Modifier,
 ) {
     Tile(
-        drawable = rotatedUiTile.uiTile.drawable,
+        tile = rotatedUiTile.uiTile,
         overlay = overlay,
         modifier = Modifier
             .rotate(degrees = shortestRotation(rotatedUiTile.rotation))

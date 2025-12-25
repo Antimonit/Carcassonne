@@ -117,7 +117,7 @@ fun PhaseHud(
                         when (phase) {
                             is Phase.PlacingTile.Fresh -> {
                                 Tile(
-                                    drawable = phase.tile.toUiTile().drawable,
+                                    tile = phase.tile.toUiTile(),
                                 )
                             }
 
