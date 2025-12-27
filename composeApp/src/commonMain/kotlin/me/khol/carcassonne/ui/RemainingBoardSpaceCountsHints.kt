@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
@@ -22,6 +24,9 @@ import me.khol.carcassonne.Game
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.tileSpacing
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
 
 @Composable
 fun RemainingBoardSpaceCountsHints(game: Game) {
@@ -29,60 +34,102 @@ fun RemainingBoardSpaceCountsHints(game: Game) {
         cellSize = tileSize,
         cellSpacing = tileSpacing,
     ) {
-        val counts = remember(game) { game.remainingBoardSpaceCounts() }
-        // For tile spaces that have no possible tiles left, we display a red square
-        // with a cross in the middle.
         if (game.remainingTiles.isNotEmpty()) {
-            counts
-                .filterValues { it == 0 }
-                .forEach { (coordinates, _) ->
-                    key(coordinates) {
-                        val tint = Color.Red.copy(alpha = 0.5f).compositeOver(Color.White)
-                        Box(
-                            contentAlignment = Alignment.Center,
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .border(2.dp, tint, RoundedCornerShape(8.dp))
-                                .background(tint.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
-                                .coordinates(coordinates)
-                        ) {
-                            Icon(
-                                painter = painterResource(Res.drawable.cross),
-                                tint = tint,
-                                contentDescription = null,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        }
-                    }
-                }
-        }
-        // For tile spaces with only a few remaining tiles left, we display a stack
-        // of small gray tiles representing the remaining count.
-        counts
-            .filterValues { it in 1..3 }
-            .forEach { (coordinates, size) ->
+            val counts = remember(game) { game.remainingBoardSpaceCounts() }
+            counts.forEach { (coordinates, size) ->
                 key(coordinates) {
                     Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .coordinates(coordinates),
+                        propagateMinConstraints = true,
+                        modifier = Modifier.coordinates(coordinates)
                     ) {
-                        val tint = Color(0xFFBBBBBB)
-                        repeat(size) { index ->
-                            val offset = ((index - (size - 1) / 2f) * 8).dp
-                            Box(
-                                modifier = Modifier
-                                    .offset(-offset, offset)
-                                    .size(24.dp)
-                                    .border(2.dp, tint, RoundedCornerShape(4.dp))
-                                    .background(
-                                        tint.copy(alpha = 0.25f).compositeOver(Color.White),
-                                        RoundedCornerShape(4.dp)
-                                    )
+                        when (size) {
+                            0 -> UnavailableSpace()
+                            in 1..3 -> LimitedAvailabilitySpace(
+                                remainingPossibilities = size,
                             )
                         }
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun UnavailableSpace(
+    modifier: Modifier = Modifier
+) {
+    val tint = Color.Red.copy(alpha = 0.5f).compositeOver(Color.White)
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier
+            .padding(16.dp)
+            .border(2.dp, tint, RoundedCornerShape(8.dp))
+            .background(tint.copy(alpha = 0.5f), RoundedCornerShape(8.dp))
+    ) {
+        Icon(
+            painter = painterResource(Res.drawable.cross),
+            tint = tint,
+            contentDescription = null,
+            modifier = Modifier.size(24.dp)
+        )
+    }
+}
+
+@Composable
+private fun LimitedAvailabilitySpace(
+    remainingPossibilities: Int,
+    modifier: Modifier = Modifier,
+) {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = modifier,
+    ) {
+        val tint = Color(0xFFBBBBBB)
+        repeat(remainingPossibilities) { index ->
+            val offset = ((index - (remainingPossibilities - 1) / 2f) * 8).dp
+            Box(
+                modifier = Modifier
+                    .offset(-offset, offset)
+                    .size(24.dp)
+                    .border(2.dp, tint, RoundedCornerShape(4.dp))
+                    .background(
+                        tint.copy(alpha = 0.25f).compositeOver(Color.White),
+                        RoundedCornerShape(4.dp)
+                    )
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun UnavailableSpacePreview() {
+    MaterialTheme {
+        Surface {
+            UnavailableSpace(
+                modifier = Modifier.size(tileSize)
+            )
+        }
+    }
+}
+
+private class RemainingPossibilitiesParameterProvider : PreviewParameterProvider<Int> {
+    override val values = sequenceOf(1, 2, 3)
+}
+
+@Preview
+@Composable
+private fun LimitedAvailabilitySpacePreview(
+    @PreviewParameter(RemainingPossibilitiesParameterProvider::class)
+    remainingPossibilities: Int,
+) {
+    MaterialTheme {
+        Surface {
+            LimitedAvailabilitySpace(
+                remainingPossibilities = remainingPossibilities,
+                modifier = Modifier.size(tileSize)
+            )
+        }
     }
 }
