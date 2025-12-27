@@ -10,7 +10,9 @@ import androidx.compose.ui.graphics.addSvg
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import me.khol.carcassonne.Element
+import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
+import me.khol.carcassonne.rotate
 import org.jetbrains.compose.resources.DrawableResource
 
 data class UiTile(
@@ -23,6 +25,12 @@ data class UiTile(
         val figurePlacement: Offset,
     )
 }
+
+fun UiTile.rotate(rotation: Rotation) =
+    copy(
+        tile = tile.rotate(rotation),
+        uiElements = uiElements.mapKeys { it.key.rotate(rotation) },
+    )
 
 fun svgToShape(
     pathData: String,

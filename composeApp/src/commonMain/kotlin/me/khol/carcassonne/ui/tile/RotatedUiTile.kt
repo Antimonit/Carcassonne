@@ -1,7 +1,6 @@
 package me.khol.carcassonne.ui.tile
 
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.rotate
 
 data class RotatedUiTile(
     val uiTile: UiTile,
@@ -9,7 +8,4 @@ data class RotatedUiTile(
 )
 
 fun RotatedUiTile.asUiTile(): UiTile =
-    uiTile.copy(
-        tile = uiTile.tile.rotate(rotation),
-        uiElements = uiTile.uiElements.mapKeys { it.key.rotate(rotation) },
-    )
+    uiTile.rotate(rotation)
