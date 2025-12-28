@@ -22,11 +22,11 @@ internal class BoardTest {
             )
             assertEquals(
                 expected = listOf(
-                    PlacedTile(newTile.rotated(Rotation.ROTATE_0), Coordinates(x = +0, y = +1)),
-                    PlacedTile(newTile.rotated(Rotation.ROTATE_90), Coordinates(x = +0, y = +1)),
-                    PlacedTile(newTile.rotated(Rotation.ROTATE_270), Coordinates(x = +0, y = +1)),
-                    PlacedTile(newTile.rotated(Rotation.ROTATE_270), Coordinates(x = -1, y = +0)),
-                    PlacedTile(newTile.rotated(Rotation.ROTATE_90), Coordinates(x = +1, y = +0)),
+                    newTile.rotated(Rotation.ROTATE_0).placed(Coordinates(x = +0, y = +1)),
+                    newTile.rotated(Rotation.ROTATE_90).placed(Coordinates(x = +0, y = +1)),
+                    newTile.rotated(Rotation.ROTATE_270).placed(Coordinates(x = +0, y = +1)),
+                    newTile.rotated(Rotation.ROTATE_270).placed(Coordinates(x = -1, y = +0)),
+                    newTile.rotated(Rotation.ROTATE_90).placed(Coordinates(x = +1, y = +0)),
                 ),
                 actual = values.flatten(),
             )

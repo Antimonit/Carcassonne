@@ -28,10 +28,7 @@ class ValidFigurePlacementsTest {
             )
 
         val placements = board.validFigurePlacements(
-            placedTile = PlacedTile(
-                rotatedTile = Tiles.Basic.D.rotated(rotation = Rotation.ROTATE_180),
-                coordinates = Coordinates(-1, 0),
-            ),
+            placedTile = Tiles.Basic.D.rotated(rotation = Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
             currentPlayer = Players.green,
         )
 

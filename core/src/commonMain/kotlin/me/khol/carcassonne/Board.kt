@@ -47,7 +47,7 @@ data class Board(
         require(coordinates in openSpaces) {
             "Cannot place tile ${tile.tile.name} at $coordinates as it is not connected to the rest of the board."
         }
-        require(PlacedTile(tile, coordinates) in possibleSpacesForTile(tile.tile).getValue(coordinates)) {
+        require(tile.placed(coordinates) in possibleSpacesForTile(tile.tile).getValue(coordinates)) {
             "Cannot place tile ${tile.tile.name} at $coordinates as it does not match edges with one or more neighbors."
         }
 
@@ -81,7 +81,7 @@ data class Board(
                     left?.let { rotatedTile.edges.left == it },
                     right?.let { rotatedTile.edges.right == it },
                 ).all { it }
-            }.map { PlacedTile(it, centerSpace) }
+            }.map { it.placed(centerSpace) }
 
             if (satisfiedRotations.isNotEmpty()) {
                 put(centerSpace, satisfiedRotations)

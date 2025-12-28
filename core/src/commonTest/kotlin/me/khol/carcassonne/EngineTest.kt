@@ -31,10 +31,7 @@ class EngineTest {
     @Test
     fun `undo placing a placed tile`() {
         engine.placeTile(
-            tile = PlacedTile(
-                rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
-                coordinates = Coordinates(1, 0),
-            )
+            tile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(Coordinates(1, 0))
         )
         assertIs<Phase.PlacingTile.Placed>(engine.game.value.phase)
         engine.undo()
@@ -44,10 +41,7 @@ class EngineTest {
     @Test
     fun `undo placing a meeple`() {
         engine.placeFigure(
-            tile = PlacedTile(
-                rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
-                coordinates = Coordinates(1, 0),
-            ),
+            tile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(Coordinates(1, 0)),
             placedFigure = PlacedFigure(
                 PlacedElement(
                     coordinates = Coordinates(1, 0),
@@ -70,20 +64,14 @@ class EngineTest {
         assertEquals(playerRed, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                placedTile = PlacedTile(
-                    rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
-                    coordinates = Coordinates(1, 0),
-                ),
+                placedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(Coordinates(1, 0)),
                 validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
             )
         )
         assertEquals(playerGreen, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                placedTile = PlacedTile(
-                    rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
-                    coordinates = Coordinates(2, 0),
-                ),
+                placedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(Coordinates(2, 0)),
                 validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
             )
         )
