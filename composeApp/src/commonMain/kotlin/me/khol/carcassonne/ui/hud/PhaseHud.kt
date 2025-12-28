@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.placed
@@ -191,7 +190,7 @@ private fun PhaseHudPlacingFigurePreview() {
         Surface {
             PhaseHud(
                 phase = Phase.PlacingFigure.Fresh(
-                    placedTile = Tiles.Basic.D.rotated(rotation = Rotation.ROTATE_180).placed(Coordinates(1, 0)),
+                    placedTile = Tiles.Basic.D.rotated(rotation = Rotation.ROTATE_180).placed(1, 0),
                     validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
                 ),
                 remainingTilesCount = 71,
