@@ -1,6 +1,6 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
@@ -43,10 +43,7 @@ class EngineTest {
         engine.placeFigure(
             tile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(1, 0),
             placedFigure = PlacedFigure(
-                PlacedElement(
-                    coordinates = Coordinates(1, 0),
-                    element = me.khol.carcassonne.tiles.basic.D.road,
-                ),
+                me.khol.carcassonne.tiles.basic.D.road.placed(Coordinates(1, 0)),
                 figure = PlayerFigures.greenMeeple,
             )
         )

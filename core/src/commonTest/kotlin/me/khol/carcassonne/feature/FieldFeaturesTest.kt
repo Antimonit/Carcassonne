@@ -221,17 +221,11 @@ class FieldFeaturesTest {
     fun `field features with figures`() {
         val e = me.khol.carcassonne.tiles.basic.E
         val figureOne = PlacedFigure(
-            placedElement = PlacedElement(
-                coordinates = Coordinates(0, -1),
-                element = e.field.rotate(Rotation.ROTATE_180),
-            ),
+            placedElement = e.field.rotate(Rotation.ROTATE_180).placed(Coordinates(0, -1)),
             figure = PlayerFigures.greenMeeple,
         )
         val figureTwo = PlacedFigure(
-            placedElement = PlacedElement(
-                coordinates = Coordinates(1, 0),
-                element = e.field.rotate(Rotation.ROTATE_180),
-            ),
+            placedElement = e.field.rotate(Rotation.ROTATE_180).placed(Coordinates(1, 0)),
             figure = PlayerFigures.greenMeeple,
         )
 

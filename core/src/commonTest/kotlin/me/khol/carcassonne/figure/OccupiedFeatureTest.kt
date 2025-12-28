@@ -8,7 +8,7 @@ import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
-import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.basic.A
@@ -34,10 +34,7 @@ class OccupiedFeatureTest {
             placedFigures = listOfNotNull(
                 figure?.let {
                     PlacedFigure(
-                        placedElement = PlacedElement(
-                            coordinates = coordinates,
-                            element = element.rotate(rotation),
-                        ),
+                        placedElement = element.rotate(rotation).placed(coordinates),
                         figure = it,
                     )
                 }

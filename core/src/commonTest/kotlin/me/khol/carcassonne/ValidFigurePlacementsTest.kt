@@ -1,6 +1,6 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.tiles.Tiles
@@ -18,10 +18,7 @@ class ValidFigurePlacementsTest {
                 tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180),
                 placedFigures = listOf(
                     PlacedFigure(
-                        placedElement = PlacedElement(
-                            coordinates = Coordinates(1, 0),
-                            element = D.fieldTop.rotate(Rotation.ROTATE_180),
-                        ),
+                        placedElement = D.fieldTop.rotate(Rotation.ROTATE_180).placed(Coordinates(1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
@@ -37,28 +34,19 @@ class ValidFigurePlacementsTest {
                 D.fieldTop.rotate(Rotation.ROTATE_180) to emptyList(),
                 D.fieldBottom.rotate(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = PlacedElement(
-                            coordinates = Coordinates(-1, 0),
-                            element = D.fieldBottom.rotate(Rotation.ROTATE_180),
-                        ),
+                        placedElement = D.fieldBottom.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
                 D.road.rotate(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = PlacedElement(
-                            coordinates = Coordinates(-1, 0),
-                            element = D.road.rotate(Rotation.ROTATE_180),
-                        ),
+                        placedElement = D.road.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
                 D.city.rotate(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = PlacedElement(
-                            coordinates = Coordinates(-1, 0),
-                            element = D.city.rotate(Rotation.ROTATE_180),
-                        ),
+                        placedElement = D.city.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),

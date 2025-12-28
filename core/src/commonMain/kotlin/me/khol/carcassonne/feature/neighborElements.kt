@@ -86,9 +86,7 @@ private fun <P : ElementPosition, E : Element<P>> PlacedElement<E>.neighborEleme
         } else {
             val oppositeElementPosition = elementPosition.oppositeEdge()
             // it is guaranteed to have the same element type on the other tile
-            PlacedElement(
-                coordinates = oppositeCoordinates,
-                element = otherTile.elements[key].first { oppositeElementPosition in it.positions }
-            )
+            otherTile.elements[key].first { oppositeElementPosition in it.positions }
+                .placed(oppositeCoordinates)
         }
     }

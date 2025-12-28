@@ -117,17 +117,11 @@ class CityFeaturesTest {
         val k = me.khol.carcassonne.tiles.basic.K
         val r = me.khol.carcassonne.tiles.basic.R
         val figureOne = PlacedFigure(
-            placedElement = PlacedElement(
-                coordinates = Coordinates(1, 0),
-                element = k.city,
-            ),
+            placedElement = k.city.placed(Coordinates(1, 0)),
             figure = PlayerFigures.greenMeeple,
         )
         val figureTwo = PlacedFigure(
-            placedElement = PlacedElement(
-                coordinates = Coordinates(0, -1),
-                element = r.city.rotate(Rotation.ROTATE_90),
-            ),
+            placedElement = r.city.rotate(Rotation.ROTATE_90).placed(Coordinates(0, -1)),
             figure = PlayerFigures.greenMeeple,
         )
 

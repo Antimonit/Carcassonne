@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.figure.Abbot
 import me.khol.carcassonne.figure.Meeple
 
@@ -116,10 +116,7 @@ fun Board.validFigurePlacements(placedTile: PlacedTile, currentPlayer: Player): 
 
     return rotatedTile.tile.elements.all()
         .associate { element ->
-            val element = PlacedElement(
-                coordinates = coordinates,
-                element = element.rotate(rotatedTile.rotation),
-            )
+            val element = element.rotate(rotatedTile.rotation).placed(coordinates)
             val feature = boardWithTile.elementToFeature(element)
             val validFigurePlacements =
                 listOf(Meeple, Abbot/*, LargeMeeple, Mayor, Pig, Builder*/)

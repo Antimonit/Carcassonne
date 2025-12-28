@@ -20,7 +20,7 @@ import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlacedTile
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
@@ -167,10 +167,7 @@ private fun BoardPreview() {
                         tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180),
                         placedFigures = listOf(
                             PlacedFigure(
-                                placedElement = PlacedElement(
-                                    coordinates = Coordinates(-1, 0),
-                                    element = D.road,
-                                ),
+                                placedElement = D.road.placed(Coordinates(-1, 0)),
                                 figure = PlayerFigures.greenMeeple,
                             ),
                         ),

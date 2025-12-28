@@ -62,17 +62,11 @@ class RoadFeaturesTest {
         val v = me.khol.carcassonne.tiles.basic.V
         val w = me.khol.carcassonne.tiles.basic.W
         val figureOne = PlacedFigure(
-            placedElement = PlacedElement(
-                coordinates = Coordinates(1, 0),
-                element = v.road.rotate(Rotation.ROTATE_0),
-            ),
+            placedElement = v.road.rotate(Rotation.ROTATE_0).placed(Coordinates(1, 0)),
             figure = PlayerFigures.greenMeeple,
         )
         val figureTwo = PlacedFigure(
-            placedElement = PlacedElement(
-                coordinates = Coordinates(0, 1),
-                element = v.road.rotate(Rotation.ROTATE_180),
-            ),
+            placedElement = v.road.rotate(Rotation.ROTATE_180).placed(Coordinates(0, 1)),
             figure = PlayerFigures.greenMeeple,
         )
 

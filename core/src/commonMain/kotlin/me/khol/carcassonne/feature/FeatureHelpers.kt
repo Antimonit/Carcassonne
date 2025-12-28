@@ -20,7 +20,7 @@ fun <E : Element<ElementPosition.Edge>, F : Feature> Board.getEdgeFeatures(
         val tileElements = tile.elements[key]
 
         tileElements.forEach { element: E ->
-            val placedElement = PlacedElement(coordinates = coordinates, element = element)
+            val placedElement = element.placed(coordinates)
 
             if (placedElement in processedElements)
                 return@forEach
@@ -67,7 +67,7 @@ fun <E : Element<ElementPosition.SplitEdge>, F : Feature> Board.getSplitEdgeFeat
         val tileElements = tile.elements[key]
 
         tileElements.forEach { element: E ->
-            val placedElement = PlacedElement(coordinates = coordinates, element = element)
+            val placedElement = element.placed(coordinates)
 
             if (placedElement in processedElements)
                 return@forEach
@@ -109,7 +109,7 @@ fun <E : Element<ElementPosition.Center>, F : Feature> Board.getCenterFeatures(
 
         // There can be at most a single monastery or garden on a tile
         tileElements.forEach { element: E ->
-            val placedElement = PlacedElement(coordinates = coordinates, element = element)
+            val placedElement = element.placed(coordinates)
 
             val surroundingCoordinates = coordinates.surroundingCoordinates()
             val surroundingTiles = surroundingCoordinates.mapNotNull { tiles[it] }
