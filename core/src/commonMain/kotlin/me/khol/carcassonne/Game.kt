@@ -56,7 +56,7 @@ data class Game(
 
             remainingTiles.count { tile ->
                 Rotation.entries.map { rotation ->
-                    RotatedTile(tile, rotation)
+                    tile.rotated(rotation)
                 }.any { rotatedTile ->
                     listOfNotNull(
                         top?.let { rotatedTile.edges.top == it },

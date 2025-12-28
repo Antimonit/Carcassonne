@@ -29,7 +29,7 @@ data class Board(
             startingTile: Tile,
         ) = empty.placeTile(
             coordinates = Coordinates(0, 0),
-            tile = RotatedTile(startingTile, Rotation.ROTATE_0),
+            tile = startingTile.rotated(Rotation.ROTATE_0),
             placedFigures = emptyList(),
         )
     }
@@ -66,7 +66,7 @@ data class Board(
 
     fun possibleSpacesForTile(tile: Tile): Map<Coordinates, List<PlacedTile>> = buildMap {
         val rotatedTiles: List<RotatedTile> = Rotation.entries.map { rotation ->
-            RotatedTile(tile, rotation)
+            tile.rotated(rotation)
         }
         openSpaces.forEach { centerSpace ->
             val top = getTile(centerSpace.top)?.edges?.bottom

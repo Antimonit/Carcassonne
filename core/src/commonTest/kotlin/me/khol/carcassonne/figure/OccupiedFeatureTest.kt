@@ -6,11 +6,11 @@ import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlayerFigure
-import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.fixtures.PlayerFigures
+import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.basic.A
 import me.khol.carcassonne.tiles.basic.C
 import me.khol.carcassonne.tiles.basic.D
@@ -30,7 +30,7 @@ class OccupiedFeatureTest {
         val coordinates = Coordinates(x, y)
         return placeTile(
             coordinates = coordinates,
-            tile = RotatedTile(tile, rotation),
+            tile = tile.rotated(rotation),
             placedFigures = listOfNotNull(
                 figure?.let {
                     PlacedFigure(

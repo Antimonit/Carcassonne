@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedTile
-import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.Tile
 import me.khol.carcassonne.ui.tile.tileSize
@@ -192,10 +192,7 @@ private fun PhaseHudPlacingFigurePreview() {
             PhaseHud(
                 phase = Phase.PlacingFigure.Fresh(
                     placedTile = PlacedTile(
-                        rotatedTile = RotatedTile(
-                            tile = Tiles.Basic.D,
-                            rotation = Rotation.ROTATE_180,
-                        ),
+                        rotatedTile = Tiles.Basic.D.rotated(rotation = Rotation.ROTATE_180),
                         coordinates = Coordinates(1, 0),
                     ),
                     validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },

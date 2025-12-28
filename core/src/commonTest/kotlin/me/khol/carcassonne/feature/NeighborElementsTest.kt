@@ -3,8 +3,8 @@ package me.khol.carcassonne.feature
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
-import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.basic.A
 import me.khol.carcassonne.tiles.basic.D
 import kotlin.test.Test
@@ -17,8 +17,8 @@ class NeighborElementsTest {
     fun `road neighbors`() {
         val board = Board
             .empty
-            .placeTile(Coordinates(0, 0), RotatedTile(D.tile, Rotation.ROTATE_0), emptyList())
-            .placeTile(Coordinates(1, 0), RotatedTile(A.tile, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(0, 0), D.tile.rotated(Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(1, 0), A.tile.rotated(Rotation.ROTATE_90), emptyList())
 
         val placedRoad = PlacedRoad(
             coordinates = Coordinates(1, 0),
@@ -40,8 +40,8 @@ class NeighborElementsTest {
     fun `field neighbors`() {
         val board = Board
             .empty
-            .placeTile(Coordinates(0, 0), RotatedTile(D.tile, Rotation.ROTATE_0), emptyList())
-            .placeTile(Coordinates(1, 0), RotatedTile(A.tile, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(0, 0), D.tile.rotated(Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(1, 0), A.tile.rotated(Rotation.ROTATE_90), emptyList())
 
         val placedField = PlacedField(
             coordinates = Coordinates(1, 0),

@@ -4,9 +4,9 @@ import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.PlacedFigure
-import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.fixtures.PlayerFigures
+import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basic.V
 import kotlin.test.Test
@@ -28,9 +28,9 @@ class RoadFeaturesTest {
 
         // Connect right and bottom road ends with three turns
         val newBoard = board
-            .placeTile(Coordinates(x = 1, y = 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_0), emptyList())
-            .placeTile(Coordinates(x = 1, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_90), emptyList())
-            .placeTile(Coordinates(x = 0, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_180), emptyList())
+            .placeTile(Coordinates(x = 1, y = 0), Tiles.Basic.V.rotated(Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(x = 1, y = 1), Tiles.Basic.V.rotated(Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(x = 0, y = 1), Tiles.Basic.V.rotated(Rotation.ROTATE_180), emptyList())
 
         // The two ends now form a loop and are a single feature
         assertEquals(
@@ -76,9 +76,9 @@ class RoadFeaturesTest {
         )
 
         val board = Board.starting(startingTile = Tiles.Basic.W)
-            .placeTile(Coordinates(x = 1, y = 0), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_0), listOf(figureOne))
-            .placeTile(Coordinates(x = 0, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_180), listOf(figureTwo))
-            .placeTile(Coordinates(x = 1, y = 1), RotatedTile(Tiles.Basic.V, Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(x = 1, y = 0), Tiles.Basic.V.rotated(Rotation.ROTATE_0), listOf(figureOne))
+            .placeTile(Coordinates(x = 0, y = 1), Tiles.Basic.V.rotated(Rotation.ROTATE_180), listOf(figureTwo))
+            .placeTile(Coordinates(x = 1, y = 1), Tiles.Basic.V.rotated(Rotation.ROTATE_90), emptyList())
 
         assertEquals(
             expected = setOf(

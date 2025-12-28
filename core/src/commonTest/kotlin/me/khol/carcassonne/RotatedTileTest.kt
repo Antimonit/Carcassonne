@@ -14,27 +14,27 @@ class RotatedTileTest {
 
     @Test
     fun `check rotation by 0 degrees is idempotent`() {
-        val original = RotatedTile(tile, Rotation.ROTATE_0).asTile()
+        val original = tile.rotated(Rotation.ROTATE_0).asTile()
         assertEquals(tile, original)
     }
 
     @Test
     fun `check rotation by 90 + 270 degrees is idempotent`() {
-        val by90 = RotatedTile(tile, Rotation.ROTATE_90).asTile()
-        val by360 = RotatedTile(by90, Rotation.ROTATE_270).asTile()
+        val by90 = tile.rotated(Rotation.ROTATE_90).asTile()
+        val by360 = by90.rotated(Rotation.ROTATE_270).asTile()
         assertEquals(tile, by360)
     }
 
     @Test
     fun `check rotation by 180 + 180 degrees is idempotent`() {
-        val by180 = RotatedTile(tile, Rotation.ROTATE_180).asTile()
-        val by360 = RotatedTile(by180, Rotation.ROTATE_180).asTile()
+        val by180 = tile.rotated(Rotation.ROTATE_180).asTile()
+        val by360 = by180.rotated(Rotation.ROTATE_180).asTile()
         assertEquals(tile, by360)
     }
 
     @Test
     fun `check rotation by 90 degrees`() {
-        val original = RotatedTile(tile, Rotation.ROTATE_90).asTile()
+        val original = tile.rotated(Rotation.ROTATE_90).asTile()
         assertEquals(
             expected = Tile(
                 name = "D",

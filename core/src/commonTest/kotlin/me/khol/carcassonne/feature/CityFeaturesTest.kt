@@ -5,9 +5,9 @@ import me.khol.carcassonne.Boon
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.PlacedFigure
-import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.fixtures.PlayerFigures
+import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basic.K
 import me.khol.carcassonne.tiles.basic.R
@@ -39,8 +39,8 @@ class CityFeaturesTest {
         }
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.F, Rotation.ROTATE_90), emptyList())
-            .placeTile(Coordinates(0, -2), RotatedTile(Tiles.Basic.E, Rotation.ROTATE_180), emptyList())
+            .placeTile(Coordinates(0, -1), Tiles.Basic.F.rotated(Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(0, -2), Tiles.Basic.E.rotated(Rotation.ROTATE_180), emptyList())
 
         newBoard.getCityFeatures().run {
             assertEquals(1, size)
@@ -67,7 +67,7 @@ class CityFeaturesTest {
     fun `city features can merge`() {
         val board = Board
             .starting(startingTile = Tiles.Basic.D)
-            .placeTile(Coordinates(1, 0), RotatedTile(Tiles.Basic.K, Rotation.ROTATE_0), emptyList())
+            .placeTile(Coordinates(1, 0), Tiles.Basic.K.rotated(Rotation.ROTATE_0), emptyList())
 
         assertEquals(
             expected = setOf(
@@ -90,8 +90,8 @@ class CityFeaturesTest {
         )
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_90), emptyList())
-            .placeTile(Coordinates(1, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_270), emptyList())
+            .placeTile(Coordinates(0, -1), Tiles.Basic.R.rotated(Rotation.ROTATE_90), emptyList())
+            .placeTile(Coordinates(1, -1), Tiles.Basic.R.rotated(Rotation.ROTATE_270), emptyList())
 
         assertEquals(
             expected = setOf(
@@ -128,9 +128,9 @@ class CityFeaturesTest {
         )
 
         val board = Board.starting(startingTile = Tiles.Basic.D)
-            .placeTile(Coordinates(1, 0), RotatedTile(Tiles.Basic.K, Rotation.ROTATE_0), listOf(figureOne))
-            .placeTile(Coordinates(0, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_90), listOf(figureTwo))
-            .placeTile(Coordinates(1, -1), RotatedTile(Tiles.Basic.R, Rotation.ROTATE_270), emptyList())
+            .placeTile(Coordinates(1, 0), Tiles.Basic.K.rotated(Rotation.ROTATE_0), listOf(figureOne))
+            .placeTile(Coordinates(0, -1), Tiles.Basic.R.rotated(Rotation.ROTATE_90), listOf(figureTwo))
+            .placeTile(Coordinates(1, -1), Tiles.Basic.R.rotated(Rotation.ROTATE_270), emptyList())
 
         assertEquals(
             expected = setOf(

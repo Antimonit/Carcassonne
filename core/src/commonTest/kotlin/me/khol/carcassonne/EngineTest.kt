@@ -32,7 +32,7 @@ class EngineTest {
     fun `undo placing a placed tile`() {
         engine.placeTile(
             tile = PlacedTile(
-                rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
+                rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
                 coordinates = Coordinates(1, 0),
             )
         )
@@ -45,7 +45,7 @@ class EngineTest {
     fun `undo placing a meeple`() {
         engine.placeFigure(
             tile = PlacedTile(
-                rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
+                rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
                 coordinates = Coordinates(1, 0),
             ),
             placedFigure = PlacedFigure(
@@ -71,7 +71,7 @@ class EngineTest {
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
                 placedTile = PlacedTile(
-                    rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
+                    rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
                     coordinates = Coordinates(1, 0),
                 ),
                 validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
@@ -81,7 +81,7 @@ class EngineTest {
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
                 placedTile = PlacedTile(
-                    rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
+                    rotatedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0),
                     coordinates = Coordinates(2, 0),
                 ),
                 validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
