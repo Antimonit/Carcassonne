@@ -27,16 +27,16 @@ sealed interface Phase {
 
     sealed interface PlacingFigure : Phase {
 
-        val tile: PlacedTile
+        val placedTile: PlacedTile
         val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>
 
         data class Fresh(
-            override val tile: PlacedTile,
+            override val placedTile: PlacedTile,
             override val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>,
         ) : PlacingFigure, Undoable {
 
             init {
-                val allElements = tile.rotatedTile.asTile().elements.all()
+                val allElements = placedTile.rotatedTile.asTile().elements.all()
                 check(validFigurePlacements.size == allElements.size) {
                     "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
                 }
@@ -45,17 +45,17 @@ sealed interface Phase {
                 }
             }
 
-            override fun undo() = PlacingTile.Placed(placedTile = tile)
+            override fun undo() = PlacingTile.Placed(placedTile = placedTile)
         }
 
         data class Placed(
-            override val tile: PlacedTile,
+            override val placedTile: PlacedTile,
             override val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>,
             val placedFigure: PlacedFigure,
         ) : PlacingFigure, Undoable {
 
             init {
-                val allElements = tile.rotatedTile.asTile().elements.all()
+                val allElements = placedTile.rotatedTile.asTile().elements.all()
                 check(validFigurePlacements.size == allElements.size) {
                     "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
                 }
@@ -64,7 +64,7 @@ sealed interface Phase {
                 }
             }
 
-            override fun undo() = Fresh(tile = tile, validFigurePlacements = validFigurePlacements)
+            override fun undo() = Fresh(placedTile = placedTile, validFigurePlacements = validFigurePlacements)
         }
     }
 

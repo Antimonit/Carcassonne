@@ -70,7 +70,7 @@ class EngineTest {
         assertEquals(playerRed, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                tile = PlacedTile(
+                placedTile = PlacedTile(
                     rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
                     coordinates = Coordinates(1, 0),
                 ),
@@ -80,7 +80,7 @@ class EngineTest {
         assertEquals(playerGreen, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                tile = PlacedTile(
+                placedTile = PlacedTile(
                     rotatedTile = RotatedTile(Tiles.Basic.D, Rotation.ROTATE_0),
                     coordinates = Coordinates(2, 0),
                 ),

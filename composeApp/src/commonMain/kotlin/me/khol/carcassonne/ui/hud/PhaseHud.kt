@@ -191,7 +191,7 @@ private fun PhaseHudPlacingFigurePreview() {
         Surface {
             PhaseHud(
                 phase = Phase.PlacingFigure.Fresh(
-                    tile = PlacedTile(
+                    placedTile = PlacedTile(
                         rotatedTile = RotatedTile(
                             tile = Tiles.Basic.D,
                             rotation = Rotation.ROTATE_180,

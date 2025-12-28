@@ -62,7 +62,7 @@ fun Board(
         }
         when (phase) {
             is Phase.PlacingFigure -> {
-                val placingTile = phase.tile
+                val placingTile = phase.placedTile
                 val uiTile = placingTile.rotatedTile.tile.toUiTile()
                 val rotation = placingTile.rotatedTile.rotation
                 Tile(

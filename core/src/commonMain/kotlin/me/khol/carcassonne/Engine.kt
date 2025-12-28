@@ -6,11 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.figure.Abbot
-import me.khol.carcassonne.figure.Builder
-import me.khol.carcassonne.figure.LargeMeeple
-import me.khol.carcassonne.figure.Mayor
 import me.khol.carcassonne.figure.Meeple
-import me.khol.carcassonne.figure.Pig
 
 class Engine(
     initialGame: Game,
@@ -39,7 +35,7 @@ class Engine(
         _game.update { game ->
             game.copy(
                 phase = Phase.PlacingFigure.Placed(
-                    tile = tile,
+                    placedTile = tile,
                     placedFigure = placedFigure,
                     validFigurePlacements = game.board.validFigurePlacements(tile, game.currentPlayer),
                 )
@@ -48,7 +44,7 @@ class Engine(
     }
 
     fun confirmFigurePlacement(phase: Phase.PlacingFigure) {
-        val placing = phase.tile
+        val placing = phase.placedTile
         _game.update { game ->
             val remainingTiles = game.remainingTiles.drop(1)
             val placedBoard = game.board.placeTile(
@@ -67,7 +63,7 @@ class Engine(
 
             val tilePlacementEvent = History.Event.TilePlacement(
                 player = game.currentPlayer,
-                placedTile = phase.tile,
+                placedTile = phase.placedTile,
                 placedFigure = when (phase) {
                     is Phase.PlacingFigure.Fresh -> null
                     is Phase.PlacingFigure.Placed -> phase.placedFigure
@@ -101,7 +97,7 @@ class Engine(
         _game.update { game ->
             game.copy(
                 phase = Phase.PlacingFigure.Fresh(
-                    tile = placing,
+                    placedTile = placing,
                     validFigurePlacements = game.board.validFigurePlacements(placing, game.currentPlayer),
                 ),
             )

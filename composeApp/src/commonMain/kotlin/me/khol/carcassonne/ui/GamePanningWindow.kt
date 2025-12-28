@@ -31,7 +31,7 @@ fun GamePanningWindow(
 
     LaunchedEffect(isPlacingTile, isPlacingFigure, containerSize) {
         if (isPlacingFigure) {
-            val coordinates = phase.tile.coordinates
+            val coordinates = phase.placedTile.coordinates
             val targetPan = Offset(
                 x = coordinates.x * spacing,
                 y = coordinates.y * spacing,
