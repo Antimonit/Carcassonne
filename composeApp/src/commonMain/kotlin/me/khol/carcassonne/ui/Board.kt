@@ -166,7 +166,7 @@ private fun BoardPreview() {
                         tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
                         placedFigures = listOf(
                             PlacedFigure(
-                                placedElement = Tiles.Basic.D.road.placed(Coordinates(-1, 0)),
+                                placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
                                 figure = PlayerFigures.greenMeeple,
                             ),
                         ),

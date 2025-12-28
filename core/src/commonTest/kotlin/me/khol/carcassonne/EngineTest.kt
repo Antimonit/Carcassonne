@@ -43,7 +43,7 @@ class EngineTest {
         engine.placeFigure(
             tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0),
             placedFigure = PlacedFigure(
-                placedElement = Tiles.Basic.D.road.placed(Coordinates(1, 0)),
+                placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_0).placed(Coordinates(1, 0)),
                 figure = PlayerFigures.greenMeeple,
             )
         )
@@ -59,17 +59,18 @@ class EngineTest {
     @Test
     fun `placing a tile changes the current player`() {
         assertEquals(playerRed, engine.game.value.currentPlayer)
+        val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0),
-                validFigurePlacements = Tiles.Basic.D.tile.elements.all().associateWith { emptyList() },
+                placedTile = tile.placed(1, 0),
+                validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
             )
         )
         assertEquals(playerGreen, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(2, 0),
-                validFigurePlacements = Tiles.Basic.D.tile.elements.all().associateWith { emptyList() },
+                placedTile = tile.placed(2, 0),
+                validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
             )
         )
         assertEquals(playerRed, engine.game.value.currentPlayer)

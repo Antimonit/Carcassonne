@@ -5,6 +5,7 @@ import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.PlacedFigure
+import me.khol.carcassonne.rotated
 import me.khol.carcassonne.surroundingCoordinates
 
 /**
@@ -16,11 +17,12 @@ fun <E : Element<ElementPosition.Edge>, F : Feature> Board.getEdgeFeatures(
 ): Set<F> {
     val processedElements: MutableMap<PlacedElement<E>, F> = mutableMapOf()
 
-    tiles.forEach { (coordinates, tile) ->
-        val tileElements = tile.elements[key]
+    tiles.forEach { (coordinates, rotatedTile) ->
+        val tileRotation = rotatedTile.rotation
+        val tileElements = rotatedTile.tile.elements[key]
 
         tileElements.forEach { element: E ->
-            val placedElement = element.placed(coordinates)
+            val placedElement = element.rotated(tileRotation).placed(coordinates)
 
             if (placedElement in processedElements)
                 return@forEach
@@ -63,11 +65,12 @@ fun <E : Element<ElementPosition.SplitEdge>, F : Feature> Board.getSplitEdgeFeat
 ): Set<F> {
     val processedElements: MutableMap<PlacedElement<E>, F> = mutableMapOf()
 
-    tiles.forEach { (coordinates, tile) ->
-        val tileElements = tile.elements[key]
+    tiles.forEach { (coordinates, rotatedTile) ->
+        val tileRotation = rotatedTile.rotation
+        val tileElements = rotatedTile.tile.elements[key]
 
         tileElements.forEach { element: E ->
-            val placedElement = element.placed(coordinates)
+            val placedElement = element.rotated(tileRotation).placed(coordinates)
 
             if (placedElement in processedElements)
                 return@forEach
@@ -104,12 +107,13 @@ fun <E : Element<ElementPosition.Center>, F : Feature> Board.getCenterFeatures(
 ): Set<F> {
     val processedElements: MutableMap<PlacedElement<E>, F> = mutableMapOf()
 
-    tiles.forEach { (coordinates, tile) ->
-        val tileElements = tile.elements[key]
+    tiles.forEach { (coordinates, rotatedTile) ->
+        val tileRotation = rotatedTile.rotation
+        val tileElements = rotatedTile.tile.elements[key]
 
         // There can be at most a single monastery or garden on a tile
         tileElements.forEach { element: E ->
-            val placedElement = element.placed(coordinates)
+            val placedElement = element.rotated(tileRotation).placed(coordinates)
 
             val surroundingCoordinates = coordinates.surroundingCoordinates()
             val surroundingTiles = surroundingCoordinates.mapNotNull { tiles[it] }

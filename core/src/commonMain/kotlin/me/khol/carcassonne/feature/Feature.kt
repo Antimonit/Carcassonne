@@ -5,15 +5,15 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.PlacedFigure
+import me.khol.carcassonne.RotatedElement
 
 data class PlacedElement<E : Element<ElementPosition>>(
     val coordinates: Coordinates,
-    // Already rotated element
-    val element: E,
+    val rotatedElement: RotatedElement<E>,
 )
 
-fun <E : Element<ElementPosition>> E.placed(coordinates: Coordinates) =
-    PlacedElement(element = this, coordinates = coordinates)
+fun <E : Element<ElementPosition>> RotatedElement<E>.placed(coordinates: Coordinates) =
+    PlacedElement(rotatedElement = this, coordinates = coordinates)
 
 typealias PlacedField = PlacedElement<Element.Field>
 typealias PlacedCity = PlacedElement<Element.City>
@@ -42,9 +42,9 @@ sealed interface Feature {
         override val placedElements = placedCities
 
         val hasCathedral: Boolean
-            get() = placedCities.any { it.element.boons.contains(Boon.City.Cathedral) }
+            get() = placedCities.any { it.rotatedElement.element.boons.contains(Boon.City.Cathedral) }
         val coatOfArms: Int
-            get() = placedCities.count { it.element.boons.contains(Boon.City.CoatOfArms) }
+            get() = placedCities.count { it.rotatedElement.element.boons.contains(Boon.City.CoatOfArms) }
     }
 
     data class Road(
@@ -55,7 +55,7 @@ sealed interface Feature {
         override val placedElements = placedRoads
 
         val hasInn: Boolean
-            get() = placedRoads.any { it.element.boons.contains(Boon.Road.Inn) }
+            get() = placedRoads.any { it.rotatedElement.element.boons.contains(Boon.Road.Inn) }
     }
 
     data class Monastery(

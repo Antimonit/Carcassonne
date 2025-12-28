@@ -24,7 +24,6 @@ import me.khol.carcassonne.figure.Figure
 import me.khol.carcassonne.figure.Meeple
 import me.khol.carcassonne.figure.Pig
 import me.khol.carcassonne.ui.tile.RotatedUiTile
-import me.khol.carcassonne.ui.tile.asUiTile
 import me.khol.carcassonne.ui.tile.tileSize
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
@@ -34,10 +33,10 @@ fun TileFiguresOverlay(
     figures: List<PlacedFigure>,
     rotatedUiTile: RotatedUiTile,
 ) {
-    rotatedUiTile.asUiTile().uiElements.forEach { (element, uiElement) ->
+    rotatedUiTile.rotatedUiElements.forEach { (rotatedElement, uiElement) ->
         val figurePlacement = uiElement.figurePlacement
 
-        val figure: PlacedFigure? = figures.find { it.placedElement.element == element }
+        val figure: PlacedFigure? = figures.find { it.placedElement.rotatedElement == rotatedElement }
         if (figure != null) {
             Box(
                 modifier = Modifier
@@ -47,7 +46,7 @@ fun TileFiguresOverlay(
                     bitmap = imageResource(
                         figure.figure.figure.drawable(
                             player = figure.figure.player,
-                            isField = figure.placedElement.element is Element.Field,
+                            isField = figure.placedElement.rotatedElement.element is Element.Field,
                         )
                     ),
                     contentDescription = null,

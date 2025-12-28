@@ -28,15 +28,15 @@ sealed interface Phase {
     sealed interface PlacingFigure : Phase {
 
         val placedTile: PlacedTile
-        val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>
+        val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>
 
         data class Fresh(
             override val placedTile: PlacedTile,
-            override val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>,
+            override val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
         ) : PlacingFigure, Undoable {
 
             init {
-                val allElements = placedTile.rotatedTile.asTile().elements.all()
+                val allElements = placedTile.rotatedTile.rotatedElements.all()
                 check(validFigurePlacements.size == allElements.size) {
                     "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
                 }
@@ -50,12 +50,12 @@ sealed interface Phase {
 
         data class Placed(
             override val placedTile: PlacedTile,
-            override val validFigurePlacements: Map<Element<*>, List<PlacedFigure>>,
+            override val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
             val placedFigure: PlacedFigure,
         ) : PlacingFigure, Undoable {
 
             init {
-                val allElements = placedTile.rotatedTile.asTile().elements.all()
+                val allElements = placedTile.rotatedTile.rotatedElements.all()
                 check(validFigurePlacements.size == allElements.size) {
                     "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
                 }

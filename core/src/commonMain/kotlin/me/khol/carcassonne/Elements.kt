@@ -5,8 +5,6 @@ interface Elements {
     fun all(): List<Element<*>>
 
     operator fun <E : Element<ElementPosition>> get(key: ElementKey<E>): List<E>
-
-    fun rotate(rotation: Rotation): Elements
 }
 
 interface MutableElements : Elements {
@@ -70,13 +68,6 @@ private data class ElementsBuilder(
     override fun <E : Element<ElementPosition>> get(key: ElementKey<E>): List<E> {
         @Suppress("UNCHECKED_CAST")
         return map.getOrElse(key) { emptyList<E>() } as List<E>
-    }
-
-    override fun rotate(rotation: Rotation): Elements {
-        return map
-            .mapValues { it.value.map { it.rotate(rotation) } }
-            .toMutableMap()
-            .let(::ElementsBuilder)
     }
 
     override fun toString() = map.toString()

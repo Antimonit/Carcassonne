@@ -5,6 +5,7 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementKey
 import me.khol.carcassonne.ElementPosition
+import me.khol.carcassonne.rotated
 import kotlin.jvm.JvmName
 
 /**
@@ -77,7 +78,7 @@ private fun <P : ElementPosition, E : Element<P>> PlacedElement<E>.neighborEleme
     oppositeCoordinates: Coordinates.(P) -> Coordinates,
     oppositeEdge: P.() -> P,
 ): Set<PlacedElement<E>?> =
-    element.positions.mapTo(mutableSetOf()) { elementPosition ->
+    rotatedElement.element.rotate(rotatedElement.rotation).positions.mapTo(mutableSetOf()) { elementPosition ->
         val oppositeCoordinates = coordinates.oppositeCoordinates(elementPosition)
         val otherTile = board.tiles[oppositeCoordinates]
         if (otherTile == null) {
@@ -86,7 +87,9 @@ private fun <P : ElementPosition, E : Element<P>> PlacedElement<E>.neighborEleme
         } else {
             val oppositeElementPosition = elementPosition.oppositeEdge()
             // it is guaranteed to have the same element type on the other tile
-            otherTile.elements[key].first { oppositeElementPosition in it.positions }
+            otherTile.tile.elements[key]
+                .first { oppositeElementPosition in it.rotate(otherTile.rotation).positions }
+                .rotated(otherTile.rotation)
                 .placed(oppositeCoordinates)
         }
     }

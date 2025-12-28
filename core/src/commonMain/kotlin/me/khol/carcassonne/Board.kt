@@ -3,9 +3,6 @@ package me.khol.carcassonne
 import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.PlacedElement
 import me.khol.carcassonne.feature.getAllFeatures
-import me.khol.carcassonne.feature.getCityFeatures
-import me.khol.carcassonne.figure.Abbot
-import me.khol.carcassonne.figure.Meeple
 
 data class Board(
     val tiles: Map<Coordinates, RotatedTile>,
@@ -68,18 +65,22 @@ data class Board(
         val rotatedTiles: List<RotatedTile> = Rotation.entries.map { rotation ->
             tile.rotated(rotation)
         }
+
+        fun RotatedTile.rotatedEdges(): Tile.Edges = this.tile.edges.rotate(rotation)
+
         openSpaces.forEach { centerSpace ->
-            val top = getTile(centerSpace.top)?.edges?.bottom
-            val right = getTile(centerSpace.right)?.edges?.left
-            val bottom = getTile(centerSpace.bottom)?.edges?.top
-            val left = getTile(centerSpace.left)?.edges?.right
+            val top = getTile(centerSpace.top)?.rotatedEdges()?.bottom
+            val right = getTile(centerSpace.right)?.rotatedEdges()?.left
+            val bottom = getTile(centerSpace.bottom)?.rotatedEdges()?.top
+            val left = getTile(centerSpace.left)?.rotatedEdges()?.right
 
             val satisfiedRotations = rotatedTiles.filter { rotatedTile ->
+                val rotatedEdges = rotatedTile.rotatedEdges()
                 listOfNotNull(
-                    top?.let { rotatedTile.edges.top == it },
-                    bottom?.let { rotatedTile.edges.bottom == it },
-                    left?.let { rotatedTile.edges.left == it },
-                    right?.let { rotatedTile.edges.right == it },
+                    top?.let { rotatedEdges.top == it },
+                    bottom?.let { rotatedEdges.bottom == it },
+                    left?.let { rotatedEdges.left == it },
+                    right?.let { rotatedEdges.right == it },
                 ).all { it }
             }.map { it.placed(centerSpace) }
 

@@ -17,15 +17,14 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Coordinates
-import me.khol.carcassonne.Element
 import me.khol.carcassonne.PlacedFigure
+import me.khol.carcassonne.RotatedElement
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.feature.PlacedField
+import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.tile.RotatedUiTile
-import me.khol.carcassonne.ui.tile.asUiTile
 import me.khol.carcassonne.ui.tile.toUiTile
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -33,9 +32,9 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 fun TileElementsOverlay(
     onElementClick: (PlacedFigure) -> Unit,
     rotatedUiTile: RotatedUiTile,
-    validMeeplePlacements: Map<Element<*>, List<PlacedFigure>>,
+    validMeeplePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
 ) {
-    rotatedUiTile.asUiTile().uiElements
+    rotatedUiTile.rotatedUiElements
         .mapKeys { validMeeplePlacements.getValue(it.key) }
         .filterKeys { it.isNotEmpty() }
         .forEach { (placedFigures, uiElement) ->
@@ -77,15 +76,12 @@ private fun TileElementsOverlayPreview() {
                     TileElementsOverlay(
                         onElementClick = {},
                         rotatedUiTile = rotatedUiTile,
-                        validMeeplePlacements = rotatedUiTile.asUiTile().uiElements.keys.associateWith { emptyList() },
+                        validMeeplePlacements = rotatedUiTile.rotatedUiElements.keys.associateWith { emptyList() },
                     )
                     TileFiguresOverlay(
                         figures = listOf(
                             PlacedFigure(
-                                placedElement = PlacedField(
-                                    coordinates = Coordinates(0, 0),
-                                    element = me.khol.carcassonne.tiles.basic.A.field,
-                                ),
+                                placedElement = Tiles.Basic.A.field.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
                                 figure = PlayerFigures.greenMeeple,
                             )
                         ),

@@ -187,10 +187,11 @@ private fun PhaseHudPlacingTilePreview() {
 private fun PhaseHudPlacingFigurePreview() {
     MaterialTheme {
         Surface {
+            val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0)
             PhaseHud(
                 phase = Phase.PlacingFigure.Fresh(
-                    placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(1, 0),
-                    validFigurePlacements = Tiles.Basic.D.tile.elements.all().associateWith { emptyList() },
+                    placedTile = tile.placed(0, 0),
+                    validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
                 ),
                 remainingTilesCount = 71,
                 confirmTilePlacement = {},

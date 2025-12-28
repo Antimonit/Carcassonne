@@ -24,7 +24,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        placedMonastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery),
+                        placedMonastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery.rotated(Rotation.ROTATE_0)),
                         neighborCount = 2,
                         figures = emptyList(),
                     ),
@@ -50,7 +50,7 @@ class MonasteryFeaturesTest {
             first().run {
                 assertEquals(
                     expected = Feature.Monastery(
-                        placedMonastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery),
+                        placedMonastery = PlacedMonastery(Coordinates(0, 1), Element.Monastery.rotated(Rotation.ROTATE_0)),
                         neighborCount = 9,
                         figures = emptyList(),
                     ),

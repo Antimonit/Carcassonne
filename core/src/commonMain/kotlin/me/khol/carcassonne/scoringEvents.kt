@@ -20,13 +20,13 @@ fun scoringEvents(
 
     val figures: List<PlacedFigure> = board.figures.values.flatten()
     val scorableFeatures = figures.groupBy { figure: PlacedFigure ->
-        when (figure.placedElement.element) {
+        when (figure.placedElement.rotatedElement.element) {
             is Element.Field -> fieldFeatures.first { field -> figure.placedElement in field.placedFields }
             is Element.Road -> roadFeatures.first { road -> figure.placedElement in road.placedRoads }
             is Element.City -> cityFeatures.first { road -> figure.placedElement in road.placedCities }
             is Element.Monastery -> monasteryFeatures.first { monastery -> figure.placedElement == monastery.placedMonastery }
             is Element.Garden -> gardenFeatures.first { garden -> figure.placedElement == garden.placedGarden }
-            else -> error("Unknown element type ${figure.placedElement.element::class}")
+            else -> error("Unknown element type ${figure.placedElement.rotatedElement.element::class}")
         }
     }
 

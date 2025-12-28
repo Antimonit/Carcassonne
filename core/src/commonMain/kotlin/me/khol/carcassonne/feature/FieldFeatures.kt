@@ -10,8 +10,11 @@ fun Board.getFieldFeatures(): Set<Feature.Field> {
         val connectedCities: List<Feature.City> = placedFields.flatMap { placedField: PlacedField ->
             cityFeatures.filter { cityFeature: Feature.City ->
                 cityFeature.placedCities.any { placedCity: PlacedCity ->
-                    placedCity.coordinates == placedField.coordinates &&
-                        placedCity.element in placedField.element.connectedCities
+                    placedCity.coordinates == placedField.coordinates && run {
+                        val field = placedField.rotatedElement
+                        val city = placedCity.rotatedElement
+                        city.element.rotate(city.rotation) in field.element.rotate(field.rotation).connectedCities
+                    }
                 }
             }
         }

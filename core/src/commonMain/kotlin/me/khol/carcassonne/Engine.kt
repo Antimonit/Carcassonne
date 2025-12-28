@@ -105,8 +105,7 @@ class Engine(
     }
 }
 
-
-fun Board.validFigurePlacements(placedTile: PlacedTile, currentPlayer: Player): Map<Element<*>, List<PlacedFigure>> {
+fun Board.validFigurePlacements(placedTile: PlacedTile, currentPlayer: Player): Map<RotatedElement<*>, List<PlacedFigure>> {
     val coordinates = placedTile.coordinates
     val rotatedTile = placedTile.rotatedTile
 
@@ -114,18 +113,14 @@ fun Board.validFigurePlacements(placedTile: PlacedTile, currentPlayer: Player): 
         tiles = tiles + (coordinates to rotatedTile),
     )
 
-    return rotatedTile.tile.elements.all()
-        .associate { element ->
-            val element = element.rotate(rotatedTile.rotation).placed(coordinates)
-            val feature = boardWithTile.elementToFeature(element)
-            val validFigurePlacements =
-                listOf(Meeple, Abbot/*, LargeMeeple, Mayor, Pig, Builder*/)
-                    .filter { figure -> figure.canBePlaced(feature, currentPlayer) }
-                    .map { PlayerFigure(figure = it, player = currentPlayer) }
-                    .map { PlacedFigure(placedElement = element, figure = it) }
-
-            element.element to validFigurePlacements
-        }
+    return rotatedTile.rotatedElements.all().associateWith { rotatedElement ->
+        val placedElement = rotatedElement.placed(coordinates)
+        val feature = boardWithTile.elementToFeature(placedElement)
+        listOf(Meeple, Abbot/*, LargeMeeple, Mayor, Pig, Builder*/)
+            .filter { figure -> figure.canBePlaced(feature, currentPlayer) }
+            .map { PlayerFigure(figure = it, player = currentPlayer) }
+            .map { PlacedFigure(placedElement = placedElement, figure = it) }
+    }
 }
 
 fun <T> List<T>.nextOf(current: T): T {

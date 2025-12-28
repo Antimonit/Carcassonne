@@ -31,7 +31,7 @@ class OccupiedFeatureTest {
             placedFigures = listOfNotNull(
                 figure?.let {
                     PlacedFigure(
-                        placedElement = element.rotate(rotation).placed(coordinates),
+                        placedElement = element.rotated(rotation).placed(coordinates),
                         figure = it,
                     )
                 }

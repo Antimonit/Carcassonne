@@ -47,24 +47,27 @@ data class Game(
         }
     }
 
-    fun remainingBoardSpaceCounts(): Map<Coordinates, Int> =
-        board.openSpaces.associateWith { centerSpace ->
-            val top = board.getTile(centerSpace.top)?.edges?.bottom
-            val right = board.getTile(centerSpace.right)?.edges?.left
-            val bottom = board.getTile(centerSpace.bottom)?.edges?.top
-            val left = board.getTile(centerSpace.left)?.edges?.right
+    fun remainingBoardSpaceCounts(): Map<Coordinates, Int> {
+        return board.openSpaces.associateWith { centerSpace ->
+            fun RotatedTile.rotatedEdges(): Tile.Edges = this.tile.edges.rotate(rotation)
+
+            val top = board.getTile(centerSpace.top)?.rotatedEdges()?.bottom
+            val right = board.getTile(centerSpace.right)?.rotatedEdges()?.left
+            val bottom = board.getTile(centerSpace.bottom)?.rotatedEdges()?.top
+            val left = board.getTile(centerSpace.left)?.rotatedEdges()?.right
 
             remainingTiles.count { tile ->
                 Rotation.entries.map { rotation ->
                     tile.rotated(rotation)
                 }.any { rotatedTile ->
                     listOfNotNull(
-                        top?.let { rotatedTile.edges.top == it },
-                        bottom?.let { rotatedTile.edges.bottom == it },
-                        left?.let { rotatedTile.edges.left == it },
-                        right?.let { rotatedTile.edges.right == it },
+                        top?.let { rotatedTile.rotatedEdges().top == it },
+                        bottom?.let { rotatedTile.rotatedEdges().bottom == it },
+                        left?.let { rotatedTile.rotatedEdges().left == it },
+                        right?.let { rotatedTile.rotatedEdges().right == it },
                     ).all { it }
                 }
             }
         }
+    }
 }

@@ -21,16 +21,16 @@ class NeighborElementsTest {
 
         val placedRoad = PlacedRoad(
             coordinates = Coordinates(1, 0),
-            element = Tiles.Basic.A.road.rotate(Rotation.ROTATE_90),
+            rotatedElement = Tiles.Basic.A.road.rotated(Rotation.ROTATE_90),
         )
 
         assertContains(
-            iterable = board.getTile(Coordinates(1, 0))!!.elements[Element.Road],
-            element = placedRoad.element,
+            iterable = board.getTile(Coordinates(1, 0))!!.rotatedElements.all(),
+            element = placedRoad.rotatedElement,
         )
 
         assertEquals(
-            expected = setOf(PlacedRoad(Coordinates(0,0), Tiles.Basic.D.road)),
+            expected = setOf(PlacedRoad(Coordinates(0,0), Tiles.Basic.D.road.rotated(rotation = Rotation.ROTATE_0))),
             actual = placedRoad.neighborElements(board = board, key = Element.Road),
         )
     }
@@ -44,19 +44,19 @@ class NeighborElementsTest {
 
         val placedField = PlacedField(
             coordinates = Coordinates(1, 0),
-            element = Tiles.Basic.A.field.rotate(Rotation.ROTATE_90),
+            rotatedElement = Tiles.Basic.A.field.rotated(Rotation.ROTATE_90),
         )
 
         assertContains(
-            iterable = board.getTile(Coordinates(1, 0))!!.elements[Element.Field],
-            element = placedField.element,
+            iterable = board.getTile(Coordinates(1, 0))!!.rotatedElements.all(),
+            element = placedField.rotatedElement,
         )
 
         assertEquals(
             expected = setOf(
                 null, // the field has open edges
-                PlacedField(Coordinates(0,0), Tiles.Basic.D.fieldTop),
-                PlacedField(Coordinates(0,0), Tiles.Basic.D.fieldBottom),
+                PlacedField(Coordinates(0,0), Tiles.Basic.D.fieldTop.rotated(rotation = Rotation.ROTATE_0)),
+                PlacedField(Coordinates(0,0), Tiles.Basic.D.fieldBottom.rotated(rotation = Rotation.ROTATE_0)),
             ),
             actual = placedField.neighborElements(board = board, key = Element.Field),
         )
