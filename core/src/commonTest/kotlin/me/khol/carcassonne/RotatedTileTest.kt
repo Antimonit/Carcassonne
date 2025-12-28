@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 
 class RotatedTileTest {
 
-    private val tile = Tiles.Basic.D
+    private val tile = Tiles.Basic.D.tile
 
     @Test
     fun `check rotation by 0 degrees is idempotent`() {

@@ -4,38 +4,38 @@ object Tiles {
 
     object Basic {
 
-        val A = me.khol.carcassonne.tiles.basic.A.tile
-        val B = me.khol.carcassonne.tiles.basic.B.tile
-        val C = me.khol.carcassonne.tiles.basic.C.tile
-        val D = me.khol.carcassonne.tiles.basic.D.tile
-        val E = me.khol.carcassonne.tiles.basic.E.tile
-        val E_G = me.khol.carcassonne.tiles.basic.E_G.tile
-        val F = me.khol.carcassonne.tiles.basic.F.tile
-        val G = me.khol.carcassonne.tiles.basic.G.tile
-        val H = me.khol.carcassonne.tiles.basic.H.tile
-        val H_G = me.khol.carcassonne.tiles.basic.H_G.tile
-        val I = me.khol.carcassonne.tiles.basic.I.tile
-        val I_G = me.khol.carcassonne.tiles.basic.I_G.tile
-        val J = me.khol.carcassonne.tiles.basic.J.tile
-        val K = me.khol.carcassonne.tiles.basic.K.tile
-        val L = me.khol.carcassonne.tiles.basic.L.tile
-        val M = me.khol.carcassonne.tiles.basic.M.tile
-        val M_G = me.khol.carcassonne.tiles.basic.M_G.tile
-        val N = me.khol.carcassonne.tiles.basic.N.tile
-        val N_G = me.khol.carcassonne.tiles.basic.N_G.tile
-        val O = me.khol.carcassonne.tiles.basic.O.tile
-        val P = me.khol.carcassonne.tiles.basic.P.tile
-        val Q = me.khol.carcassonne.tiles.basic.Q.tile
-        val R = me.khol.carcassonne.tiles.basic.R.tile
-        val R_G = me.khol.carcassonne.tiles.basic.R_G.tile
-        val S = me.khol.carcassonne.tiles.basic.S.tile
-        val T = me.khol.carcassonne.tiles.basic.T.tile
-        val U = me.khol.carcassonne.tiles.basic.U.tile
-        val U_G = me.khol.carcassonne.tiles.basic.U_G.tile
-        val V = me.khol.carcassonne.tiles.basic.V.tile
-        val V_G = me.khol.carcassonne.tiles.basic.V_G.tile
-        val W = me.khol.carcassonne.tiles.basic.W.tile
-        val X = me.khol.carcassonne.tiles.basic.X.tile
+        val A = me.khol.carcassonne.tiles.basic.A
+        val B = me.khol.carcassonne.tiles.basic.B
+        val C = me.khol.carcassonne.tiles.basic.C
+        val D = me.khol.carcassonne.tiles.basic.D
+        val E = me.khol.carcassonne.tiles.basic.E
+        val E_G = me.khol.carcassonne.tiles.basic.E_G
+        val F = me.khol.carcassonne.tiles.basic.F
+        val G = me.khol.carcassonne.tiles.basic.G
+        val H = me.khol.carcassonne.tiles.basic.H
+        val H_G = me.khol.carcassonne.tiles.basic.H_G
+        val I = me.khol.carcassonne.tiles.basic.I
+        val I_G = me.khol.carcassonne.tiles.basic.I_G
+        val J = me.khol.carcassonne.tiles.basic.J
+        val K = me.khol.carcassonne.tiles.basic.K
+        val L = me.khol.carcassonne.tiles.basic.L
+        val M = me.khol.carcassonne.tiles.basic.M
+        val M_G = me.khol.carcassonne.tiles.basic.M_G
+        val N = me.khol.carcassonne.tiles.basic.N
+        val N_G = me.khol.carcassonne.tiles.basic.N_G
+        val O = me.khol.carcassonne.tiles.basic.O
+        val P = me.khol.carcassonne.tiles.basic.P
+        val Q = me.khol.carcassonne.tiles.basic.Q
+        val R = me.khol.carcassonne.tiles.basic.R
+        val R_G = me.khol.carcassonne.tiles.basic.R_G
+        val S = me.khol.carcassonne.tiles.basic.S
+        val T = me.khol.carcassonne.tiles.basic.T
+        val U = me.khol.carcassonne.tiles.basic.U
+        val U_G = me.khol.carcassonne.tiles.basic.U_G
+        val V = me.khol.carcassonne.tiles.basic.V
+        val V_G = me.khol.carcassonne.tiles.basic.V_G
+        val W = me.khol.carcassonne.tiles.basic.W
+        val X = me.khol.carcassonne.tiles.basic.X
     }
 
     object Crops {

@@ -4,7 +4,6 @@ import androidx.compose.ui.geometry.Offset
 import carcassonne.composeapp.generated.resources.Res
 import carcassonne.composeapp.generated.resources.tile_basic_H
 import me.khol.carcassonne.tiles.Tiles
-import me.khol.carcassonne.tiles.basic.H
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.svgToShape
 
@@ -14,17 +13,17 @@ private const val basic_tile_H_field_svg = "m 512.05078,1.4140625 c -8.79763,10.
 
 val H = UiTile(
     drawable = Res.drawable.tile_basic_H,
-    tile = Tiles.Basic.H,
+    tile = Tiles.Basic.H.tile,
     uiElements = mapOf(
-        H.cityTop to UiTile.UiElement(
+        Tiles.Basic.H.cityTop to UiTile.UiElement(
             shape = svgToShape(basic_tile_H_city_top_svg),
             figurePlacement = Offset(0.5f, 0.15f),
         ),
-        H.cityBottom to UiTile.UiElement(
+        Tiles.Basic.H.cityBottom to UiTile.UiElement(
             shape = svgToShape(basic_tile_H_city_bottom_svg),
             figurePlacement = Offset(0.5f, 0.85f),
         ),
-        H.field to UiTile.UiElement(
+        Tiles.Basic.H.field to UiTile.UiElement(
             shape = svgToShape(basic_tile_H_field_svg),
             figurePlacement = Offset(0.5f, 0.55f),
         ),

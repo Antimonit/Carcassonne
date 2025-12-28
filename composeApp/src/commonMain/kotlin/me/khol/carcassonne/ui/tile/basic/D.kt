@@ -4,7 +4,6 @@ import androidx.compose.ui.geometry.Offset
 import carcassonne.composeapp.generated.resources.Res
 import carcassonne.composeapp.generated.resources.tile_basic_D
 import me.khol.carcassonne.tiles.Tiles
-import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.svgToShape
 
@@ -15,21 +14,21 @@ private const val basic_tile_D_road_svg = "m 511.88281,236.57227 c -34.73526,-1.
 
 val D = UiTile(
     drawable = Res.drawable.tile_basic_D,
-    tile = Tiles.Basic.D,
+    tile = Tiles.Basic.D.tile,
     uiElements = mapOf(
-        D.city to UiTile.UiElement(
+        Tiles.Basic.D.city to UiTile.UiElement(
             shape = svgToShape(basic_tile_D_city_svg),
             figurePlacement = Offset(0.5f, 0.15f),
         ),
-        D.fieldTop to UiTile.UiElement(
+        Tiles.Basic.D.fieldTop to UiTile.UiElement(
             shape = svgToShape(basic_tile_D_field_top_svg),
             figurePlacement = Offset(0.25f, 0.35f),
         ),
-        D.fieldBottom to UiTile.UiElement(
+        Tiles.Basic.D.fieldBottom to UiTile.UiElement(
             shape = svgToShape(basic_tile_D_field_bottom_svg),
             figurePlacement = Offset(0.65f, 0.8f),
         ),
-        D.road to UiTile.UiElement(
+        Tiles.Basic.D.road to UiTile.UiElement(
             shape = svgToShape(basic_tile_D_road_svg),
             figurePlacement = Offset(0.5f, 0.53f),
         ),

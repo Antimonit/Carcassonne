@@ -70,7 +70,7 @@ fun TileElementsOverlay(
 private fun TileElementsOverlayPreview() {
     MaterialTheme {
         Surface {
-            val rotatedUiTile = Tiles.Basic.A.rotated(Rotation.ROTATE_90).toUiTile()
+            val rotatedUiTile = Tiles.Basic.A.tile.rotated(Rotation.ROTATE_90).toUiTile()
             RotatedTile(
                 rotatedUiTile = rotatedUiTile,
                 overlay = {

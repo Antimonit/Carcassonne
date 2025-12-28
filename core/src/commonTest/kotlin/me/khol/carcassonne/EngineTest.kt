@@ -16,7 +16,7 @@ class EngineTest {
     val engine = Engine(
         initialGame = Game.new(
             tilesets = listOf(basicTileset),
-            startingTile = Tiles.Basic.D,
+            startingTile = Tiles.Basic.D.tile,
             players = listOf(playerRed, playerGreen)
         ),
     )
@@ -31,7 +31,7 @@ class EngineTest {
     @Test
     fun `undo placing a placed tile`() {
         engine.placeTile(
-            tile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(1, 0)
+            tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0)
         )
         assertIs<Phase.PlacingTile.Placed>(engine.game.value.phase)
         engine.undo()
@@ -41,9 +41,9 @@ class EngineTest {
     @Test
     fun `undo placing a meeple`() {
         engine.placeFigure(
-            tile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(1, 0),
+            tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0),
             placedFigure = PlacedFigure(
-                me.khol.carcassonne.tiles.basic.D.road.placed(Coordinates(1, 0)),
+                placedElement = Tiles.Basic.D.road.placed(Coordinates(1, 0)),
                 figure = PlayerFigures.greenMeeple,
             )
         )
@@ -61,15 +61,15 @@ class EngineTest {
         assertEquals(playerRed, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                placedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(1, 0),
-                validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
+                placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0),
+                validFigurePlacements = Tiles.Basic.D.tile.elements.all().associateWith { emptyList() },
             )
         )
         assertEquals(playerGreen, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
-                placedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_0).placed(2, 0),
-                validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
+                placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(2, 0),
+                validFigurePlacements = Tiles.Basic.D.tile.elements.all().associateWith { emptyList() },
             )
         )
         assertEquals(playerRed, engine.game.value.currentPlayer)

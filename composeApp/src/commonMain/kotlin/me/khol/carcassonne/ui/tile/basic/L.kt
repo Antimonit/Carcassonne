@@ -4,7 +4,6 @@ import androidx.compose.ui.geometry.Offset
 import carcassonne.composeapp.generated.resources.Res
 import carcassonne.composeapp.generated.resources.tile_basic_L
 import me.khol.carcassonne.tiles.Tiles
-import me.khol.carcassonne.tiles.basic.L
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.svgToShape
 
@@ -18,33 +17,33 @@ private const val basic_tile_L_road_bottom_svg = "m 264.27734,323.43359 c -10.18
 
 val L = UiTile(
     drawable = Res.drawable.tile_basic_L,
-    tile = Tiles.Basic.L,
+    tile = Tiles.Basic.L.tile,
     uiElements = mapOf(
-        L.city to UiTile.UiElement(
+        Tiles.Basic.L.city to UiTile.UiElement(
             shape = svgToShape(basic_tile_L_city_svg),
             figurePlacement = Offset(0.5f, 0.15f),
         ),
-        L.fieldTop to UiTile.UiElement(
+        Tiles.Basic.L.fieldTop to UiTile.UiElement(
             shape = svgToShape(basic_tile_L_field_top_svg),
             figurePlacement = Offset(0.15f, 0.3f),
         ),
-        L.fieldLeft to UiTile.UiElement(
+        Tiles.Basic.L.fieldLeft to UiTile.UiElement(
             shape = svgToShape(basic_tile_L_field_left_svg),
             figurePlacement = Offset(0.2f, 0.8f),
         ),
-        L.fieldRight to UiTile.UiElement(
+        Tiles.Basic.L.fieldRight to UiTile.UiElement(
             shape = svgToShape(basic_tile_L_field_right_svg),
             figurePlacement = Offset(0.8f, 0.8f),
         ),
-        L.roadLeft to UiTile.UiElement(
+        Tiles.Basic.L.roadLeft to UiTile.UiElement(
             shape = svgToShape(basic_tile_L_road_left_svg),
             figurePlacement = Offset(0.15f, 0.45f),
         ),
-        L.roadRight to UiTile.UiElement(
+        Tiles.Basic.L.roadRight to UiTile.UiElement(
             shape = svgToShape(basic_tile_L_road_right_svg),
             figurePlacement = Offset(0.85f, 0.4f),
         ),
-        L.roadBottom to UiTile.UiElement(
+        Tiles.Basic.L.roadBottom to UiTile.UiElement(
             shape = svgToShape(basic_tile_L_road_bottom_svg),
             figurePlacement = Offset(0.5f, 0.85f),
         ),

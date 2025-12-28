@@ -13,7 +13,7 @@ class GameTest {
     @Test
     fun `remove only a single copy of the starting tile even if it contains multiple copies`() {
         val tileset = basicTileset
-        val startingTile = Tiles.Basic.D
+        val startingTile = Tiles.Basic.D.tile
         val game = Game.new(
             tilesets = listOf(tileset),
             startingTile = startingTile,

@@ -24,7 +24,6 @@ import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
-import me.khol.carcassonne.tiles.basic.D
 import me.khol.carcassonne.ui.GridScope.coordinates
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.tileSpacing
@@ -161,23 +160,23 @@ private fun BoardPreview() {
         Surface {
             Board(
                 board = Board
-                    .starting(startingTile = Tiles.Basic.D)
+                    .starting(startingTile = Tiles.Basic.D.tile)
                     .placeTile(
                         coordinates = Coordinates(-1, 0),
-                        tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180),
+                        tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
                         placedFigures = listOf(
                             PlacedFigure(
-                                placedElement = D.road.placed(Coordinates(-1, 0)),
+                                placedElement = Tiles.Basic.D.road.placed(Coordinates(-1, 0)),
                                 figure = PlayerFigures.greenMeeple,
                             ),
                         ),
                     )
-                    .placeTile(coordinates = Coordinates(-2, 0), tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(-3, 0), tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(1, 0), tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(1, -1), tile = Tiles.Basic.D.rotated(Rotation.ROTATE_0), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(0, 1), tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180), placedFigures = emptyList()),
-                phase = Phase.PlacingTile.Fresh(Tiles.Basic.D),
+                    .placeTile(coordinates = Coordinates(-2, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(-3, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(1, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(1, -1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0), placedFigures = emptyList())
+                    .placeTile(coordinates = Coordinates(0, 1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList()),
+                phase = Phase.PlacingTile.Fresh(Tiles.Basic.D.tile),
                 onPlaceTile = { tile -> },
                 onPlaceFigure = { tile, figure -> },
             )

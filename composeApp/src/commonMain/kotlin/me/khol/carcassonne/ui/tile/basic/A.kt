@@ -13,17 +13,17 @@ private const val basic_tile_A_road_svg = "m 281.43295,511.88245 c 25.31474,-39.
 
 val A = UiTile(
     drawable = Res.drawable.tile_basic_A,
-    tile = Tiles.Basic.A,
+    tile = Tiles.Basic.A.tile,
     uiElements = mapOf(
-        me.khol.carcassonne.tiles.basic.A.field to UiTile.UiElement(
+        Tiles.Basic.A.field to UiTile.UiElement(
             shape = svgToShape(basic_tile_A_field_svg),
             figurePlacement = Offset(0.22f, 0.80f),
         ),
-        me.khol.carcassonne.tiles.basic.A.monastery to UiTile.UiElement(
+        Tiles.Basic.A.monastery to UiTile.UiElement(
             shape = svgToShape(basic_tile_A_monastery_svg),
             figurePlacement = Offset(0.47f, 0.45f),
         ),
-        me.khol.carcassonne.tiles.basic.A.road to UiTile.UiElement(
+        Tiles.Basic.A.road to UiTile.UiElement(
             shape = svgToShape(basic_tile_A_road_svg),
             figurePlacement = Offset(0.65f, 0.82f),
         ),

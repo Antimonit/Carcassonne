@@ -3,8 +3,6 @@ package me.khol.carcassonne
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
-import me.khol.carcassonne.tiles.Tiles
-import me.khol.carcassonne.tiles.basic.D
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -12,41 +10,42 @@ class ValidFigurePlacementsTest {
 
     @Test
     fun `valid figure placements`() {
-        val board = Board.starting(startingTile = Tiles.Basic.D)
+        val d = me.khol.carcassonne.tiles.basic.D
+        val board = Board.starting(startingTile = d.tile)
             .placeTile(
                 coordinates = Coordinates(1, 0),
-                tile = Tiles.Basic.D.rotated(Rotation.ROTATE_180),
+                tile = d.tile.rotated(Rotation.ROTATE_180),
                 placedFigures = listOf(
                     PlacedFigure(
-                        placedElement = D.fieldTop.rotate(Rotation.ROTATE_180).placed(Coordinates(1, 0)),
+                        placedElement = d.fieldTop.rotate(Rotation.ROTATE_180).placed(Coordinates(1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
             )
 
         val placements = board.validFigurePlacements(
-            placedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_180).placed(-1, 0),
+            placedTile = d.tile.rotated(Rotation.ROTATE_180).placed(-1, 0),
             currentPlayer = Players.green,
         )
 
         assertEquals(
             expected = mapOf(
-                D.fieldTop.rotate(Rotation.ROTATE_180) to emptyList(),
-                D.fieldBottom.rotate(Rotation.ROTATE_180) to listOf(
+                d.fieldTop.rotate(Rotation.ROTATE_180) to emptyList(),
+                d.fieldBottom.rotate(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = D.fieldBottom.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
+                        placedElement = d.fieldBottom.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
-                D.road.rotate(Rotation.ROTATE_180) to listOf(
+                d.road.rotate(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = D.road.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
+                        placedElement = d.road.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
-                D.city.rotate(Rotation.ROTATE_180) to listOf(
+                d.city.rotate(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = D.city.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
+                        placedElement = d.city.rotate(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),

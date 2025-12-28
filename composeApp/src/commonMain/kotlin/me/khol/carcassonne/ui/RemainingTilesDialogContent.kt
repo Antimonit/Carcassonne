@@ -227,7 +227,7 @@ private fun BaseRemainingTilePreview(
         Surface {
             RemainingTile(
                 usage = Usage(
-                    tile = Tiles.Basic.D,
+                    tile = Tiles.Basic.D.tile,
                     total = 4,
                     remaining = remaining,
                 ),

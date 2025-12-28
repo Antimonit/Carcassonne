@@ -170,7 +170,7 @@ private fun PhaseHudPlacingTilePreview() {
         Surface {
             PhaseHud(
                 phase = Phase.PlacingTile.Fresh(
-                    tile = Tiles.Basic.D,
+                    tile = Tiles.Basic.D.tile,
                 ),
                 remainingTilesCount = 71,
                 confirmTilePlacement = {},
@@ -189,8 +189,8 @@ private fun PhaseHudPlacingFigurePreview() {
         Surface {
             PhaseHud(
                 phase = Phase.PlacingFigure.Fresh(
-                    placedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_180).placed(1, 0),
-                    validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
+                    placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(1, 0),
+                    validFigurePlacements = Tiles.Basic.D.tile.elements.all().associateWith { emptyList() },
                 ),
                 remainingTilesCount = 71,
                 confirmTilePlacement = {},

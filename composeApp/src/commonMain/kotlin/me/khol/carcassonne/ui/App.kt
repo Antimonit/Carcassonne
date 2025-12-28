@@ -52,7 +52,7 @@ fun App() {
             Engine(
                 initialGame = Game.new(
                     tilesets = listOf(basicTileset),
-                    startingTile = Tiles.Basic.D,
+                    startingTile = Tiles.Basic.D.tile,
                     players = listOf(Players.green, Players.red),
                 )
             )
