@@ -4,3 +4,6 @@ data class PlacedTile(
     val rotatedTile: RotatedTile,
     val coordinates: Coordinates,
 )
+
+fun RotatedTile.placed(coordinates: Coordinates) =
+    PlacedTile(rotatedTile = this, coordinates = coordinates)
