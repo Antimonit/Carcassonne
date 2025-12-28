@@ -190,7 +190,7 @@ private fun PhaseHudPlacingFigurePreview() {
         Surface {
             PhaseHud(
                 phase = Phase.PlacingFigure.Fresh(
-                    placedTile = Tiles.Basic.D.rotated(rotation = Rotation.ROTATE_180).placed(1, 0),
+                    placedTile = Tiles.Basic.D.rotated(Rotation.ROTATE_180).placed(1, 0),
                     validFigurePlacements = Tiles.Basic.D.elements.all().associateWith { emptyList() },
                 ),
                 remainingTilesCount = 71,
