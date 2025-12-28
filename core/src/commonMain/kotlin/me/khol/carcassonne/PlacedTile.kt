@@ -7,3 +7,6 @@ data class PlacedTile(
 
 fun RotatedTile.placed(coordinates: Coordinates) =
     PlacedTile(rotatedTile = this, coordinates = coordinates)
+
+fun RotatedTile.placed(x: Int, y: Int) =
+    placed(coordinates = Coordinates(x, y))
