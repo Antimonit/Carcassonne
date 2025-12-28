@@ -39,7 +39,7 @@ fun TileElementsOverlay(
     uiTile.uiElements
         .mapKeys { validMeeplePlacements.getValue(it.key.rotate(rotation)) }
         .filterKeys { it.isNotEmpty() }
-        .forEach { (elements, uiElement) ->
+        .forEach { (placedFigures, uiElement) ->
             val shape = uiElement.shape
             val interactionSource = remember { MutableInteractionSource() }
             val hovered by interactionSource.collectIsHoveredAsState()
@@ -59,7 +59,7 @@ fun TileElementsOverlay(
                         shape = shape,
                     )
                     .clickable {
-                        onElementClick(elements.first())
+                        onElementClick(placedFigures.first())
                     }
                     .hoverable(interactionSource = interactionSource)
             )
