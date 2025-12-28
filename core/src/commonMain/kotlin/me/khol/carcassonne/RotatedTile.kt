@@ -18,3 +18,6 @@ fun RotatedTile.asTile(): Tile =
         edges = tile.edges.rotate(rotation),
         elements = tile.elements.rotate(rotation),
     )
+
+fun Tile.rotated(rotation: Rotation) =
+    RotatedTile(tile = this, rotation = rotation)
