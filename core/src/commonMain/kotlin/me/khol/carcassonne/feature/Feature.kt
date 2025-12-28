@@ -12,6 +12,9 @@ data class PlacedElement<E : Element<ElementPosition>>(
     val element: E,
 )
 
+fun <E : Element<ElementPosition>> E.placed(coordinates: Coordinates) =
+    PlacedElement(element = this, coordinates = coordinates)
+
 typealias PlacedField = PlacedElement<Element.Field>
 typealias PlacedCity = PlacedElement<Element.City>
 typealias PlacedRoad = PlacedElement<Element.Road>
