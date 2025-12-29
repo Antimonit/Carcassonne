@@ -18,7 +18,7 @@ class MonasteryFeaturesTest {
         val board = Board.starting(startingTile = Tiles.Basic.D.tile)
             .placeTile(Coordinates(0, 1), Tiles.Basic.B.tile.rotated(Rotation.ROTATE_0), emptyList())
 
-        board.getMonasteryFeatures().run {
+        board.monasteryFeatures.run {
             assertEquals(1, size)
 
             first().run {
@@ -44,7 +44,7 @@ class MonasteryFeaturesTest {
             .placeTile(Coordinates(-1, 1), Tiles.Basic.U.tile.rotated(Rotation.ROTATE_180), emptyList())
             .placeTile(Coordinates(-1, 0), Tiles.Basic.V.tile.rotated(Rotation.ROTATE_270), emptyList())
 
-        newBoard.getMonasteryFeatures().run {
+        newBoard.monasteryFeatures.run {
             assertEquals(1, size)
 
             first().run {

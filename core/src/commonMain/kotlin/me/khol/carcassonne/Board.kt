@@ -2,7 +2,11 @@ package me.khol.carcassonne
 
 import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.PlacedElement
-import me.khol.carcassonne.feature.getAllFeatures
+import me.khol.carcassonne.feature.getCityFeatures
+import me.khol.carcassonne.feature.getFieldFeatures
+import me.khol.carcassonne.feature.getGardenFeatures
+import me.khol.carcassonne.feature.getMonasteryFeatures
+import me.khol.carcassonne.feature.getRoadFeatures
 
 data class Board(
     val tiles: Map<Coordinates, RotatedTile>,
@@ -15,6 +19,16 @@ data class Board(
         .distinct()
         .minus(tiles.keys)
         .toSet()
+
+    val cityFeatures: Set<Feature.City> by lazy { getCityFeatures() }
+    val roadFeatures: Set<Feature.Road> by lazy { getRoadFeatures() }
+    val fieldFeatures: Set<Feature.Field> by lazy { getFieldFeatures() }
+    val monasteryFeatures: Set<Feature.Monastery> by lazy { getMonasteryFeatures() }
+    val gardenFeatures: Set<Feature.Garden> by lazy { getGardenFeatures() }
+
+    val allFeatures: Set<Feature> by lazy {
+        cityFeatures + roadFeatures + fieldFeatures + monasteryFeatures + gardenFeatures
+    }
 
     companion object {
         val empty = Board(
@@ -108,5 +122,5 @@ fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
 }
 
 fun Board.elementToFeature(placedElement: PlacedElement<*>): Feature {
-    return getAllFeatures().first { it.placedElements.contains(placedElement) }
+    return allFeatures.first { it.placedElements.contains(placedElement) }
 }

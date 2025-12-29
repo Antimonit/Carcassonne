@@ -1,22 +1,17 @@
 package me.khol.carcassonne
 
 import me.khol.carcassonne.feature.Feature
-import me.khol.carcassonne.feature.getCityFeatures
-import me.khol.carcassonne.feature.getFieldFeatures
-import me.khol.carcassonne.feature.getGardenFeatures
-import me.khol.carcassonne.feature.getMonasteryFeatures
-import me.khol.carcassonne.feature.getRoadFeatures
 
 fun scoringEvents(
     board: Board,
     currentPlayer: Player,
 ): List<History.Event.Scoring> {
 
-    val fieldFeatures = board.getFieldFeatures()
-    val roadFeatures = board.getRoadFeatures()
-    val cityFeatures = board.getCityFeatures()
-    val monasteryFeatures = board.getMonasteryFeatures()
-    val gardenFeatures = board.getGardenFeatures()
+    val fieldFeatures = board.fieldFeatures
+    val roadFeatures = board.roadFeatures
+    val cityFeatures = board.cityFeatures
+    val monasteryFeatures = board.monasteryFeatures
+    val gardenFeatures = board.gardenFeatures
 
     val figures: List<PlacedFigure> = board.figures.values.flatten()
     val scorableFeatures = figures.groupBy { figure: PlacedFigure ->

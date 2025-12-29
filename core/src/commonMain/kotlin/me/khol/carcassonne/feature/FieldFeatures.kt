@@ -4,8 +4,6 @@ import me.khol.carcassonne.Board
 import me.khol.carcassonne.Element
 
 fun Board.getFieldFeatures(): Set<Feature.Field> {
-    val cityFeatures: Set<Feature.City> = getCityFeatures()
-
     return getSplitEdgeFeatures(Element.Field) { placedFields, figures ->
         val connectedCities: List<Feature.City> = placedFields.flatMap { placedField: PlacedField ->
             cityFeatures.filter { cityFeature: Feature.City ->

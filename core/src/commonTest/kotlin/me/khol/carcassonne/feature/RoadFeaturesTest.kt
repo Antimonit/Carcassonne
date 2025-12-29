@@ -23,7 +23,7 @@ class RoadFeaturesTest {
                 Feature.Road(placedRoads = setOf(w.roadRight.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
                 Feature.Road(placedRoads = setOf(w.roadBottom.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
             ),
-            actual = board.getRoadFeatures(),
+            actual = board.roadFeatures,
         )
 
         // Connect right and bottom road ends with three turns
@@ -54,7 +54,7 @@ class RoadFeaturesTest {
                     figures = emptyList(),
                 ),
             ),
-            actual = newBoard.getRoadFeatures(),
+            actual = newBoard.roadFeatures,
         )
     }
 
@@ -81,7 +81,7 @@ class RoadFeaturesTest {
                 emptySet(),
                 setOf(figureOne, figureTwo),
             ),
-            actual = board.getRoadFeatures().map { it.figures.toSet() }.toSet(),
+            actual = board.roadFeatures.map { it.figures.toSet() }.toSet(),
         )
     }
 }

@@ -16,7 +16,7 @@ class CityFeaturesTest {
     fun `city feature`() {
         val board = Board.starting(startingTile = Tiles.Basic.D.tile)
 
-        board.getCityFeatures().run {
+        board.cityFeatures.run {
             assertEquals(1, size)
 
             first().run {
@@ -38,7 +38,7 @@ class CityFeaturesTest {
             .placeTile(Coordinates(0, -1), Tiles.Basic.F.tile.rotated(Rotation.ROTATE_90), emptyList())
             .placeTile(Coordinates(0, -2), Tiles.Basic.E.tile.rotated(Rotation.ROTATE_180), emptyList())
 
-        newBoard.getCityFeatures().run {
+        newBoard.cityFeatures.run {
             assertEquals(1, size)
 
             first().run {
@@ -82,7 +82,7 @@ class CityFeaturesTest {
                     figures = emptyList(),
                 ),
             ),
-            actual = board.getCityFeatures(),
+            actual = board.cityFeatures,
         )
 
         val newBoard = board
@@ -102,7 +102,7 @@ class CityFeaturesTest {
                     figures = emptyList(),
                 ),
             ),
-            actual = newBoard.getCityFeatures(),
+            actual = newBoard.cityFeatures,
         )
     }
 
@@ -126,7 +126,7 @@ class CityFeaturesTest {
             expected = setOf(
                 setOf(figureOne, figureTwo)
             ),
-            actual = board.getCityFeatures().map { it.figures.toSet() }.toSet(),
+            actual = board.cityFeatures.map { it.figures.toSet() }.toSet(),
         )
     }
 }

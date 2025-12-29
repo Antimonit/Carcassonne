@@ -18,7 +18,7 @@ class GardenFeaturesTest {
         val board = Board.starting(startingTile = BB6F1)
             .placeTile(Coordinates(0, -1), BB6F10.rotated(Rotation.ROTATE_180), emptyList())
 
-        val gardenFeatures = board.getGardenFeatures()
+        val gardenFeatures = board.gardenFeatures
         assertEquals(1, gardenFeatures.size)
 
         val gardenFeature = gardenFeatures.first()
