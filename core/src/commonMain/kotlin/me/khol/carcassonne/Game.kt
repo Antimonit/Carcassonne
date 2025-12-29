@@ -49,24 +49,8 @@ data class Game(
 
     fun remainingBoardSpaceCounts(): Map<Coordinates, Int> {
         return board.openSpaces.associateWith { centerSpace ->
-            fun RotatedTile.rotatedEdges(): Tile.Edges = this.tile.edges.rotate(rotation)
-
-            val top = board.getTile(centerSpace.top)?.rotatedEdges()?.bottom
-            val right = board.getTile(centerSpace.right)?.rotatedEdges()?.left
-            val bottom = board.getTile(centerSpace.bottom)?.rotatedEdges()?.top
-            val left = board.getTile(centerSpace.left)?.rotatedEdges()?.right
-
             remainingTiles.count { tile ->
-                Rotation.entries.map { rotation ->
-                    tile.rotated(rotation)
-                }.any { rotatedTile ->
-                    listOfNotNull(
-                        top?.let { rotatedTile.rotatedEdges().top == it },
-                        bottom?.let { rotatedTile.rotatedEdges().bottom == it },
-                        left?.let { rotatedTile.rotatedEdges().left == it },
-                        right?.let { rotatedTile.rotatedEdges().right == it },
-                    ).all { it }
-                }
+                board.validTileRotations(centerSpace, tile).isNotEmpty()
             }
         }
     }

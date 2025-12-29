@@ -61,40 +61,41 @@ data class Board(
         )
     }
 
-    fun possibleSpacesForTile(tile: Tile): Map<Coordinates, List<PlacedTile>> = buildMap {
-        val rotatedTiles: List<RotatedTile> = Rotation.entries.map { rotation ->
-            tile.rotated(rotation)
-        }
-
-        fun RotatedTile.rotatedEdges(): Tile.Edges = this.tile.edges.rotate(rotation)
-
-        openSpaces.forEach { centerSpace ->
-            val top = getTile(centerSpace.top)?.rotatedEdges()?.bottom
-            val right = getTile(centerSpace.right)?.rotatedEdges()?.left
-            val bottom = getTile(centerSpace.bottom)?.rotatedEdges()?.top
-            val left = getTile(centerSpace.left)?.rotatedEdges()?.right
-
-            val satisfiedRotations = rotatedTiles.filter { rotatedTile ->
-                val rotatedEdges = rotatedTile.rotatedEdges()
-                listOfNotNull(
-                    top?.let { rotatedEdges.top == it },
-                    bottom?.let { rotatedEdges.bottom == it },
-                    left?.let { rotatedEdges.left == it },
-                    right?.let { rotatedEdges.right == it },
-                ).all { it }
-            }.map { it.placed(centerSpace) }
-
-            if (satisfiedRotations.isNotEmpty()) {
-                put(centerSpace, satisfiedRotations)
-            }
-        }
-    }
+    fun possibleSpacesForTile(tile: Tile): Map<Coordinates, List<PlacedTile>> =
+        openSpaces
+            .associateWith { centerSpace -> validTileRotations(centerSpace, tile) }
+            .filterValues { it.isNotEmpty() }
 
     fun removeFigures(figures: List<PlacedFigure>): Board = copy(
         figures = this.figures.mapValues { (_, placedFigures) ->
             placedFigures - figures
         }
     )
+}
+
+fun Board.validTileRotations(
+    centerSpace: Coordinates,
+    tile: Tile,
+): List<PlacedTile> {
+    fun RotatedTile.rotatedEdges(): Tile.Edges = this.tile.edges.rotate(rotation)
+
+    val top = getTile(centerSpace.top)?.rotatedEdges()?.bottom
+    val right = getTile(centerSpace.right)?.rotatedEdges()?.left
+    val bottom = getTile(centerSpace.bottom)?.rotatedEdges()?.top
+    val left = getTile(centerSpace.left)?.rotatedEdges()?.right
+
+    val rotatedTiles = Rotation.entries.map { rotation ->
+        tile.rotated(rotation)
+    }
+    return rotatedTiles.filter { rotatedTile ->
+        val rotatedEdges = rotatedTile.rotatedEdges()
+        listOfNotNull(
+            top?.let { rotatedEdges.top == it },
+            bottom?.let { rotatedEdges.bottom == it },
+            left?.let { rotatedEdges.left == it },
+            right?.let { rotatedEdges.right == it },
+        ).all { it }
+    }.map { it.placed(centerSpace) }
 }
 
 fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
