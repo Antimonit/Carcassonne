@@ -50,7 +50,6 @@ kotlin {
         val desktopMain by getting
         
         androidMain.dependencies {
-            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
@@ -61,7 +60,7 @@ kotlin {
             implementation(libs.compose.material.icons.extended)
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
-            implementation(libs.compose.components.ui.tooling.preview)
+            implementation(libs.compose.ui.tooling.preview)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

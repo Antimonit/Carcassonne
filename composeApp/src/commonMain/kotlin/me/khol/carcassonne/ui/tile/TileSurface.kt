@@ -16,9 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.ui.zIndexOnHover
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 val tileSize = 128.dp
 val tileSpacing = 4.dp

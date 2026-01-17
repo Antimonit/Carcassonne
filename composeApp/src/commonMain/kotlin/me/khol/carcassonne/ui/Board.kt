@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
@@ -28,7 +29,6 @@ import me.khol.carcassonne.ui.GridScope.coordinates
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.tileSpacing
 import me.khol.carcassonne.ui.tile.toUiTile
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Board(

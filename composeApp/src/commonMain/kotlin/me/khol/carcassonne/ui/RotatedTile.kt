@@ -6,10 +6,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.tooling.preview.Preview
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.ui.tile.RotatedUiTile
 import me.khol.carcassonne.ui.tile.basic.A
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun RotatedTile(

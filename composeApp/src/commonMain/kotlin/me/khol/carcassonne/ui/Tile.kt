@@ -4,11 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.tooling.preview.Preview
 import me.khol.carcassonne.ui.tile.TileSurface
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.basic.A
 import org.jetbrains.compose.resources.imageResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun Tile(

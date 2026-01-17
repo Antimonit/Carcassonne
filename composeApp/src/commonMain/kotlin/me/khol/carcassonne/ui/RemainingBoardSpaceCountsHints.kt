@@ -24,9 +24,9 @@ import me.khol.carcassonne.Game
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.tileSpacing
 import org.jetbrains.compose.resources.painterResource
-import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
-import org.jetbrains.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 
 @Composable
 fun RemainingBoardSpaceCountsHints(game: Game) {

@@ -29,12 +29,12 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.tiles.basicTileset
 import me.khol.carcassonne.ui.tile.toUiTile
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.random.Random
 
 @Composable

@@ -3,10 +3,10 @@ package me.khol.carcassonne.ui.tile
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import me.khol.carcassonne.RotatedTile
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.ui.Tile
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 object UiTiles {
 

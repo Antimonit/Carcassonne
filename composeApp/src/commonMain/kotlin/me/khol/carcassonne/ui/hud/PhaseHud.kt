@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.Rotation
@@ -31,7 +32,6 @@ import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.Tile
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toUiTile
-import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun PhaseHud(
