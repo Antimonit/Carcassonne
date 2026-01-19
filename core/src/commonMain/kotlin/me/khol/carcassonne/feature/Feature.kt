@@ -15,6 +15,9 @@ data class PlacedElement<E : Element<ElementPosition>>(
 fun <E : Element<ElementPosition>> RotatedElement<E>.placed(coordinates: Coordinates) =
     PlacedElement(rotatedElement = this, coordinates = coordinates)
 
+fun <E : Element<ElementPosition>> RotatedElement<E>.placed(x: Int, y: Int) =
+    placed(coordinates = Coordinates(x, y))
+
 typealias PlacedField = PlacedElement<Element.Field>
 typealias PlacedCity = PlacedElement<Element.City>
 typealias PlacedRoad = PlacedElement<Element.Road>
