@@ -17,7 +17,7 @@ class ValidFigurePlacementsTest {
                 tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
                 placedFigures = listOf(
                     PlacedFigure(
-                        placedElement = Tiles.Basic.D.fieldTop.rotated(Rotation.ROTATE_180).placed(Coordinates(1, 0),),
+                        placedElement = Tiles.Basic.D.fieldTop.rotated(Rotation.ROTATE_180).placed(1, 0),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
@@ -33,19 +33,19 @@ class ValidFigurePlacementsTest {
                 Tiles.Basic.D.fieldTop.rotated(Rotation.ROTATE_180) to emptyList(),
                 Tiles.Basic.D.fieldBottom.rotated(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = Tiles.Basic.D.fieldBottom.rotated(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
+                        placedElement = Tiles.Basic.D.fieldBottom.rotated(Rotation.ROTATE_180).placed(-1, 0),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
                 Tiles.Basic.D.road.rotated(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
+                        placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(-1, 0),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),
                 Tiles.Basic.D.city.rotated(Rotation.ROTATE_180) to listOf(
                     PlacedFigure(
-                        placedElement = Tiles.Basic.D.city.rotated(Rotation.ROTATE_180).placed(Coordinates(-1, 0)),
+                        placedElement = Tiles.Basic.D.city.rotated(Rotation.ROTATE_180).placed(-1, 0),
                         figure = PlayerFigures.greenMeeple,
                     ),
                 ),

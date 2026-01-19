@@ -23,7 +23,7 @@ class CityFeaturesTest {
                 assertEquals(
                     expected = Feature.City(
                         placedCities = setOf(
-                            Tiles.Basic.D.city.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
+                            Tiles.Basic.D.city.rotated(Rotation.ROTATE_0).placed(0, 0),
                         ),
                         isFinished = false,
                         figures = emptyList(),
@@ -45,9 +45,9 @@ class CityFeaturesTest {
                 assertEquals(
                     expected = Feature.City(
                         placedCities = setOf(
-                            Tiles.Basic.D.city.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
-                            Tiles.Basic.F.city.rotated(Rotation.ROTATE_90).placed(Coordinates(0, -1)),
-                            Tiles.Basic.E.city.rotated(Rotation.ROTATE_180).placed(Coordinates(0, -2)),
+                            Tiles.Basic.D.city.rotated(Rotation.ROTATE_0).placed(0, 0),
+                            Tiles.Basic.F.city.rotated(Rotation.ROTATE_90).placed(0, -1),
+                            Tiles.Basic.E.city.rotated(Rotation.ROTATE_180).placed(0, -2),
                         ),
                         isFinished = true,
                         figures = emptyList(),
@@ -109,11 +109,11 @@ class CityFeaturesTest {
     @Test
     fun `city features with figures`() {
         val figureOne = PlacedFigure(
-            placedElement = Tiles.Basic.K.city.rotated(Rotation.ROTATE_0).placed(Coordinates(1, 0)),
+            placedElement = Tiles.Basic.K.city.rotated(Rotation.ROTATE_0).placed(1, 0),
             figure = PlayerFigures.greenMeeple,
         )
         val figureTwo = PlacedFigure(
-            placedElement = Tiles.Basic.R.city.rotated(Rotation.ROTATE_90).placed(Coordinates(0, -1)),
+            placedElement = Tiles.Basic.R.city.rotated(Rotation.ROTATE_90).placed(0, -1),
             figure = PlayerFigures.greenMeeple,
         )
 

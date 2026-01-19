@@ -43,7 +43,7 @@ class EngineTest {
         engine.placeFigure(
             tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0),
             placedFigure = PlacedFigure(
-                placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_0).placed(Coordinates(1, 0)),
+                placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_0).placed(1, 0),
                 figure = PlayerFigures.greenMeeple,
             )
         )

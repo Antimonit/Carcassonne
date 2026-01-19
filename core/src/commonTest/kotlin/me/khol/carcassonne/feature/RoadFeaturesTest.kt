@@ -19,9 +19,9 @@ class RoadFeaturesTest {
         val board = Board.starting(startingTile = w.tile)
         assertEquals(
             expected = setOf(
-                Feature.Road(placedRoads = setOf(w.roadLeft.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0))), isFinished = false, figures = emptyList()),
-                Feature.Road(placedRoads = setOf(w.roadRight.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0))), isFinished = false, figures = emptyList()),
-                Feature.Road(placedRoads = setOf(w.roadBottom.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0))), isFinished = false, figures = emptyList()),
+                Feature.Road(placedRoads = setOf(w.roadLeft.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
+                Feature.Road(placedRoads = setOf(w.roadRight.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
+                Feature.Road(placedRoads = setOf(w.roadBottom.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
             ),
             actual = board.getRoadFeatures(),
         )
@@ -63,11 +63,11 @@ class RoadFeaturesTest {
         val v = me.khol.carcassonne.tiles.basic.V
         val w = me.khol.carcassonne.tiles.basic.W
         val figureOne = PlacedFigure(
-            placedElement = v.road.rotated(Rotation.ROTATE_0).placed(Coordinates(1, 0)),
+            placedElement = v.road.rotated(Rotation.ROTATE_0).placed(1, 0),
             figure = PlayerFigures.greenMeeple,
         )
         val figureTwo = PlacedFigure(
-            placedElement = v.road.rotated(Rotation.ROTATE_180).placed(Coordinates(0, 1)),
+            placedElement = v.road.rotated(Rotation.ROTATE_180).placed(0, 1),
             figure = PlayerFigures.greenMeeple,
         )
 

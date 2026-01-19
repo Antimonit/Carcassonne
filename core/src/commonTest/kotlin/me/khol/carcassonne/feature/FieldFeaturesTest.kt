@@ -72,28 +72,28 @@ class FieldFeaturesTest {
             expected = setOf(
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.D.fieldBottom.rotated(Rotation.ROTATE_0).placed(Coordinates(x = 0, y = 0)),
+                        Tiles.Basic.D.fieldBottom.rotated(Rotation.ROTATE_0).placed(x = 0, y = 0),
                     ),
                     connectedCities = emptySet(),
                     figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.D.fieldTop.rotated(Rotation.ROTATE_0).placed(Coordinates(x = 0, y = 0)),
+                        Tiles.Basic.D.fieldTop.rotated(Rotation.ROTATE_0).placed(x = 0, y = 0),
                     ),
                     connectedCities = setOf(bottomCity),
                     figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.H.field.rotated(Rotation.ROTATE_0).placed(Coordinates(x = 0, y = -1)),
+                        Tiles.Basic.H.field.rotated(Rotation.ROTATE_0).placed(x = 0, y = -1),
                     ),
                     connectedCities = setOf(bottomCity, topCity),
                     figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.E.field.rotated(Rotation.ROTATE_180).placed(Coordinates(x = 0, y = -2)),
+                        Tiles.Basic.E.field.rotated(Rotation.ROTATE_180).placed(x = 0, y = -2),
                     ),
                     connectedCities = setOf(topCity),
                     figures = emptyList(),
@@ -112,23 +112,23 @@ class FieldFeaturesTest {
             expected = setOf(
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.L.fieldTop.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
+                        Tiles.Basic.L.fieldTop.rotated(Rotation.ROTATE_0).placed(0, 0),
                     ),
                     connectedCities = emptySet(),
                     figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.L.fieldLeft.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
-                        Tiles.Basic.K.fieldTop.rotated(Rotation.ROTATE_180).placed(Coordinates(0, 1)),
+                        Tiles.Basic.L.fieldLeft.rotated(Rotation.ROTATE_0).placed(0, 0),
+                        Tiles.Basic.K.fieldTop.rotated(Rotation.ROTATE_180).placed(0, 1),
                     ),
                     connectedCities = emptySet(),
                     figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.L.fieldRight.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
-                        Tiles.Basic.K.fieldBottom.rotated(Rotation.ROTATE_180).placed(Coordinates(0, 1)),
+                        Tiles.Basic.L.fieldRight.rotated(Rotation.ROTATE_0).placed(0, 0),
+                        Tiles.Basic.K.fieldBottom.rotated(Rotation.ROTATE_180).placed(0, 1),
                     ),
                     connectedCities = emptySet(),
                     figures = emptyList(),
@@ -144,18 +144,18 @@ class FieldFeaturesTest {
             expected = setOf(
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.L.fieldTop.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
-                        Tiles.Basic.L.fieldLeft.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
-                        Tiles.Basic.K.fieldTop.rotated(Rotation.ROTATE_180).placed(Coordinates(0, 1)),
-                        Tiles.Basic.A.field.rotated(Rotation.ROTATE_270).placed(Coordinates(-1, 0)),
+                        Tiles.Basic.L.fieldTop.rotated(Rotation.ROTATE_0).placed(0, 0),
+                        Tiles.Basic.L.fieldLeft.rotated(Rotation.ROTATE_0).placed(0, 0),
+                        Tiles.Basic.K.fieldTop.rotated(Rotation.ROTATE_180).placed(0, 1),
+                        Tiles.Basic.A.field.rotated(Rotation.ROTATE_270).placed(-1, 0),
                     ),
                     connectedCities = emptySet(),
                     figures = emptyList(),
                 ),
                 Feature.Field(
                     placedFields = setOf(
-                        Tiles.Basic.L.fieldRight.rotated(Rotation.ROTATE_0).placed(Coordinates(0, 0)),
-                        Tiles.Basic.K.fieldBottom.rotated(Rotation.ROTATE_180).placed(Coordinates(0, 1)),
+                        Tiles.Basic.L.fieldRight.rotated(Rotation.ROTATE_0).placed(0, 0),
+                        Tiles.Basic.K.fieldBottom.rotated(Rotation.ROTATE_180).placed(0, 1),
                     ),
                     connectedCities = emptySet(),
                     figures = emptyList(),
@@ -168,11 +168,11 @@ class FieldFeaturesTest {
     @Test
     fun `field features with figures`() {
         val figureOne = PlacedFigure(
-            placedElement = Tiles.Basic.E.field.rotated(Rotation.ROTATE_180).placed(Coordinates(0, -1)),
+            placedElement = Tiles.Basic.E.field.rotated(Rotation.ROTATE_180).placed(0, -1),
             figure = PlayerFigures.greenMeeple,
         )
         val figureTwo = PlacedFigure(
-            placedElement = Tiles.Basic.E.field.rotated(Rotation.ROTATE_180).placed(Coordinates(1, 0)),
+            placedElement = Tiles.Basic.E.field.rotated(Rotation.ROTATE_180).placed(1, 0),
             figure = PlayerFigures.greenMeeple,
         )
 
