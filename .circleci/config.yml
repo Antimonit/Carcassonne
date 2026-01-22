@@ -13,7 +13,7 @@ jobs:
     # https://circleci.com/docs/configuration-reference/#executor-job
     docker:
       # https://circleci.com/developer/images/image/cimg/openjdk
-      - image: cimg/openjdk:25.0
+      - image: cimg/openjdk:25.0.1
 
     # https://circleci.com/docs/configuration-reference/#resourceclass
     resource_class: medium
