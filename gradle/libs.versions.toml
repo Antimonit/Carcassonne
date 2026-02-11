@@ -12,7 +12,7 @@ compose-material-icons-extended = "1.7.3"
 # https://github.com/JetBrains/compose-hot-reload/releases
 compose-hotReload = "1.0.0"
 # https://developer.android.com/jetpack/androidx/releases/activity#declaring_dependencies
-androidx-activityCompose = "1.12.3"
+androidx-activityCompose = "1.12.4"
 # https://github.com/Kotlin/kotlinx-kover/releases
 kover = "0.9.6"
 
