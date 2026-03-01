@@ -14,15 +14,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
+import me.khol.carcassonne.History
 import me.khol.carcassonne.Phase
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.PlacedTile
+import me.khol.carcassonne.Player
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.elementToFeature
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
+import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.GridScope.coordinates
@@ -187,6 +193,66 @@ private fun BoardPreview() {
                 phase = Phase.PlacingTile.Fresh(Tiles.Basic.D.tile),
                 onPlaceTile = { tile -> },
                 onPlaceFigure = { tile, figure -> },
+            )
+        }
+    }
+}
+
+private class ScoringPlayersParameterProvider : PreviewParameterProvider<Set<Player>> {
+    private val green = Players.green
+    private val red = Players.red
+    private val blue = Player("Blue", Player.Color.Blue)
+    private val pink = Player("Pink", Player.Color.Pink)
+    override val values = sequenceOf(
+        setOf(green),
+        setOf(blue),
+        setOf(blue, pink),
+        setOf(green, pink, red),
+    )
+}
+
+@Preview(widthDp = 400, heightDp = 400)
+@Composable
+private fun BoardScoringPreview(
+    @PreviewParameter(ScoringPlayersParameterProvider::class)
+    scoringPlayers: Set<Player>
+) {
+    MaterialTheme {
+        Surface {
+            val placedFigure = PlacedFigure(
+                placedElement = Tiles.Basic.P.city.rotated(Rotation.ROTATE_180).placed(0, -1),
+                figure = PlayerFigures.greenMeeple,
+            )
+            val placedFigure2 = PlacedFigure(
+                placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_270).placed(1, -1),
+                figure = PlayerFigures.redMeeple,
+            )
+            val board = Board
+                .starting(startingTile = Tiles.Basic.D.tile)
+                .placeTile(
+                    coordinates = Coordinates(0, -1),
+                    tile = Tiles.Basic.P.tile.rotated(Rotation.ROTATE_180),
+                    placedFigures = listOf(placedFigure),
+                )
+                .placeTile(
+                    coordinates = Coordinates(1, -1),
+                    tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_270),
+                    placedFigures = listOf(placedFigure2),
+                )
+            Board(
+                board = board,
+                phase = Phase.Scoring(
+                    History.Event.Scoring(
+                        triggerPlayer = Players.green,
+                        scoringPlayers = scoringPlayers,
+                        feature = board.elementToFeature(placedFigure.placedElement),
+                        figures = listOf(placedFigure),
+                        points = 6,
+                        board = board,
+                    )
+                ),
+                onPlaceTile = { _ -> },
+            onPlaceFigure = { _, _ -> },
             )
         }
     }
