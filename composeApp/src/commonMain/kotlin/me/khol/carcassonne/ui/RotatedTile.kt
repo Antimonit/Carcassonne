@@ -28,12 +28,7 @@ fun RotatedTile(
 
 @Composable
 private fun shortestRotation(rotation: Rotation): Float {
-    val target = when (rotation) {
-        Rotation.ROTATE_0 -> 0f
-        Rotation.ROTATE_90 -> 90f
-        Rotation.ROTATE_180 -> 180f
-        Rotation.ROTATE_270 -> 270f
-    }
+    val target = rotation.degrees
     val degrees = remember { Animatable(target) }
 
     LaunchedEffect(target) {

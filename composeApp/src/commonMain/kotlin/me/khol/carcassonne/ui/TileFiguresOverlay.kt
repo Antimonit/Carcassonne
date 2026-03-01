@@ -17,7 +17,6 @@ import carcassonne.composeapp.generated.resources.*
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.Player
-import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.figure.Abbot
 import me.khol.carcassonne.figure.Builder
 import me.khol.carcassonne.figure.Figure
@@ -56,14 +55,7 @@ fun TileFiguresOverlay(
                         .size(40.dp)
                         .align(Alignment.Center)
                         .offset(tileSize * (figurePlacement.x - 0.5f), tileSize * (figurePlacement.y - 0.5f))
-                        .rotate(
-                            degrees = when (rotatedUiTile.rotation) {
-                                Rotation.ROTATE_0 -> 0f
-                                Rotation.ROTATE_90 -> -90f
-                                Rotation.ROTATE_180 -> -180f
-                                Rotation.ROTATE_270 -> -270f
-                            }
-                        )
+                        .rotate(-rotatedUiTile.rotation.degrees)
                 )
             }
         }
