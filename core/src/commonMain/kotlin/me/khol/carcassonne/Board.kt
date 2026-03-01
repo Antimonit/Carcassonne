@@ -58,7 +58,7 @@ data class Board(
         require(coordinates in openSpaces) {
             "Cannot place tile ${tile.tile.name} at $coordinates as it is not connected to the rest of the board."
         }
-        require(tile.placed(coordinates) in possibleSpacesForTile(tile.tile).getValue(coordinates)) {
+        require(tile.placed(coordinates) in possibleSpacesForTile(tile.tile).getOrElse(coordinates) { emptyList() }) {
             "Cannot place tile ${tile.tile.name} at $coordinates as it does not match edges with one or more neighbors."
         }
 
