@@ -7,6 +7,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -115,6 +116,7 @@ fun App() {
             PlayerListHud(
                 game = game,
                 modifier = Modifier
+                    .safeDrawingPadding()
                     .align(alignment = Alignment.TopStart)
             )
 
@@ -123,6 +125,7 @@ fun App() {
                 enter = slideInVertically { it },
                 exit = slideOutVertically { it },
                 modifier = Modifier
+                    .safeDrawingPadding()
                     .align(alignment = Alignment.BottomStart)
             ) {
                 PhaseHud(
@@ -143,6 +146,7 @@ fun App() {
                 enter = slideInHorizontally { it },
                 exit = slideOutHorizontally { it },
                 modifier = Modifier
+                    .safeDrawingPadding()
                     .align(alignment = Alignment.CenterEnd)
             ) {
                 History(
@@ -158,6 +162,7 @@ fun App() {
                 enter = slideInHorizontally { it },
                 exit = slideOutHorizontally { it },
                 modifier = Modifier
+                    .safeDrawingPadding()
                     .align(alignment = Alignment.BottomEnd)
             ) {
                 Button(

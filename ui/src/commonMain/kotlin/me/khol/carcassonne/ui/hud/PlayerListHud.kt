@@ -45,7 +45,7 @@ fun PlayerListHud(
             val playerColor = player.color.uiColor()
             val playerOnColor = player.color.uiOnColor()
             val elevation by animateDpAsState(if (isActive) 8.dp else 0.dp)
-            val offset by animateDpAsState(if (isActive) (-4).dp else (-16).dp)
+            val offset by animateDpAsState(if (isActive) (-68).dp else (-80).dp)
             val color by animateColorAsState(if (isActive) playerColor else MaterialTheme.colorScheme.surface)
             val contentColor by animateColorAsState(if (isActive) playerOnColor else MaterialTheme.colorScheme.onSurface)
             Surface(
@@ -62,7 +62,7 @@ fun PlayerListHud(
                 Column(
                     modifier = Modifier
                         .padding(vertical = 8.dp)
-                        .padding(start = 32.dp, end = 16.dp)
+                        .padding(start = 96.dp, end = 16.dp)
                 ) {
                     val score = game.scoreboard.getScore(player)
                     val figureCounts = game.figureSupply.getCounts(player)
