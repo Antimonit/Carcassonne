@@ -81,7 +81,7 @@ private fun TileElementsOverlayPreview() {
                     TileFiguresOverlay(
                         figures = listOf(
                             PlacedFigure(
-                                placedElement = Tiles.Basic.A.field.rotated(Rotation.ROTATE_0).placed(0, 0),
+                                placedElement = Tiles.Basic.A.field.rotated(Rotation.ROTATE_90).placed(0, 0),
                                 figure = PlayerFigures.greenMeeple,
                             )
                         ),
