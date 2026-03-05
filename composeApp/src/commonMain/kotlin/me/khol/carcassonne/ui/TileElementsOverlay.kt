@@ -21,7 +21,6 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.RotatedElement
 import me.khol.carcassonne.Rotation
-import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
@@ -77,15 +76,6 @@ private fun TileElementsOverlayPreview() {
                         onElementClick = {},
                         rotatedUiTile = rotatedUiTile,
                         validMeeplePlacements = rotatedUiTile.rotatedUiElements.keys.associateWith { emptyList() },
-                    )
-                    TileFiguresOverlay(
-                        figures = listOf(
-                            PlacedFigure(
-                                placedElement = Tiles.Basic.A.field.rotated(Rotation.ROTATE_90).placed(0, 0),
-                                figure = PlayerFigures.greenMeeple,
-                            )
-                        ),
-                        rotatedUiTile = rotatedUiTile,
                     )
                 },
                 modifier = Modifier
