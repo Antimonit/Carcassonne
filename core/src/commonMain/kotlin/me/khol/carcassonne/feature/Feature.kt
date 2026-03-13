@@ -35,6 +35,12 @@ sealed interface Feature {
         override val figures: List<PlacedFigure>,
     ) : Feature {
         override val placedElements = placedFields
+
+        override fun toString(): String = buildFeatureString("Field") {
+            withField("placedFields", placedFields)
+            withField("connectedCities", connectedCities)
+            withField("figures", figures)
+        }
     }
 
     data class City(
@@ -48,6 +54,14 @@ sealed interface Feature {
             get() = placedCities.any { it.rotatedElement.element.boons.contains(Boon.City.Cathedral) }
         val coatOfArms: Int
             get() = placedCities.count { it.rotatedElement.element.boons.contains(Boon.City.CoatOfArms) }
+
+        override fun toString(): String = buildFeatureString("City") {
+            withField("placedCities", placedCities)
+            withField("isFinished", isFinished)
+            withField("figures", figures)
+            withField("hasCathedral", hasCathedral)
+            withField("coatOfArms", coatOfArms)
+        }
     }
 
     data class Road(
@@ -59,6 +73,13 @@ sealed interface Feature {
 
         val hasInn: Boolean
             get() = placedRoads.any { it.rotatedElement.element.boons.contains(Boon.Road.Inn) }
+
+        override fun toString(): String = buildFeatureString("Road") {
+            withField("placedRoads", placedRoads)
+            withField("isFinished", isFinished)
+            withField("figures", figures)
+            withField("hasInn", hasInn)
+        }
     }
 
     data class Monastery(
@@ -70,6 +91,12 @@ sealed interface Feature {
 
         val isFinished: Boolean
             get() = neighborCount == 9
+
+        override fun toString(): String = buildFeatureString("Monastery") {
+            withField("placedMonastery", placedMonastery)
+            withField("isFinished", isFinished)
+            withField("neighborCount", neighborCount)
+        }
     }
 
     data class Garden(
@@ -81,7 +108,45 @@ sealed interface Feature {
 
         val isFinished: Boolean
             get() = neighborCount == 9
+
+        override fun toString(): String = buildFeatureString("Garden") {
+            withField("placedGarden", placedGarden)
+            withField("isFinished", isFinished)
+            withField("neighborCount", neighborCount)
+        }
     }
+}
+
+private interface FeatureStringBuilder {
+    fun <T> withField(name: String, collection: Collection<T>): FeatureStringBuilder
+    fun withField(name: String, any: Any): FeatureStringBuilder
+}
+
+private class FeatureStringBuilderImpl : FeatureStringBuilder {
+
+    private val fields = mutableListOf<String>()
+
+    override fun <T> withField(name: String, collection: Collection<T>): FeatureStringBuilder = apply {
+        val array = if (collection.isEmpty()) {
+            "[]"
+        } else {
+            collection.joinToString("\n", prefix = "[\n", postfix = "\n]") { "    $it," }
+        }
+        fields += "$name = $array"
+    }
+
+    override fun withField(name: String, any: Any): FeatureStringBuilder = apply {
+        fields += "$name = $any"
+    }
+
+    override fun toString(): String = fields.joinToString(separator = ",\n", postfix = ",")
+}
+
+private fun buildFeatureString(name: String, builderAction: FeatureStringBuilder.() -> Unit): String = buildString {
+    append(name)
+    appendLine("(")
+    appendLine(FeatureStringBuilderImpl().apply(builderAction).toString().prependIndent("    "))
+    append(")")
 }
 
 infix operator fun Feature.contains(placedFigure : PlacedFigure): Boolean =
