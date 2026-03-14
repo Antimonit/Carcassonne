@@ -9,4 +9,8 @@ object PlayerFigures {
         figure = Meeple,
         player = Players.green,
     )
+    val redMeeple = PlayerFigure(
+        figure = Meeple,
+        player = Players.red,
+    )
 }
