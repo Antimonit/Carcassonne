@@ -3,6 +3,7 @@ package me.khol.carcassonne
 import app.cash.turbine.test
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.placed
@@ -66,7 +67,7 @@ class EngineTest {
     }
 
     @Test
-    fun `placing a tile changes the current player`() {
+    fun `placing a tile changes the current player`() = runTest(dispatcher) {
         assertEquals(playerRed, engine.game.value.currentPlayer)
         val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0)
         engine.confirmFigurePlacement(
@@ -75,6 +76,7 @@ class EngineTest {
                 validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
             )
         )
+        testScheduler.runCurrent()
         assertEquals(playerGreen, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
             phase = Phase.PlacingFigure.Fresh(
@@ -82,6 +84,7 @@ class EngineTest {
                 validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
             )
         )
+        testScheduler.runCurrent()
         assertEquals(playerRed, engine.game.value.currentPlayer)
     }
 
