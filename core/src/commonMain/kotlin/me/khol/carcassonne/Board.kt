@@ -14,6 +14,7 @@ data class Board(
 ) {
 
     val openSpaces: Set<Coordinates> = tiles.keys
+        .asSequence()
         .flatMap { it.neighbors }
         .plus(Coordinates(0, 0))
         .distinct()
