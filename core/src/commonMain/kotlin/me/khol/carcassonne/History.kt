@@ -6,6 +6,9 @@ data class History(
     val events: List<Event>,
 ) {
 
+    fun addEvent(event: Event): History =
+        copy(events = events + event)
+
     sealed interface Event {
 
         data class TilePlacement(
