@@ -28,19 +28,52 @@ fun GamePanningWindow(
     val phase = game.phase
     val isPlacingTile = phase is Phase.PlacingTile
     val isPlacingFigure = phase is Phase.PlacingFigure
+    val isScoring = phase is Phase.Scoring
+    val scoringTarget = if (isScoring) phase.scoringEvent else null
 
-    LaunchedEffect(isPlacingTile, isPlacingFigure, containerSize) {
-        if (isPlacingFigure) {
+    suspend fun scrollToBounds(bounds: Rect) {
+        val zoom = run {
+            // Calculate bounding box of all tiles in pixel coordinates:
+            // * Tiles are centered at their `coordinate * spacing`.
+            // * Each tile extends 0.5 * spacing from its center.
+            // * Add padding of 0.25 * spacing so that the tiles are not crammed to the edge of the screen.
+            val boardRect = bounds.inflate(0.75f * spacing)
+
+            // Calculate the minimum zoom to fit the board rect in the container
+            val zoomX = containerSize.width / boardRect.width
+            val zoomY = containerSize.height / boardRect.height
+            minOf(zoomX, zoomY)
+        }
+
+        state.scrollTo(
+            offset = bounds.center,
+            zoom = zoom,
+        )
+    }
+
+    LaunchedEffect(isPlacingTile, isPlacingFigure, scoringTarget, containerSize) {
+        if (isScoring) {
+            val placedElements = phase.scoringEvent.feature.placedElements
+            val bounds = Rect(
+                left = placedElements.minOf { it.coordinates.x } * spacing,
+                top = placedElements.minOf { it.coordinates.y } * spacing,
+                right = placedElements.maxOf { it.coordinates.x } * spacing,
+                bottom = placedElements.maxOf { it.coordinates.y } * spacing,
+            )
+
+            scrollToBounds(bounds)
+        } else if (isPlacingFigure) {
             val coordinates = phase.placedTile.coordinates
-            val targetPan = Offset(
-                x = coordinates.x * spacing,
-                y = coordinates.y * spacing,
+            val bounds = Rect(
+                center = Offset(
+                    x = coordinates.x * spacing,
+                    y = coordinates.y * spacing,
+                ),
+                radius = spacing / 2f,
             )
 
-            state.scrollTo(
-                offset = targetPan,
-                zoom = 1.5f,
-            )
+            scrollToBounds(bounds)
+
         } else if (isPlacingTile && containerSize != IntSize.Zero) {
             val keys = game.board.possibleSpacesForTile(phase.tile).keys + game.board.tiles.keys
             val bounds = Rect(
@@ -52,23 +85,7 @@ fun GamePanningWindow(
 
             state.setPanBounds(bounds)
 
-            val zoom = run {
-                // Calculate bounding box of all tiles in pixel coordinates:
-                // * Tiles are centered at their `coordinate * spacing`.
-                // * Each tile extends 0.5 * spacing from its center.
-                // * Add padding of 0.25 * spacing so that the tiles are not crammed to the edge of the screen.
-                val boardRect = bounds.inflate(0.75f * spacing)
-
-                // Calculate the minimum zoom to fit the board rect in the container
-                val zoomX = containerSize.width / boardRect.width
-                val zoomY = containerSize.height / boardRect.height
-                minOf(zoomX, zoomY)
-            }
-
-            state.scrollTo(
-                offset = bounds.center,
-                zoom = zoom,
-            )
+            scrollToBounds(bounds)
         }
     }
 
