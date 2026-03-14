@@ -121,6 +121,7 @@ fun Board.checkOccupiedFeatures(placedFigure: PlacedFigure) {
     }
 }
 
-fun Board.elementToFeature(placedElement: PlacedElement<*>): Feature {
-    return allFeatures.first { it.placedElements.contains(placedElement) }
-}
+fun Board.elementToFeature(placedElement: PlacedElement<*>): Feature =
+    requireNotNull(allFeatures.find { it.placedElements.contains(placedElement) }) {
+        "Could not find element: \n$placedElement\nin any of the board features:\n${allFeatures.joinToString(separator = "\n")}"
+    }
