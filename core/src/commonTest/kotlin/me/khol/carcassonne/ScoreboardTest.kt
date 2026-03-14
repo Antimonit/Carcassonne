@@ -10,16 +10,20 @@ class ScoreboardTest {
     fun `adding scores`() {
         val red = Players.red
         val green = Players.green
-        val scoreboard = Scoreboard(players = listOf(red, green))
 
-        with(scoreboard) {
+        with(Scoreboard(players = listOf(red, green))) {
             assertEquals(0, getScore(red))
             assertEquals(0, getScore(green))
-        }
 
-        with(scoreboard.addScore(red, 4)) {
-            assertEquals(4, getScore(red))
-            assertEquals(0, getScore(green))
+            with(addScore(red, 4)) {
+                assertEquals(4, getScore(red))
+                assertEquals(0, getScore(green))
+
+                with(addScores(listOf(red, green), 5)) {
+                    assertEquals(9, getScore(red))
+                    assertEquals(5, getScore(green))
+                }
+            }
         }
     }
 }
