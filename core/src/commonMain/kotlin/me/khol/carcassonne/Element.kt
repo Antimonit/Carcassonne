@@ -37,7 +37,9 @@ interface Element<out P : ElementPosition> {
             positions = positions.map { it.rotate(rotation) }.toSet(),
         )
 
-        companion object : ElementKey<River>
+        companion object : ElementKey<River> {
+            override fun toString(): String = "River"
+        }
     }
 
     @ConsistentCopyVisibility
@@ -56,7 +58,9 @@ interface Element<out P : ElementPosition> {
             boons = boons,
         )
 
-        companion object : ElementKey<City>
+        companion object : ElementKey<City> {
+            override fun toString(): String = "City"
+        }
     }
 
     @ConsistentCopyVisibility
@@ -75,7 +79,9 @@ interface Element<out P : ElementPosition> {
             boons = boons,
         )
 
-        companion object : ElementKey<Road>
+        companion object : ElementKey<Road> {
+            override fun toString(): String = "Road"
+        }
     }
 
     @ConsistentCopyVisibility
@@ -94,6 +100,8 @@ interface Element<out P : ElementPosition> {
             connectedCities = connectedCities.map { it.rotate(rotation) }.toSet(),
         )
 
-        companion object : ElementKey<Field>
+        companion object : ElementKey<Field> {
+            override fun toString(): String = "Field"
+        }
     }
 }
