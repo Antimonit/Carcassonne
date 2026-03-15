@@ -3,7 +3,6 @@ package me.khol.carcassonne
 import app.cash.turbine.test
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.placed
@@ -104,26 +103,28 @@ class EngineTest {
             )
             awaitItem()
 
+            val greenFigure = PlacedFigure(
+                placedElement = Tiles.Basic.P.road.rotated(Rotation.ROTATE_180).placed(1, 0),
+                figure = PlayerFigures.greenMeeple,
+            )
             engine.confirmFigurePlacement(
                 phase = Phase.PlacingFigure.Placed(
                     placedTile = tileP.placed(1, 0),
                     validFigurePlacements = tileP.rotatedElements.all().associateWith { emptyList() },
-                    placedFigure = PlacedFigure(
-                        placedElement = Tiles.Basic.P.road.rotated(Rotation.ROTATE_180).placed(1, 0),
-                        figure = PlayerFigures.greenMeeple,
-                    ),
+                    placedFigure = greenFigure,
                 )
             )
             awaitItem()
 
+            val redFigure = PlacedFigure(
+                placedElement = Tiles.Basic.P.city.rotated(Rotation.ROTATE_180).placed(0, -1),
+                figure = PlayerFigures.redMeeple,
+            )
             engine.confirmFigurePlacement(
                 phase = Phase.PlacingFigure.Placed(
                     placedTile = tileP.placed(0, -1),
                     validFigurePlacements = tileP.rotatedElements.all().associateWith { emptyList() },
-                    placedFigure = PlacedFigure(
-                        placedElement = Tiles.Basic.P.city.rotated(Rotation.ROTATE_180).placed(0, -1),
-                        figure = PlayerFigures.redMeeple,
-                    ),
+                    placedFigure = redFigure,
                 )
             )
             with(awaitItem()) {
@@ -150,6 +151,9 @@ class EngineTest {
                 assertEquals(0, scoreboard.getScore(Players.green))
 
                 assertIs<History.Event.TilePlacement>(history.events.last())
+
+                assertEquals(listOf(greenFigure), board.figures.getValue(Coordinates(1, 0)))
+                assertEquals(listOf(redFigure), board.figures.getValue(Coordinates(0, -1)))
             }
 
             // Wait for the first scoring to end, update scoreboard and history, and
@@ -162,7 +166,12 @@ class EngineTest {
                 assertEquals(0, scoreboard.getScore(Players.red))
                 assertEquals(4, scoreboard.getScore(Players.green))
 
-                assertIs<History.Event.Scoring>(history.events.last())
+                val event = history.events.last()
+                assertIs<History.Event.Scoring>(event)
+                assertEquals(1, event.board.figures.values.flatten().size)
+
+                assertEquals(emptyList(), board.figures.getValue(Coordinates(1, 0)))
+                assertEquals(listOf(redFigure), board.figures.getValue(Coordinates(0, -1)))
             }
 
             // Wait for the second scoring to end, update scoreboard and history, and
@@ -173,7 +182,12 @@ class EngineTest {
                 assertEquals(6, scoreboard.getScore(Players.red))
                 assertEquals(4, scoreboard.getScore(Players.green))
 
-                assertIs<History.Event.Scoring>(history.events.last())
+                val event = history.events.last()
+                assertIs<History.Event.Scoring>(event)
+                assertEquals(0, event.board.figures.values.flatten().size)
+
+                assertEquals(emptyList(), board.figures.getValue(Coordinates(1, 0)))
+                assertEquals(emptyList(), board.figures.getValue(Coordinates(0, -1)))
             }
         }
     }

@@ -58,7 +58,7 @@ class Engine(
 
     fun confirmFigurePlacement(phase: Phase.PlacingFigure) {
         scope.launch {
-            val placedGame = _game.value.let { game ->
+            var nextGame = _game.value.let { game ->
                 val placing = phase.placedTile
                 val remainingTiles = game.remainingTiles.drop(1)
                 val placedBoard = game.board.placeTile(
@@ -85,32 +85,32 @@ class Engine(
                 )
             }
 
-            var nextGame = placedGame
-
-            val scoringEvents = scoringEvents(
-                board = placedGame.board,
-                currentPlayer = placedGame.currentPlayer,
-            )
-
             // We need to process one event at the time since in some expansions
             // players might take actions during scoring that trigger changes on
             // the board, such as removing meeples.
-            scoringEvents.forEach { scoringEvent ->
-                _game.value = nextGame.copy(
-                    phase = Phase.Scoring(scoringEvent),
+            do {
+                val scoringEvent = scoringEvent(
+                    board = nextGame.board,
+                    currentPlayer = nextGame.currentPlayer,
                 )
-                delay(2500)
-                nextGame = _game.value.let {
-                    it.copy(
-                        board = it.board.removeFigures(scoringEvent.figures),
-                        history = it.history.addEvent(scoringEvent),
-                        scoreboard = it.scoreboard.addScores(
-                            players = scoringEvent.scoringPlayers,
-                            points = scoringEvent.points,
-                        ),
+
+                if (scoringEvent != null) {
+                    _game.value = nextGame.copy(
+                        phase = Phase.Scoring(scoringEvent),
                     )
+                    delay(2500)
+                    nextGame = _game.value.let {
+                        it.copy(
+                            board = it.board.removeFigures(scoringEvent.figures),
+                            history = it.history.addEvent(scoringEvent),
+                            scoreboard = it.scoreboard.addScores(
+                                players = scoringEvent.scoringPlayers,
+                                points = scoringEvent.points,
+                            ),
+                        )
+                    }
                 }
-            }
+            } while (scoringEvent != null)
 
             _game.value = nextGame.let {
                 it.copy(

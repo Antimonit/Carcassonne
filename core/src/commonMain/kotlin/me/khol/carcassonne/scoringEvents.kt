@@ -2,10 +2,10 @@ package me.khol.carcassonne
 
 import me.khol.carcassonne.feature.Feature
 
-fun scoringEvents(
+fun scoringEvent(
     board: Board,
     currentPlayer: Player,
-): List<History.Event.Scoring> {
+): History.Event.Scoring? {
 
     val fieldFeatures = board.fieldFeatures
     val roadFeatures = board.roadFeatures
@@ -27,7 +27,7 @@ fun scoringEvents(
 
     // TODO: Ordering: Monastery, Garden, Road, City?
 
-    return scorableFeatures.mapNotNull { (feature, placedFigures) ->
+    return scorableFeatures.firstNotNullOfOrNull { (feature, placedFigures) ->
         when (val feature = feature) {
             is Feature.City if (feature.isFinished) -> {
                 val modifier = if (feature.hasCathedral) 3 else 2
