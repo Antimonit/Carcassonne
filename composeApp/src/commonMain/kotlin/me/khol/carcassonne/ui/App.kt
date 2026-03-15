@@ -92,6 +92,7 @@ fun App() {
                                 is History.Event.TilePlacement -> event.board
                                 is History.Event.Scoring -> event.board
                             },
+                            scoringEvent = (analysis.event as? History.Event.Scoring),
                             modifier = Modifier
                         )
                     }

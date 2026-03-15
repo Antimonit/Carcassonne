@@ -143,6 +143,7 @@ fun Board(
 @Composable
 fun SimpleBoard(
     board: Board,
+    scoringEvent: History.Event.Scoring?,
     modifier: Modifier = Modifier,
 ) {
     GridLayout(
@@ -155,6 +156,12 @@ fun SimpleBoard(
             RotatedTile(
                 rotatedUiTile = rotatedUiTile,
                 overlay = {
+                    if (scoringEvent != null)  {
+                        TileScoringOverlay(
+                            coordinates = coordinates,
+                            scoringEvent = scoringEvent,
+                        )
+                    }
                     TileFiguresOverlay(
                         figures = board.getFigures(coordinates),
                         rotatedUiTile = rotatedUiTile,
