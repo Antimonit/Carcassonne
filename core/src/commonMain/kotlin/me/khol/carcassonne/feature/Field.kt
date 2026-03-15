@@ -10,6 +10,11 @@ data class Field(
 
     override val placedElements = placedFields
 
+    override fun points(endGame: Boolean): Int? {
+        if (!endGame) return null
+        return connectedCities.count { it.isFinished } * 3
+    }
+
     override fun toString(): String = buildFeatureString("Field") {
         withField("placedFields", placedFields)
         withField("connectedCities", connectedCities)

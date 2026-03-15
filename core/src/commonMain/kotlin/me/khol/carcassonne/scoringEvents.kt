@@ -1,11 +1,5 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.feature.City
-import me.khol.carcassonne.feature.Field
-import me.khol.carcassonne.feature.Garden
-import me.khol.carcassonne.feature.Monastery
-import me.khol.carcassonne.feature.Road
-
 fun scoringEvent(
     board: Board,
     currentPlayer: Player,
@@ -32,27 +26,7 @@ fun scoringEvent(
     // TODO: Ordering: Monastery, Garden, Road, City?
 
     return scorableFeatures.firstNotNullOfOrNull { (feature, placedFigures) ->
-        when (val feature = feature) {
-            is City if (feature.isFinished) -> {
-                val modifier = if (feature.hasCathedral) 3 else 2
-                val size = feature.placedCities.map { it.coordinates }.toSet().size
-                val coatOfArms = feature.coatOfArms
-                size * modifier + coatOfArms * 2
-            }
-            is Road if (feature.isFinished) -> {
-                val modifier = if (feature.hasInn) 2 else 1
-                val size = feature.placedRoads.map { it.coordinates }.toSet()
-                size.size * modifier
-            }
-            is Garden if (feature.isFinished) -> {
-                feature.neighborCount
-            }
-            is Monastery if (feature.isFinished) -> {
-                feature.neighborCount
-            }
-            is Field -> null
-            else -> null
-        }?.let { points ->
+        feature.points(endGame = false)?.let { points ->
             History.Event.Scoring(
                 triggerPlayer = currentPlayer,
                 scoringPlayers = placedFigures.maxPresence(),

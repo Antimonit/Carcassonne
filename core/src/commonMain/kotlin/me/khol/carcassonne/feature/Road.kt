@@ -14,6 +14,13 @@ data class Road(
     val hasInn: Boolean
         get() = placedRoads.any { it.rotatedElement.element.boons.contains(Boon.Road.Inn) }
 
+    override fun points(endGame: Boolean): Int? {
+        if (!endGame && !isFinished) return null
+        val size = placedRoads.map { it.coordinates }.toSet().size
+        val tileModifier = if (hasInn && endGame) 0 else 1
+        return size * tileModifier
+    }
+
     override fun toString(): String = buildFeatureString("Road") {
         withField("placedRoads", placedRoads)
         withField("isFinished", isFinished)

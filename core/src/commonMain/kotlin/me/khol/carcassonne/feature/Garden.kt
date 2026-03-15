@@ -13,6 +13,11 @@ data class Garden(
     val isFinished: Boolean
         get() = neighborCount == 9
 
+    override fun points(endGame: Boolean): Int? {
+        if (!endGame && !isFinished) return null
+        return neighborCount
+    }
+
     override fun toString(): String = buildFeatureString("Garden") {
         withField("placedGarden", placedGarden)
         withField("isFinished", isFinished)

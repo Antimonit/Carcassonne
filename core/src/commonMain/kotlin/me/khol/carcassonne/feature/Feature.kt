@@ -27,4 +27,11 @@ sealed interface Feature {
 
     val placedElements: Set<PlacedElement<*>>
     val figures: List<PlacedFigure>
+
+    /**
+     * Calculate how many points a feature would be worth when scored.
+     *
+     * A null return value signifies the feature is not scorable yet.
+     */
+    fun points(endGame: Boolean): Int?
 }
