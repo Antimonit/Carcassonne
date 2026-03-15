@@ -65,23 +65,37 @@ class EngineTest {
         assertIs<Phase.PlacingTile.Fresh>(engine.game.value.phase)
     }
 
+    private fun Game.placingFigureFreshPhase(tile: PlacedTile) =
+        Phase.PlacingFigure.Fresh(
+            placedTile = tile,
+            validFigurePlacements = validFigurePlacements(tile),
+        )
+
+    private fun Game.placingFigurePlacedPhase(tile: PlacedTile, placedFigure: PlacedFigure) =
+        Phase.PlacingFigure.Placed(
+            placedTile = tile,
+            validFigurePlacements = validFigurePlacements(tile),
+            placedFigure = placedFigure,
+        )
+
+    private fun Game.validFigurePlacements(tile: PlacedTile) =
+        board.validFigurePlacements(
+            placedTile = tile,
+            currentPlayer = currentPlayer,
+            figureSupply = figureSupply,
+        )
+
     @Test
     fun `placing a tile changes the current player`() = runTest(dispatcher) {
         assertEquals(playerRed, engine.game.value.currentPlayer)
         val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0)
         engine.confirmFigurePlacement(
-            phase = Phase.PlacingFigure.Fresh(
-                placedTile = tile.placed(1, 0),
-                validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
-            )
+            phase = engine.game.value.placingFigureFreshPhase(tile.placed(1, 0))
         )
         testScheduler.runCurrent()
         assertEquals(playerGreen, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
-            phase = Phase.PlacingFigure.Fresh(
-                placedTile = tile.placed(2, 0),
-                validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
-            )
+            phase = engine.game.value.placingFigureFreshPhase(tile.placed(2, 0))
         )
         testScheduler.runCurrent()
         assertEquals(playerRed, engine.game.value.currentPlayer)
@@ -96,10 +110,7 @@ class EngineTest {
             awaitItem()
 
             engine.confirmFigurePlacement(
-                phase = Phase.PlacingFigure.Fresh(
-                    placedTile = tileL.placed(-1, 0),
-                    validFigurePlacements = tileL.rotatedElements.all().associateWith { emptyList() },
-                )
+                phase = engine.game.value.placingFigureFreshPhase(tileL.placed(-1, 0))
             )
             awaitItem()
 
@@ -108,11 +119,7 @@ class EngineTest {
                 figure = PlayerFigures.greenMeeple,
             )
             engine.confirmFigurePlacement(
-                phase = Phase.PlacingFigure.Placed(
-                    placedTile = tileP.placed(1, 0),
-                    validFigurePlacements = tileP.rotatedElements.all().associateWith { emptyList() },
-                    placedFigure = greenFigure,
-                )
+                phase = engine.game.value.placingFigurePlacedPhase(tileP.placed(1, 0), greenFigure)
             )
             awaitItem()
 
@@ -121,11 +128,7 @@ class EngineTest {
                 figure = PlayerFigures.redMeeple,
             )
             engine.confirmFigurePlacement(
-                phase = Phase.PlacingFigure.Placed(
-                    placedTile = tileP.placed(0, -1),
-                    validFigurePlacements = tileP.rotatedElements.all().associateWith { emptyList() },
-                    placedFigure = redFigure,
-                )
+                phase = engine.game.value.placingFigurePlacedPhase(tileP.placed(0, -1), redFigure)
             )
             with(awaitItem()) {
                 assertIs<Phase.PlacingTile.Fresh>(phase)
@@ -135,10 +138,7 @@ class EngineTest {
 
             // This tile placement triggers scoring for two players for two separate features.
             engine.confirmFigurePlacement(
-                phase = Phase.PlacingFigure.Fresh(
-                    placedTile = tileL.placed(1, -1),
-                    validFigurePlacements = tileL.rotatedElements.all().associateWith { emptyList() },
-                )
+                phase = engine.game.value.placingFigureFreshPhase(tileL.placed(1, -1))
             )
 
             // Zoom on to the green player scoring but do not update scoreboard or history yet.
