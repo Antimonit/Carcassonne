@@ -4,7 +4,9 @@ import app.cash.turbine.test
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.runTest
+import me.khol.carcassonne.feature.City
 import me.khol.carcassonne.feature.Feature
+import me.khol.carcassonne.feature.Road
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
@@ -145,7 +147,7 @@ class EngineTest {
             with(awaitItem()) {
                 assertIs<Phase.Scoring>(phase)
                 assertContains(phase.scoringEvent.scoringPlayers, Players.green)
-                assertIs<Feature.Road>(phase.scoringEvent.feature)
+                assertIs<Road>(phase.scoringEvent.feature)
 
                 assertEquals(0, scoreboard.getScore(Players.red))
                 assertEquals(0, scoreboard.getScore(Players.green))
@@ -161,7 +163,7 @@ class EngineTest {
             with(awaitItem()) {
                 assertIs<Phase.Scoring>(phase)
                 assertContains(phase.scoringEvent.scoringPlayers, Players.red)
-                assertIs<Feature.City>(phase.scoringEvent.feature)
+                assertIs<City>(phase.scoringEvent.feature)
 
                 assertEquals(0, scoreboard.getScore(Players.red))
                 assertEquals(4, scoreboard.getScore(Players.green))

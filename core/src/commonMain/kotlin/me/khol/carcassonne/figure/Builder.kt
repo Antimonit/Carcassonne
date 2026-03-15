@@ -1,7 +1,12 @@
 package me.khol.carcassonne.figure
 
 import me.khol.carcassonne.Player
+import me.khol.carcassonne.feature.City
 import me.khol.carcassonne.feature.Feature
+import me.khol.carcassonne.feature.Field
+import me.khol.carcassonne.feature.Garden
+import me.khol.carcassonne.feature.Monastery
+import me.khol.carcassonne.feature.Road
 
 data object Builder : Figure {
 
@@ -9,10 +14,10 @@ data object Builder : Figure {
 
     override fun canBePlaced(feature: Feature, player: Player): Boolean =
         when (feature) {
-            is Feature.City -> feature.figures.any { it.figure.player == player }
-            is Feature.Field -> false
-            is Feature.Garden -> false
-            is Feature.Monastery -> false
-            is Feature.Road -> feature.figures.any { it.figure.player == player }
+            is City -> feature.figures.any { it.figure.player == player }
+            is Field -> false
+            is Garden -> false
+            is Monastery -> false
+            is Road -> feature.figures.any { it.figure.player == player }
         }
 }

@@ -21,7 +21,7 @@ class CityFeaturesTest {
 
             first().run {
                 assertEquals(
-                    expected = Feature.City(
+                    expected = City(
                         placedCities = setOf(
                             Tiles.Basic.D.city.rotated(Rotation.ROTATE_0).placed(0, 0),
                         ),
@@ -43,7 +43,7 @@ class CityFeaturesTest {
 
             first().run {
                 assertEquals(
-                    expected = Feature.City(
+                    expected = City(
                         placedCities = setOf(
                             Tiles.Basic.D.city.rotated(Rotation.ROTATE_0).placed(0, 0),
                             Tiles.Basic.F.city.rotated(Rotation.ROTATE_90).placed(0, -1),
@@ -67,14 +67,14 @@ class CityFeaturesTest {
 
         assertEquals(
             expected = setOf(
-                Feature.City(
+                City(
                     placedCities = setOf(
                         PlacedCity(Coordinates(0, 0), rotatedElement = Tiles.Basic.D.city.rotated(Rotation.ROTATE_0)),
                     ),
                     isFinished = false,
                     figures = emptyList(),
                 ),
-                Feature.City(
+                City(
                     placedCities = setOf(
                         PlacedCity(Coordinates(1, 0), rotatedElement = Tiles.Basic.K.city.rotated(Rotation.ROTATE_0)),
                     ),
@@ -91,7 +91,7 @@ class CityFeaturesTest {
 
         assertEquals(
             expected = setOf(
-                Feature.City(
+                City(
                     placedCities = setOf(
                         PlacedCity(Coordinates(0, 0), rotatedElement = Tiles.Basic.D.city.rotated(Rotation.ROTATE_0)),
                         PlacedCity(Coordinates(1, 0), rotatedElement = Tiles.Basic.K.city.rotated(Rotation.ROTATE_0)),

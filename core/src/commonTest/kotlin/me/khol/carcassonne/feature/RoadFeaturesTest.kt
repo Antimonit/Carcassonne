@@ -6,7 +6,6 @@ import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.rotated
-import me.khol.carcassonne.rotated
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -19,9 +18,9 @@ class RoadFeaturesTest {
         val board = Board.starting(startingTile = w.tile)
         assertEquals(
             expected = setOf(
-                Feature.Road(placedRoads = setOf(w.roadLeft.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
-                Feature.Road(placedRoads = setOf(w.roadRight.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
-                Feature.Road(placedRoads = setOf(w.roadBottom.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
+                Road(placedRoads = setOf(w.roadLeft.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
+                Road(placedRoads = setOf(w.roadRight.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
+                Road(placedRoads = setOf(w.roadBottom.rotated(Rotation.ROTATE_0).placed(0, 0)), isFinished = false, figures = emptyList()),
             ),
             actual = board.roadFeatures,
         )
@@ -35,14 +34,14 @@ class RoadFeaturesTest {
         // The two ends now form a loop and are a single feature
         assertEquals(
             expected = setOf(
-                Feature.Road(
+                Road(
                     placedRoads = setOf(
                         PlacedRoad(Coordinates(0, 0), w.roadLeft.rotated(Rotation.ROTATE_0)),
                     ),
                     isFinished = false,
                     figures = emptyList(),
                 ),
-                Feature.Road(
+                Road(
                     placedRoads = setOf(
                         PlacedRoad(Coordinates(0, 0), w.roadRight.rotated(Rotation.ROTATE_0)),
                         PlacedRoad(Coordinates(1, 0), v.road.rotated(Rotation.ROTATE_0)),

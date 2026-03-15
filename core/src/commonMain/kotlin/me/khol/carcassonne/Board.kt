@@ -1,7 +1,12 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.feature.City
 import me.khol.carcassonne.feature.Feature
+import me.khol.carcassonne.feature.Field
+import me.khol.carcassonne.feature.Garden
+import me.khol.carcassonne.feature.Monastery
 import me.khol.carcassonne.feature.PlacedElement
+import me.khol.carcassonne.feature.Road
 import me.khol.carcassonne.feature.getCityFeatures
 import me.khol.carcassonne.feature.getFieldFeatures
 import me.khol.carcassonne.feature.getGardenFeatures
@@ -21,11 +26,11 @@ data class Board(
         .minus(tiles.keys)
         .toSet()
 
-    val cityFeatures: Set<Feature.City> by lazy { getCityFeatures() }
-    val roadFeatures: Set<Feature.Road> by lazy { getRoadFeatures() }
-    val fieldFeatures: Set<Feature.Field> by lazy { getFieldFeatures() }
-    val monasteryFeatures: Set<Feature.Monastery> by lazy { getMonasteryFeatures() }
-    val gardenFeatures: Set<Feature.Garden> by lazy { getGardenFeatures() }
+    val cityFeatures: Set<City> by lazy { getCityFeatures() }
+    val roadFeatures: Set<Road> by lazy { getRoadFeatures() }
+    val fieldFeatures: Set<Field> by lazy { getFieldFeatures() }
+    val monasteryFeatures: Set<Monastery> by lazy { getMonasteryFeatures() }
+    val gardenFeatures: Set<Garden> by lazy { getGardenFeatures() }
 
     val allFeatures: Set<Feature> by lazy {
         cityFeatures + roadFeatures + fieldFeatures + monasteryFeatures + gardenFeatures

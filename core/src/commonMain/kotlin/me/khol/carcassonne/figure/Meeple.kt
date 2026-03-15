@@ -1,7 +1,12 @@
 package me.khol.carcassonne.figure
 
 import me.khol.carcassonne.Player
+import me.khol.carcassonne.feature.City
 import me.khol.carcassonne.feature.Feature
+import me.khol.carcassonne.feature.Field
+import me.khol.carcassonne.feature.Garden
+import me.khol.carcassonne.feature.Monastery
+import me.khol.carcassonne.feature.Road
 
 data object Meeple : Figure {
 
@@ -9,11 +14,11 @@ data object Meeple : Figure {
 
     override fun canBePlaced(feature: Feature, player: Player): Boolean =
         feature.figures.isEmpty() && when (feature) {
-            is Feature.Garden -> false
-            is Feature.City -> feature.figures.isEmpty()
-            is Feature.Field -> feature.figures.isEmpty()
-            is Feature.Monastery -> feature.figures.isEmpty()
-            is Feature.Road -> feature.figures.isEmpty()
+            is Garden -> false
+            is City -> feature.figures.isEmpty()
+            is Field -> feature.figures.isEmpty()
+            is Monastery -> feature.figures.isEmpty()
+            is Road -> feature.figures.isEmpty()
         }
 }
 
