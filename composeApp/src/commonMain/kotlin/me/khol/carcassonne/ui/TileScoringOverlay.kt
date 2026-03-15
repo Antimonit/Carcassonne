@@ -98,7 +98,7 @@ private fun linearBrush(
     val tileSizeSpacingPx = with(density) { tileSize.toPx() + tileSpacing.toPx() }
 
     val stops = stops(scoringEvent.scoringPlayers)
-    val bandWidth = 8f * stops.size
+    val bandWidth = with(density) { 4.dp.toPx() } * stops.size
 
     val elements = scoringEvent.feature.placedElements
     // Calculating the center coordinate of the feature is not really useful because
