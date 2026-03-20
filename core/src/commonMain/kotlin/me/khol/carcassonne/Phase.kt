@@ -27,7 +27,15 @@ sealed interface Phase {
         val validTilePlacements: Map<Coordinates, List<PlacedTile>>,
         val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
         val placedFigure: PlacedFigure? = null,
+        val confirmationActions: List<ConfirmationAction>,
     ) : Phase, Undoable {
+
+        sealed interface ConfirmationAction {
+
+            data class ScoreAbbot(
+                val figure: PlacedFigure,
+            ) : ConfirmationAction
+        }
 
         init {
             val allElements = placedTile.rotatedTile.rotatedElements.all()

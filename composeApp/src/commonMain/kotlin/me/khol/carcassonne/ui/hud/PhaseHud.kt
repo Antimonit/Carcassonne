@@ -1,5 +1,6 @@
 package me.khol.carcassonne.ui.hud
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,14 +15,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -47,10 +49,29 @@ fun PhaseHud(
     remainingTilesCount: Int,
     confirmTilePlacement: (phase: Phase.PlacingTile) -> Unit,
     confirmFigurePlacement: (phase: Phase.PlacingFigure) -> Unit,
+    confirmAction: (action: Phase.PlacingFigure.ConfirmationAction) -> Unit,
     undo: () -> Unit,
     onTilesLeftClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    @Composable
+    fun PhaseButton(
+        onClick: () -> Unit,
+        modifier: Modifier = Modifier,
+        content: @Composable () -> Unit,
+    ) {
+        Surface(
+            onClick = onClick,
+            shape = RoundedCornerShape(4.dp),
+            border = BorderStroke(1.dp, Color.Black.copy(alpha = 0.12f)),
+            modifier = modifier,
+        ) {
+            CompositionLocalProvider(LocalTextStyle provides MaterialTheme.typography.labelLarge) {
+                content()
+            }
+        }
+    }
+
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.Bottom,
@@ -62,22 +83,66 @@ fun PhaseHud(
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
                     .padding(12.dp)
                     .width(IntrinsicSize.Min)
             ) {
                 when (val phase = phase) {
                     is Phase.PlacingFigure -> {
-                        Text(
-                            text = "Place a meeple",
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier
-                                .align(alignment = Alignment.CenterHorizontally)
-                        )
+                        if (phase.placedFigure == null) {
+                            if (phase.validFigurePlacements.values.flatten().isNotEmpty()) {
+                                Text(
+                                    text = "Place a meeple",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .align(alignment = Alignment.CenterHorizontally)
+                                )
+                                Text(
+                                    text = "or",
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                            }
 
-                        Surface(
+                            phase.confirmationActions.forEach { action ->
+                                PhaseButton(
+                                    onClick = { confirmAction(action) },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(tileSize / 2)
+                                ) {
+                                    Box(contentAlignment = Alignment.Center) {
+                                        Text(
+                                            text = when (action) {
+                                                is Phase.PlacingFigure.ConfirmationAction.ScoreAbbot -> "Score abbot"
+                                            },
+                                        )
+                                    }
+                                }
+                                Text(
+                                    text = "or",
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                            }
+                        } else {
+                            if (phase.validFigurePlacements.values.flatten().isNotEmpty()) {
+                                Text(
+                                    text = "Move a meeple",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    modifier = Modifier
+                                        .padding(vertical = 8.dp)
+                                        .align(alignment = Alignment.CenterHorizontally)
+                                )
+                                Text(
+                                    text = "or",
+                                    style = MaterialTheme.typography.bodySmall,
+                                )
+                            }
+                        }
+
+                        PhaseButton(
                             onClick = { confirmFigurePlacement(phase) },
-                            shape = RoundedCornerShape(4.dp),
                             modifier = Modifier
                                 .size(tileSize)
                         ) {
@@ -85,7 +150,6 @@ fun PhaseHud(
                                 if (phase.placedFigure == null) {
                                     Text(
                                         text = "Skip",
-                                        fontWeight = FontWeight.Bold,
                                     )
                                 } else {
                                     Icon(
@@ -101,10 +165,8 @@ fun PhaseHud(
                     }
 
                     is Phase.PlacingTile -> {
-                        Surface(
+                        PhaseButton(
                             onClick = onTilesLeftClick,
-                            shape = RoundedCornerShape(4.dp),
-                            color = Color.Transparent,
                             modifier = Modifier
                                 .align(alignment = Alignment.CenterHorizontally)
                                 .fillMaxWidth()
@@ -123,9 +185,8 @@ fun PhaseHud(
                                 tile = phase.tile.toUiTile(),
                             )
                         } else {
-                            Surface(
+                            PhaseButton(
                                 onClick = { confirmTilePlacement(phase) },
-                                shape = RoundedCornerShape(4.dp),
                                 modifier = Modifier
                                     .size(tileSize)
                             ) {
@@ -186,6 +247,17 @@ private class PhaseParameterProvider : PreviewParameterProvider<Phase> {
             )
         },
         placedFigure = null,
+        confirmationActions = listOf(
+            Phase.PlacingFigure.ConfirmationAction.ScoreAbbot(
+                figure = PlacedFigure(
+                    placedElement = Tiles.Basic.A.monastery.rotated(Rotation.ROTATE_0).placed(0, 0),
+                    figure = PlayerFigure(
+                        figure = Abbot,
+                        player = Players.green,
+                    ),
+                ),
+            ),
+        ),
     )
     private val previewPhasePlacingFigurePlaced = previewPhasePlacingFigureFresh.copy(
         placedFigure = PlacedFigure(
@@ -226,6 +298,7 @@ private fun PhaseHudPreview(
                 remainingTilesCount = 71,
                 confirmTilePlacement = {},
                 confirmFigurePlacement = {},
+                confirmAction = {},
                 undo = {},
                 onTilesLeftClick = {},
                 modifier = Modifier.padding(16.dp)

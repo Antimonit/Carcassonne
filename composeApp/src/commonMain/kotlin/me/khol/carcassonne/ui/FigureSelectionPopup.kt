@@ -185,6 +185,7 @@ fun FigureSelectionPopupPreview() {
                 figureSupply = figureSupply,
             ),
             placedFigure = placedFigure,
+            confirmationActions = emptyList(),
         )
 
     MaterialTheme {

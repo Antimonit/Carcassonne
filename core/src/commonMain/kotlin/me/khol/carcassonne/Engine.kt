@@ -43,6 +43,11 @@ class Engine(
     fun confirmTilePlacement(phase: Phase.PlacingTile) {
         val placedTile = phase.placedTile ?: return
         _game.update { game ->
+            val scoreAbbotActions =
+                game.board.figures.values.flatten()
+                    .filter { it.figure.player == game.currentPlayer }
+                    .filter { it.figure.figure == Abbot }
+                    .map { Phase.PlacingFigure.ConfirmationAction.ScoreAbbot(figure = it) }
             game.copy(
                 phase = Phase.PlacingFigure(
                     placedTile = placedTile,
@@ -52,6 +57,7 @@ class Engine(
                         currentPlayer = game.currentPlayer,
                         figureSupply = game.figureSupply,
                     ),
+                    confirmationActions = scoreAbbotActions,
                 ),
             )
         }
@@ -64,16 +70,37 @@ class Engine(
     }
 
     fun confirmFigurePlacement(phase: Phase.PlacingFigure) {
+        confirmTurn(
+            placedTile = phase.placedTile,
+            placedFigure = phase.placedFigure,
+            action = null,
+        )
+    }
+
+    fun confirmAction(action: Phase.PlacingFigure.ConfirmationAction) {
+        val placedTile = (_game.value.phase as Phase.PlacingFigure).placedTile
+        confirmTurn(
+            placedTile = placedTile,
+            placedFigure = null,
+            action = action,
+        )
+    }
+
+    private fun confirmTurn(
+        placedTile: PlacedTile,
+        placedFigure: PlacedFigure?,
+        action: Phase.PlacingFigure.ConfirmationAction?,
+    ) {
         scope.launch {
             var nextGame = _game.value.let { game ->
                 val placedBoard = game.board.placeTile(
-                    placedTile = phase.placedTile,
-                    placedFigures = listOfNotNull(phase.placedFigure),
+                    placedTile = placedTile,
+                    placedFigures = listOfNotNull(placedFigure),
                 )
                 val tilePlacementEvent = History.Event.TilePlacement(
                     player = game.currentPlayer,
-                    placedTile = phase.placedTile,
-                    placedFigure = phase.placedFigure,
+                    placedTile = placedTile,
+                    placedFigure = placedFigure,
                     board = placedBoard.copy(),
                 )
                 game.copy(
@@ -81,6 +108,24 @@ class Engine(
                     remainingTiles = game.remainingTiles.drop(1),
                     history = game.history.addEvent(tilePlacementEvent),
                 )
+            }
+
+            if (action is Phase.PlacingFigure.ConfirmationAction.ScoreAbbot) {
+                val feature = nextGame.board.allFeatures.find {
+                    it.placedElements.contains(action.figure.placedElement)
+                }
+
+                feature?.let {
+                    val scoringEvent = History.Event.Scoring(
+                        triggerPlayer = nextGame.currentPlayer,
+                        scoringPlayers = setOf(nextGame.currentPlayer),
+                        feature = feature,
+                        figures = setOf(action.figure),
+                        points = feature.points(endGame = true)!!,
+                        board = nextGame.board,
+                    )
+                    nextGame = nextGame.animateScoring(scoringEvent)
+                }
             }
 
             // We need to process one event at the time since in some expansions
@@ -91,22 +136,8 @@ class Engine(
                     board = nextGame.board,
                     currentPlayer = nextGame.currentPlayer,
                 )
-
                 if (scoringEvent != null) {
-                    _game.value = nextGame.copy(
-                        phase = Phase.Scoring(scoringEvent),
-                    )
-                    delay(2500)
-                    nextGame = _game.value.let {
-                        it.copy(
-                            board = it.board.removeFigures(scoringEvent.figures),
-                            history = it.history.addEvent(scoringEvent),
-                            scoreboard = it.scoreboard.addScores(
-                                players = scoringEvent.scoringPlayers,
-                                points = scoringEvent.points,
-                            ),
-                        )
-                    }
+                    nextGame = nextGame.animateScoring(scoringEvent)
                 }
             } while (scoringEvent != null)
 
@@ -123,6 +154,23 @@ class Engine(
                     currentPlayer = it.players.nextOf(it.currentPlayer),
                 )
             }
+        }
+    }
+
+    private suspend fun Game.animateScoring(scoringEvent: History.Event.Scoring): Game {
+        _game.value = this.copy(
+            phase = Phase.Scoring(scoringEvent),
+        )
+        delay(2500)
+        return _game.value.let {
+            it.copy(
+                board = it.board.removeFigures(scoringEvent.figures),
+                history = it.history.addEvent(scoringEvent),
+                scoreboard = it.scoreboard.addScores(
+                    players = scoringEvent.scoringPlayers,
+                    points = scoringEvent.points,
+                ),
+            )
         }
     }
 }

@@ -130,6 +130,7 @@ fun App() {
                     remainingTilesCount = game.remainingTiles.size,
                     confirmTilePlacement = engine::confirmTilePlacement,
                     confirmFigurePlacement = engine::confirmFigurePlacement,
+                    confirmAction = engine::confirmAction,
                     onTilesLeftClick = { remainingTilesDialogOpen = true },
                     undo = engine::undo,
                     modifier = Modifier

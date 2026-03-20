@@ -105,6 +105,7 @@ class EngineTest {
                 figureSupply = figureSupply,
             ),
             placedFigure = placedFigure,
+            confirmationActions = emptyList(),
         )
 
     @Test
