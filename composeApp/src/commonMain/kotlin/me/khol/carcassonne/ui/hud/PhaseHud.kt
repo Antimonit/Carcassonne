@@ -23,9 +23,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import me.khol.carcassonne.Phase
+import me.khol.carcassonne.PlacedFigure
+import me.khol.carcassonne.PlayerFigure
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.feature.placed
+import me.khol.carcassonne.figure.Abbot
+import me.khol.carcassonne.figure.Meeple
+import me.khol.carcassonne.fixtures.Players
 import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
@@ -165,37 +173,59 @@ fun PhaseHud(
     }
 }
 
+private class PhaseParameterProvider : PreviewParameterProvider<Phase> {
+
+    private val previewTile = Tiles.Basic.D.tile
+    private val previewRotatedTile = previewTile.rotated(Rotation.ROTATE_180)
+    private val previewPlacedTile = previewRotatedTile.placed(1, 0)
+    private val previewPhasePlacingFigureFresh = Phase.PlacingFigure(
+        placedTile = previewPlacedTile,
+        validFigurePlacements = previewRotatedTile.rotatedElements.all().associateWith { rotatedElement ->
+            listOf(
+                PlacedFigure(
+                    placedElement = rotatedElement.placed(1, 0),
+                    figure = PlayerFigure(figure = Meeple, player = Players.green),
+                )
+            )
+        },
+        selectedFigure = null,
+    )
+    private val previewPhasePlacingFigurePlaced = previewPhasePlacingFigureFresh.copy(
+        selectedFigure = PlacedFigure(
+            placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(0, 0),
+            figure = PlayerFigure(
+                figure = Abbot,
+                player = Players.green,
+            ),
+        )
+    )
+
+    override fun getDisplayName(index: Int): String? = when (index) {
+        0 -> "PlacingTile.Fresh"
+        1 -> "PlacingTile.Placed"
+        2 -> "PlacingFigure"
+        3 -> "PlacingFigure placed figure"
+        else -> null
+    }
+
+    override val values = sequenceOf(
+        Phase.PlacingTile.Fresh(tile = previewTile),
+        Phase.PlacingTile.Placed(placedTile = previewPlacedTile),
+        previewPhasePlacingFigureFresh,
+        previewPhasePlacingFigurePlaced,
+    )
+}
 
 @Preview
 @Composable
-private fun PhaseHudPlacingTilePreview() {
+private fun PhaseHudPreview(
+    @PreviewParameter(PhaseParameterProvider::class)
+    phase: Phase,
+) {
     MaterialTheme {
         Surface {
             PhaseHud(
-                phase = Phase.PlacingTile.Fresh(
-                    tile = Tiles.Basic.D.tile,
-                ),
-                remainingTilesCount = 71,
-                confirmTilePlacement = {},
-                confirmFigurePlacement = {},
-                undo = {},
-                onTilesLeftClick = {},
-                modifier = Modifier.padding(16.dp)
-            )
-        }
-    }
-}
-@Preview
-@Composable
-private fun PhaseHudPlacingFigurePreview() {
-    MaterialTheme {
-        Surface {
-            val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0)
-            PhaseHud(
-                phase = Phase.PlacingFigure(
-                    placedTile = tile.placed(0, 0),
-                    validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
-                ),
+                phase = phase,
                 remainingTilesCount = 71,
                 confirmTilePlacement = {},
                 confirmFigurePlacement = {},
