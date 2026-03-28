@@ -31,7 +31,7 @@ fun scoringEvent(
         feature.points(endGame = false)?.let { points ->
             History.Event.Scoring(
                 triggerPlayer = currentPlayer,
-                scoringPlayers = placedFigures.maxPresence(feature),
+                scoringPlayers = placedFigures.map { it.figure }.maxPresence(feature),
                 feature = feature,
                 figures = placedFigures,
                 points = points,
@@ -41,10 +41,10 @@ fun scoringEvent(
     }
 }
 
-private fun List<PlacedFigure>.maxPresence(feature: Feature): Set<Player> {
-    val presence = groupingBy { it.figure.player }
-        .fold(0) { presence, figure ->
-            presence + figure.figure.figure.presence(feature)
+internal fun List<PlayerFigure>.maxPresence(feature: Feature): Set<Player> {
+    val presence = groupingBy { it.player }
+        .fold(0) { presence, it ->
+            presence + it.figure.presence(feature)
         }
     val maxPresence = presence.values.max()
     return presence.filterValues { it == maxPresence }.keys
