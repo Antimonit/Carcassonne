@@ -1,5 +1,7 @@
 package me.khol.carcassonne
 
+import me.khol.carcassonne.feature.Feature
+
 fun scoringEvent(
     board: Board,
     currentPlayer: Player,
@@ -29,7 +31,7 @@ fun scoringEvent(
         feature.points(endGame = false)?.let { points ->
             History.Event.Scoring(
                 triggerPlayer = currentPlayer,
-                scoringPlayers = placedFigures.maxPresence(),
+                scoringPlayers = placedFigures.maxPresence(feature),
                 feature = feature,
                 figures = placedFigures,
                 points = points,
@@ -39,8 +41,11 @@ fun scoringEvent(
     }
 }
 
-private fun List<PlacedFigure>.maxPresence(): Set<Player> {
-    val presence = groupingBy { it.figure.player }.eachCount()
+private fun List<PlacedFigure>.maxPresence(feature: Feature): Set<Player> {
+    val presence = groupingBy { it.figure.player }
+        .fold(0) { presence, figure ->
+            presence + figure.figure.figure.presence(feature)
+        }
     val maxPresence = presence.values.max()
     return presence.filterValues { it == maxPresence }.keys
 }
