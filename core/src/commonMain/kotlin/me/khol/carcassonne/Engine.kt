@@ -40,6 +40,22 @@ class Engine(
         }
     }
 
+    fun confirmTilePlacement(phase: Phase.PlacingTile.Placed) {
+        val placing = phase.placedTile
+        _game.update { game ->
+            game.copy(
+                phase = Phase.PlacingFigure(
+                    placedTile = placing,
+                    validFigurePlacements = game.board.validFigurePlacements(
+                        placedTile = placing,
+                        currentPlayer = game.currentPlayer,
+                        figureSupply = game.figureSupply,
+                    ),
+                ),
+            )
+        }
+    }
+
     fun placeFigure(phase: Phase.PlacingFigure, placedFigure: PlacedFigure) {
         _game.update { game ->
             game.copy(phase = phase.copy(selectedFigure = placedFigure))
@@ -104,22 +120,6 @@ class Engine(
                     currentPlayer = it.players.nextOf(it.currentPlayer),
                 )
             }
-        }
-    }
-
-    fun confirmTilePlacement(phase: Phase.PlacingTile.Placed) {
-        val placing = phase.placedTile
-        _game.update { game ->
-            game.copy(
-                phase = Phase.PlacingFigure(
-                    placedTile = placing,
-                    validFigurePlacements = game.board.validFigurePlacements(
-                        placedTile = placing,
-                        currentPlayer = game.currentPlayer,
-                        figureSupply = game.figureSupply,
-                    ),
-                ),
-            )
         }
     }
 }
