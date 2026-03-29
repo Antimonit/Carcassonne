@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.key
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -40,7 +39,7 @@ import me.khol.carcassonne.ui.tile.toUiTile
 fun Board(
     board: Board,
     phase: Phase,
-    onPlaceTile: (PlacedTile) -> Unit,
+    onPlaceTile: (Phase.PlacingTile, PlacedTile) -> Unit,
     onPlaceFigure: (Phase.PlacingFigure, PlacedFigure) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -81,7 +80,7 @@ fun Board(
                             rotatedUiTile = rotatedUiTile,
                             validMeeplePlacements = phase.validFigurePlacements,
                         )
-                        phase.selectedFigure?.let {
+                        phase.placedFigure?.let {
                             TileFiguresOverlay(
                                 figures = listOf(it),
                                 rotatedUiTile = rotatedUiTile,
@@ -93,10 +92,8 @@ fun Board(
                 )
             }
             is Phase.PlacingTile -> {
-                val tile = phase.tile
-                val openSpaces = remember(board, tile) { board.possibleSpacesForTile(tile) }
-                if (phase is Phase.PlacingTile.Placed) {
-                    val placingTile = phase.placedTile
+                val openSpaces = phase.validTilePlacements
+                phase.placedTile?.let { placingTile ->
                     val possibilities = openSpaces.getValue(placingTile.coordinates)
                     val rotatedUiTile = placingTile.rotatedTile.toUiTile()
                     key(placingTile.coordinates) {
@@ -105,13 +102,13 @@ fun Board(
                             modifier = Modifier
                                 .coordinates(placingTile.coordinates)
                                 .clickable {
-                                    onPlaceTile(possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
+                                    onPlaceTile(phase, possibilities[(possibilities.indexOf(placingTile) + 1) % possibilities.size])
                                 }
                         )
                     }
                 }
                 openSpaces.forEach { (coordinates, placedTiles) ->
-                    if (phase !is Phase.PlacingTile.Placed || phase.placedTile.coordinates != coordinates) {
+                    if (phase.placedTile?.coordinates != coordinates) {
                         key(coordinates) {
                             Box(
                                 modifier = Modifier
@@ -120,7 +117,7 @@ fun Board(
                                     .background(Color.Black.copy(alpha = 0.12f))
                                     .coordinates(coordinates)
                                     .clickable {
-                                        onPlaceTile(placedTiles.first())
+                                        onPlaceTile(phase, placedTiles.first())
                                     }
                             )
                         }
@@ -174,26 +171,31 @@ fun SimpleBoard(
 private fun BoardPreview() {
     MaterialTheme {
         Surface {
-            Board(
-                board = Board
-                    .starting(startingTile = Tiles.Basic.D.tile)
-                    .placeTile(
-                        coordinates = Coordinates(-1, 0),
-                        tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
-                        placedFigures = listOf(
-                            PlacedFigure(
-                                placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(-1, 0),
-                                figure = PlayerFigures.greenMeeple,
-                            ),
+            val board = Board
+                .starting(startingTile = Tiles.Basic.D.tile)
+                .placeTile(
+                    coordinates = Coordinates(-1, 0),
+                    tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
+                    placedFigures = listOf(
+                        PlacedFigure(
+                            placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(-1, 0),
+                            figure = PlayerFigures.greenMeeple,
                         ),
-                    )
-                    .placeTile(coordinates = Coordinates(-2, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(-3, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(1, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(1, -1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0), placedFigures = emptyList())
-                    .placeTile(coordinates = Coordinates(0, 1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList()),
-                phase = Phase.PlacingTile.Fresh(Tiles.Basic.D.tile),
-                onPlaceTile = { },
+                    ),
+                )
+                .placeTile(coordinates = Coordinates(-2, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+                .placeTile(coordinates = Coordinates(-3, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+                .placeTile(coordinates = Coordinates(1, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+                .placeTile(coordinates = Coordinates(1, -1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0), placedFigures = emptyList())
+                .placeTile(coordinates = Coordinates(0, 1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+            val tile = Tiles.Basic.D.tile
+            Board(
+                board = board,
+                phase = Phase.PlacingTile(
+                    tile = tile,
+                    validTilePlacements = board.possibleSpacesForTile(tile),
+                ),
+                onPlaceTile = { _, _ -> },
                 onPlaceFigure = { _, _ -> },
             )
         }
@@ -253,7 +255,7 @@ private fun BoardScoringPreview(
                         board = board,
                     )
                 ),
-                onPlaceTile = { },
+                onPlaceTile = { _, _ -> },
                 onPlaceFigure = { _, _ -> },
             )
         }

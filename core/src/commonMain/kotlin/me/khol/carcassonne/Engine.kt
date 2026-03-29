@@ -34,20 +34,21 @@ class Engine(
         }
     }
 
-    fun placeTile(tile: PlacedTile) {
+    fun placeTile(phase: Phase.PlacingTile, placedTile: PlacedTile) {
         _game.update { game ->
-            game.copy(phase = Phase.PlacingTile.Placed(placedTile = tile))
+            game.copy(phase = phase.copy(placedTile = placedTile))
         }
     }
 
-    fun confirmTilePlacement(phase: Phase.PlacingTile.Placed) {
-        val placing = phase.placedTile
+    fun confirmTilePlacement(phase: Phase.PlacingTile) {
+        val placedTile = phase.placedTile ?: return
         _game.update { game ->
             game.copy(
                 phase = Phase.PlacingFigure(
-                    placedTile = placing,
+                    placedTile = placedTile,
+                    validTilePlacements = phase.validTilePlacements,
                     validFigurePlacements = game.board.validFigurePlacements(
-                        placedTile = placing,
+                        placedTile = placedTile,
                         currentPlayer = game.currentPlayer,
                         figureSupply = game.figureSupply,
                     ),
@@ -58,7 +59,7 @@ class Engine(
 
     fun placeFigure(phase: Phase.PlacingFigure, placedFigure: PlacedFigure) {
         _game.update { game ->
-            game.copy(phase = phase.copy(selectedFigure = placedFigure))
+            game.copy(phase = phase.copy(placedFigure = placedFigure))
         }
     }
 
@@ -70,12 +71,12 @@ class Engine(
                 val placedBoard = game.board.placeTile(
                     coordinates = placing.coordinates,
                     tile = placing.rotatedTile,
-                    placedFigures = listOfNotNull(phase.selectedFigure),
+                    placedFigures = listOfNotNull(phase.placedFigure),
                 )
                 val tilePlacementEvent = History.Event.TilePlacement(
                     player = game.currentPlayer,
                     placedTile = phase.placedTile,
-                    placedFigure = phase.selectedFigure,
+                    placedFigure = phase.placedFigure,
                     board = placedBoard.copy(),
                 )
                 game.copy(
@@ -115,7 +116,12 @@ class Engine(
             _game.value = nextGame.let {
                 it.copy(
                     phase = it.remainingTiles.firstOrNull()
-                        ?.let(Phase.PlacingTile::Fresh)
+                        ?.let { nextTile ->
+                            Phase.PlacingTile(
+                                tile = nextTile,
+                                validTilePlacements = it.board.possibleSpacesForTile(nextTile),
+                            )
+                        }
                         ?: Phase.FinalScoring,
                     currentPlayer = it.players.nextOf(it.currentPlayer),
                 )

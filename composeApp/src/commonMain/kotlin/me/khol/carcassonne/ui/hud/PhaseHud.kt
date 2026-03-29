@@ -45,7 +45,7 @@ import me.khol.carcassonne.ui.tile.toUiTile
 fun PhaseHud(
     phase: Phase,
     remainingTilesCount: Int,
-    confirmTilePlacement: (phase: Phase.PlacingTile.Placed) -> Unit,
+    confirmTilePlacement: (phase: Phase.PlacingTile) -> Unit,
     confirmFigurePlacement: (phase: Phase.PlacingFigure) -> Unit,
     undo: () -> Unit,
     onTilesLeftClick: () -> Unit,
@@ -82,7 +82,7 @@ fun PhaseHud(
                                 .size(tileSize)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
-                                if (phase.selectedFigure == null) {
+                                if (phase.placedFigure == null) {
                                     Text(
                                         text = "Skip",
                                         fontWeight = FontWeight.Bold,
@@ -118,29 +118,25 @@ fun PhaseHud(
                                 )
                             }
                         }
-                        when (phase) {
-                            is Phase.PlacingTile.Fresh -> {
-                                Tile(
-                                    tile = phase.tile.toUiTile(),
-                                )
-                            }
-
-                            is Phase.PlacingTile.Placed -> {
-                                Surface(
-                                    onClick = { confirmTilePlacement(phase) },
-                                    shape = RoundedCornerShape(4.dp),
-                                    modifier = Modifier
-                                        .size(tileSize)
-                                ) {
-                                    Box(contentAlignment = Alignment.Center) {
-                                        Icon(
-                                            imageVector = Icons.Default.Check,
-                                            contentDescription = "Confirm tile placement",
-                                            tint = Color.Black,
-                                            modifier = Modifier
-                                                .size(48.dp)
-                                        )
-                                    }
+                        if (phase.placedTile == null) {
+                            Tile(
+                                tile = phase.tile.toUiTile(),
+                            )
+                        } else {
+                            Surface(
+                                onClick = { confirmTilePlacement(phase) },
+                                shape = RoundedCornerShape(4.dp),
+                                modifier = Modifier
+                                    .size(tileSize)
+                            ) {
+                                Box(contentAlignment = Alignment.Center) {
+                                    Icon(
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = "Confirm tile placement",
+                                        tint = Color.Black,
+                                        modifier = Modifier
+                                            .size(48.dp)
+                                    )
                                 }
                             }
                         }
@@ -167,7 +163,7 @@ fun PhaseHud(
             }
         }
 
-        if (phase is Phase.Undoable) {
+        if (phase is Phase.Undoable && phase.undo() != phase) {
             UndoButton(onClick = undo)
         }
     }
@@ -180,6 +176,7 @@ private class PhaseParameterProvider : PreviewParameterProvider<Phase> {
     private val previewPlacedTile = previewRotatedTile.placed(1, 0)
     private val previewPhasePlacingFigureFresh = Phase.PlacingFigure(
         placedTile = previewPlacedTile,
+        validTilePlacements = emptyMap(),
         validFigurePlacements = previewRotatedTile.rotatedElements.all().associateWith { rotatedElement ->
             listOf(
                 PlacedFigure(
@@ -188,10 +185,10 @@ private class PhaseParameterProvider : PreviewParameterProvider<Phase> {
                 )
             )
         },
-        selectedFigure = null,
+        placedFigure = null,
     )
     private val previewPhasePlacingFigurePlaced = previewPhasePlacingFigureFresh.copy(
-        selectedFigure = PlacedFigure(
+        placedFigure = PlacedFigure(
             placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(0, 0),
             figure = PlayerFigure(
                 figure = Abbot,
@@ -201,16 +198,16 @@ private class PhaseParameterProvider : PreviewParameterProvider<Phase> {
     )
 
     override fun getDisplayName(index: Int): String? = when (index) {
-        0 -> "PlacingTile.Fresh"
-        1 -> "PlacingTile.Placed"
+        0 -> "PlacingTile"
+        1 -> "PlacingTile placed tile"
         2 -> "PlacingFigure"
         3 -> "PlacingFigure placed figure"
         else -> null
     }
 
-    override val values = sequenceOf(
-        Phase.PlacingTile.Fresh(tile = previewTile),
-        Phase.PlacingTile.Placed(placedTile = previewPlacedTile),
+    override val values = sequenceOf<Phase>(
+        Phase.PlacingTile(tile = previewTile, validTilePlacements = emptyMap()),
+        Phase.PlacingTile(tile = previewTile, validTilePlacements = emptyMap(), placedTile = previewPlacedTile),
         previewPhasePlacingFigureFresh,
         previewPhasePlacingFigurePlaced,
     )

@@ -7,28 +7,26 @@ sealed interface Phase {
         fun undo(): Phase
     }
 
-    sealed interface PlacingTile : Phase {
+    data class PlacingTile(
+        val tile: Tile,
+        val validTilePlacements: Map<Coordinates, List<PlacedTile>>,
+        val placedTile: PlacedTile? = null,
+    ) : Phase, Undoable {
 
-        val tile: Tile
-
-        data class Fresh(
-            override val tile: Tile,
-        ) : PlacingTile
-
-        data class Placed(
-            val placedTile: PlacedTile,
-        ) : PlacingTile, Undoable {
-
-            override val tile: Tile = placedTile.rotatedTile.tile
-
-            override fun undo() = Fresh(tile = tile)
+        init {
+            check(placedTile == null || placedTile in validTilePlacements.getValue(placedTile.coordinates)) {
+                "Can not place $tile as $placedTile. Can place only as $validTilePlacements."
+            }
         }
+
+        override fun undo(): Phase = copy(placedTile = null)
     }
 
     data class PlacingFigure(
         val placedTile: PlacedTile,
+        val validTilePlacements: Map<Coordinates, List<PlacedTile>>,
         val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
-        val selectedFigure: PlacedFigure? = null,
+        val placedFigure: PlacedFigure? = null,
     ) : Phase, Undoable {
 
         init {
@@ -42,10 +40,14 @@ sealed interface Phase {
         }
 
         override fun undo(): Phase =
-            if (selectedFigure != null) {
-                copy(selectedFigure = null)
+            if (placedFigure != null) {
+                copy(placedFigure = null)
             } else {
-                PlacingTile.Placed(placedTile = placedTile)
+                PlacingTile(
+                    tile = placedTile.rotatedTile.tile,
+                    validTilePlacements = validTilePlacements,
+                    placedTile = placedTile,
+                )
             }
     }
 

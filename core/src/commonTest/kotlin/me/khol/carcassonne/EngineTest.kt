@@ -35,62 +35,76 @@ class EngineTest {
 
     @Test
     fun `undo placing an unplaced tile has no effect`() {
-        assertIs<Phase.PlacingTile.Fresh>(engine.game.value.phase)
+        assertIs<Phase.PlacingTile>(engine.game.value.phase).also {
+            assertNull(it.placedTile)
+        }
         engine.undo()
-        assertIs<Phase.PlacingTile.Fresh>(engine.game.value.phase)
+        assertIs<Phase.PlacingTile>(engine.game.value.phase).also {
+            assertNull(it.placedTile)
+        }
     }
 
     @Test
     fun `undo placing a placed tile`() {
+        val tile = Tiles.Basic.D.tile
+        val placedTile = tile.rotated(Rotation.ROTATE_0).placed(1, 0)
         engine.placeTile(
-            tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0)
+            phase = engine.game.value.placingTile(tile = tile, placedTile = placedTile),
+            placedTile = placedTile,
         )
-        assertIs<Phase.PlacingTile.Placed>(engine.game.value.phase)
+        assertIs<Phase.PlacingTile>(engine.game.value.phase).also {
+            assertNotNull(it.placedTile)
+        }
         engine.undo()
-        assertIs<Phase.PlacingTile.Fresh>(engine.game.value.phase)
+        assertIs<Phase.PlacingTile>(engine.game.value.phase).also {
+            assertNull(it.placedTile)
+        }
     }
 
     @Test
     fun `undo placing a meeple`() {
-        val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0)
+        val placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0)
         engine.placeFigure(
-            phase = engine.game.value.placingFigureFreshPhase(tile),
+            phase = engine.game.value.placingFigure(placedTile),
             placedFigure = PlacedFigure(
                 placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_0).placed(1, 0),
                 figure = PlayerFigures.greenMeeple,
             )
         )
         assertIs<Phase.PlacingFigure>(engine.game.value.phase).also {
-            assertNotNull(it.selectedFigure)
+            assertNotNull(it.placedFigure)
         }
         engine.undo()
         assertIs<Phase.PlacingFigure>(engine.game.value.phase).also {
-            assertNull(it.selectedFigure)
+            assertNull(it.placedFigure)
         }
         engine.undo()
-        assertIs<Phase.PlacingTile.Placed>(engine.game.value.phase)
+        assertIs<Phase.PlacingTile>(engine.game.value.phase).also {
+            assertNotNull(it.placedTile)
+        }
         engine.undo()
-        assertIs<Phase.PlacingTile.Fresh>(engine.game.value.phase)
+        assertIs<Phase.PlacingTile>(engine.game.value.phase).also {
+            assertNull(it.placedTile)
+        }
     }
 
-    private fun Game.placingFigureFreshPhase(tile: PlacedTile) =
-        Phase.PlacingFigure(
-            placedTile = tile,
-            validFigurePlacements = validFigurePlacements(tile),
+    private fun Game.placingTile(tile: Tile, placedTile: PlacedTile? = null) =
+        Phase.PlacingTile(
+            tile = tile,
+            validTilePlacements = board.possibleSpacesForTile(tile),
+            placedTile = placedTile,
         )
 
-    private fun Game.placingFigurePlacedPhase(tile: PlacedTile, placedFigure: PlacedFigure) =
+    private fun Game.placingFigure(placedTile: PlacedTile, placedFigure: PlacedFigure? = null) =
         Phase.PlacingFigure(
-            placedTile = tile,
-            validFigurePlacements = validFigurePlacements(tile),
-            selectedFigure = placedFigure,
-        )
-
-    private fun Game.validFigurePlacements(tile: PlacedTile) =
-        board.validFigurePlacements(
-            placedTile = tile,
-            currentPlayer = currentPlayer,
-            figureSupply = figureSupply,
+            placedTile = placedTile,
+            validTilePlacements = board.possibleSpacesForTile(placedTile.rotatedTile.tile),
+            validFigurePlacements = board.validFigurePlacements(
+                placedTile = placedTile,
+                currentPlayer = currentPlayer,
+                figureSupply = figureSupply,
+            ),
+            placedFigure = placedFigure,
         )
 
     @Test
@@ -98,12 +112,12 @@ class EngineTest {
         assertEquals(playerRed, engine.game.value.currentPlayer)
         val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0)
         engine.confirmFigurePlacement(
-            phase = engine.game.value.placingFigureFreshPhase(tile.placed(1, 0))
+            phase = engine.game.value.placingFigure(tile.placed(1, 0))
         )
         testScheduler.runCurrent()
         assertEquals(playerGreen, engine.game.value.currentPlayer)
         engine.confirmFigurePlacement(
-            phase = engine.game.value.placingFigureFreshPhase(tile.placed(2, 0))
+            phase = engine.game.value.placingFigure(tile.placed(2, 0))
         )
         testScheduler.runCurrent()
         assertEquals(playerRed, engine.game.value.currentPlayer)
@@ -118,7 +132,7 @@ class EngineTest {
             awaitItem()
 
             engine.confirmFigurePlacement(
-                phase = engine.game.value.placingFigureFreshPhase(tileL.placed(-1, 0))
+                phase = engine.game.value.placingFigure(tileL.placed(-1, 0))
             )
             awaitItem()
 
@@ -127,7 +141,7 @@ class EngineTest {
                 figure = PlayerFigures.greenMeeple,
             )
             engine.confirmFigurePlacement(
-                phase = engine.game.value.placingFigurePlacedPhase(tileP.placed(1, 0), greenFigure)
+                phase = engine.game.value.placingFigure(tileP.placed(1, 0), greenFigure)
             )
             awaitItem()
 
@@ -136,17 +150,19 @@ class EngineTest {
                 figure = PlayerFigures.redMeeple,
             )
             engine.confirmFigurePlacement(
-                phase = engine.game.value.placingFigurePlacedPhase(tileP.placed(0, -1), redFigure)
+                phase = engine.game.value.placingFigure(tileP.placed(0, -1), redFigure)
             )
             with(awaitItem()) {
-                assertIs<Phase.PlacingTile.Fresh>(phase)
+                assertIs<Phase.PlacingTile>(phase).also {
+                    assertNull(it.placedTile)
+                }
                 assertIs<History.Event.TilePlacement>(history.events.last())
             }
             expectNoEvents()
 
             // This tile placement triggers scoring for two players for two separate features.
             engine.confirmFigurePlacement(
-                phase = engine.game.value.placingFigureFreshPhase(tileL.placed(1, -1))
+                phase = engine.game.value.placingFigure(tileL.placed(1, -1))
             )
 
             // Zoom on to the green player scoring but do not update scoreboard or history yet.

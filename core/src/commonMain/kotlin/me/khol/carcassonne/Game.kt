@@ -44,14 +44,17 @@ data class Game(
             }
 
             val remainingTiles = tiles.minus(startingTile).shuffled(random)
-
+            val board = Board.starting(startingTile = startingTile)
             return Game(
                 tiles = tiles,
                 remainingTiles = remainingTiles,
-                board = Board.starting(startingTile = startingTile),
-                phase = remainingTiles.firstOrNull()
-                    ?.let { Phase.PlacingTile.Fresh(tile = it) }
-                    ?: Phase.FinalScoring,
+                board = board,
+                phase = remainingTiles.firstOrNull()?.let {
+                    Phase.PlacingTile(
+                        tile = it,
+                        validTilePlacements = board.possibleSpacesForTile(it)
+                    )
+                } ?: Phase.FinalScoring,
                 history = History(events = emptyList()),
                 players = players,
                 maxFigureCounts = mapOf(
