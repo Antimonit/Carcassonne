@@ -1,7 +1,5 @@
 package me.khol.carcassonne
 
-import me.khol.carcassonne.feature.Feature
-
 sealed interface Phase {
 
     interface Undoable {
@@ -27,47 +25,28 @@ sealed interface Phase {
         }
     }
 
-    sealed interface PlacingFigure : Phase {
+    data class PlacingFigure(
+        val placedTile: PlacedTile,
+        val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
+        val selectedFigure: PlacedFigure? = null,
+    ) : Phase, Undoable {
 
-        val placedTile: PlacedTile
-        val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>
-
-        data class Fresh(
-            override val placedTile: PlacedTile,
-            override val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
-        ) : PlacingFigure, Undoable {
-
-            init {
-                val allElements = placedTile.rotatedTile.rotatedElements.all()
-                check(validFigurePlacements.size == allElements.size) {
-                    "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
-                }
-                check(validFigurePlacements.keys == allElements.toSet()) {
-                    "Elements in validFigurePlacements and allElements do not match."
-                }
+        init {
+            val allElements = placedTile.rotatedTile.rotatedElements.all()
+            check(validFigurePlacements.size == allElements.size) {
+                "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
             }
-
-            override fun undo() = PlacingTile.Placed(placedTile = placedTile)
+            check(validFigurePlacements.keys == allElements.toSet()) {
+                "Elements in validFigurePlacements and allElements do not match."
+            }
         }
 
-        data class Placed(
-            override val placedTile: PlacedTile,
-            override val validFigurePlacements: Map<RotatedElement<*>, List<PlacedFigure>>,
-            val placedFigure: PlacedFigure,
-        ) : PlacingFigure, Undoable {
-
-            init {
-                val allElements = placedTile.rotatedTile.rotatedElements.all()
-                check(validFigurePlacements.size == allElements.size) {
-                    "Element count in validElements (${validFigurePlacements.size}) and allElements (${allElements.size}) do not match."
-                }
-                check(validFigurePlacements.keys == allElements.toSet()) {
-                    "Elements in validFigurePlacements and allElements do not match."
-                }
+        override fun undo(): Phase =
+            if (selectedFigure != null) {
+                copy(selectedFigure = null)
+            } else {
+                PlacingTile.Placed(placedTile = placedTile)
             }
-
-            override fun undo() = Fresh(placedTile = placedTile, validFigurePlacements = validFigurePlacements)
-        }
     }
 
     data class Scoring(

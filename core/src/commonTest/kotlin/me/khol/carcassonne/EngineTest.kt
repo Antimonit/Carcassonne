@@ -5,7 +5,6 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.runTest
 import me.khol.carcassonne.feature.City
-import me.khol.carcassonne.feature.Feature
 import me.khol.carcassonne.feature.Road
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
@@ -16,6 +15,8 @@ import kotlin.test.Test
 import kotlin.test.assertContains
 import kotlin.test.assertEquals
 import kotlin.test.assertIs
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 class EngineTest {
 
@@ -51,16 +52,21 @@ class EngineTest {
 
     @Test
     fun `undo placing a meeple`() {
+        val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0)
         engine.placeFigure(
-            tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, 0),
+            phase = engine.game.value.placingFigureFreshPhase(tile),
             placedFigure = PlacedFigure(
                 placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_0).placed(1, 0),
                 figure = PlayerFigures.greenMeeple,
             )
         )
-        assertIs<Phase.PlacingFigure.Placed>(engine.game.value.phase)
+        assertIs<Phase.PlacingFigure>(engine.game.value.phase).also {
+            assertNotNull(it.selectedFigure)
+        }
         engine.undo()
-        assertIs<Phase.PlacingFigure.Fresh>(engine.game.value.phase)
+        assertIs<Phase.PlacingFigure>(engine.game.value.phase).also {
+            assertNull(it.selectedFigure)
+        }
         engine.undo()
         assertIs<Phase.PlacingTile.Placed>(engine.game.value.phase)
         engine.undo()
@@ -68,16 +74,16 @@ class EngineTest {
     }
 
     private fun Game.placingFigureFreshPhase(tile: PlacedTile) =
-        Phase.PlacingFigure.Fresh(
+        Phase.PlacingFigure(
             placedTile = tile,
             validFigurePlacements = validFigurePlacements(tile),
         )
 
     private fun Game.placingFigurePlacedPhase(tile: PlacedTile, placedFigure: PlacedFigure) =
-        Phase.PlacingFigure.Placed(
+        Phase.PlacingFigure(
             placedTile = tile,
             validFigurePlacements = validFigurePlacements(tile),
-            placedFigure = placedFigure,
+            selectedFigure = placedFigure,
         )
 
     private fun Game.validFigurePlacements(tile: PlacedTile) =

@@ -74,23 +74,19 @@ fun PhaseHud(
                                 .size(tileSize)
                         ) {
                             Box(contentAlignment = Alignment.Center) {
-                                when (phase) {
-                                    is Phase.PlacingFigure.Fresh -> {
-                                        Text(
-                                            text = "Skip",
-                                            fontWeight = FontWeight.Bold,
-                                        )
-                                    }
-
-                                    is Phase.PlacingFigure.Placed -> {
-                                        Icon(
-                                            imageVector = Icons.Default.Check,
-                                            contentDescription = "Confirm meeple placement",
-                                            tint = Color.Black,
-                                            modifier = Modifier
-                                                .size(48.dp)
-                                        )
-                                    }
+                                if (phase.selectedFigure == null) {
+                                    Text(
+                                        text = "Skip",
+                                        fontWeight = FontWeight.Bold,
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = Icons.Default.Check,
+                                        contentDescription = "Confirm meeple placement",
+                                        tint = Color.Black,
+                                        modifier = Modifier
+                                            .size(48.dp)
+                                    )
                                 }
                             }
                         }
@@ -196,7 +192,7 @@ private fun PhaseHudPlacingFigurePreview() {
         Surface {
             val tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0)
             PhaseHud(
-                phase = Phase.PlacingFigure.Fresh(
+                phase = Phase.PlacingFigure(
                     placedTile = tile.placed(0, 0),
                     validFigurePlacements = tile.rotatedElements.all().associateWith { emptyList() },
                 ),

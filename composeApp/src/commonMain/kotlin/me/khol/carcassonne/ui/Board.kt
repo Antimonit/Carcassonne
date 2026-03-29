@@ -41,7 +41,7 @@ fun Board(
     board: Board,
     phase: Phase,
     onPlaceTile: (PlacedTile) -> Unit,
-    onPlaceFigure: (PlacedTile, PlacedFigure) -> Unit,
+    onPlaceFigure: (Phase.PlacingFigure, PlacedFigure) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     GridLayout(
@@ -77,20 +77,15 @@ fun Board(
                     rotatedUiTile = rotatedUiTile,
                     overlay = {
                         TileElementsOverlay(
-                            onElementClick = {
-                                onPlaceFigure(placingTile, it)
-                            },
+                            onElementClick = { onPlaceFigure(phase, it) },
                             rotatedUiTile = rotatedUiTile,
                             validMeeplePlacements = phase.validFigurePlacements,
                         )
-                        when (phase) {
-                            is Phase.PlacingFigure.Fresh -> Unit
-                            is Phase.PlacingFigure.Placed -> {
-                                TileFiguresOverlay(
-                                    figures = listOf(phase.placedFigure),
-                                    rotatedUiTile = rotatedUiTile,
-                                )
-                            }
+                        phase.selectedFigure?.let {
+                            TileFiguresOverlay(
+                                figures = listOf(it),
+                                rotatedUiTile = rotatedUiTile,
+                            )
                         }
                     },
                     modifier = Modifier
@@ -198,8 +193,8 @@ private fun BoardPreview() {
                     .placeTile(coordinates = Coordinates(1, -1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0), placedFigures = emptyList())
                     .placeTile(coordinates = Coordinates(0, 1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList()),
                 phase = Phase.PlacingTile.Fresh(Tiles.Basic.D.tile),
-                onPlaceTile = { tile -> },
-                onPlaceFigure = { tile, figure -> },
+                onPlaceTile = { },
+                onPlaceFigure = { _, _ -> },
             )
         }
     }
@@ -258,8 +253,8 @@ private fun BoardScoringPreview(
                         board = board,
                     )
                 ),
-                onPlaceTile = { _ -> },
-            onPlaceFigure = { _, _ -> },
+                onPlaceTile = { },
+                onPlaceFigure = { _, _ -> },
             )
         }
     }

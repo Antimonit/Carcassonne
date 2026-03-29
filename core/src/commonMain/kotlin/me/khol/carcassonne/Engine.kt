@@ -40,19 +40,9 @@ class Engine(
         }
     }
 
-    fun placeFigure(tile: PlacedTile, placedFigure: PlacedFigure) {
+    fun placeFigure(phase: Phase.PlacingFigure, placedFigure: PlacedFigure) {
         _game.update { game ->
-            game.copy(
-                phase = Phase.PlacingFigure.Placed(
-                    placedTile = tile,
-                    placedFigure = placedFigure,
-                    validFigurePlacements = game.board.validFigurePlacements(
-                        placedTile = tile,
-                        currentPlayer = game.currentPlayer,
-                        figureSupply = game.figureSupply,
-                    ),
-                )
-            )
+            game.copy(phase = phase.copy(selectedFigure = placedFigure))
         }
     }
 
@@ -64,18 +54,12 @@ class Engine(
                 val placedBoard = game.board.placeTile(
                     coordinates = placing.coordinates,
                     tile = placing.rotatedTile,
-                    placedFigures = when (phase) {
-                        is Phase.PlacingFigure.Fresh -> emptyList()
-                        is Phase.PlacingFigure.Placed -> listOf(phase.placedFigure)
-                    },
+                    placedFigures = listOfNotNull(phase.selectedFigure),
                 )
                 val tilePlacementEvent = History.Event.TilePlacement(
                     player = game.currentPlayer,
                     placedTile = phase.placedTile,
-                    placedFigure = when (phase) {
-                        is Phase.PlacingFigure.Fresh -> null
-                        is Phase.PlacingFigure.Placed -> phase.placedFigure
-                    },
+                    placedFigure = phase.selectedFigure,
                     board = placedBoard.copy(),
                 )
                 game.copy(
@@ -127,7 +111,7 @@ class Engine(
         val placing = phase.placedTile
         _game.update { game ->
             game.copy(
-                phase = Phase.PlacingFigure.Fresh(
+                phase = Phase.PlacingFigure(
                     placedTile = placing,
                     validFigurePlacements = game.board.validFigurePlacements(
                         placedTile = placing,
