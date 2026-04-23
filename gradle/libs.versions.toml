@@ -1,6 +1,6 @@
 [versions]
 # https://github.com/JetBrains/kotlin/releases
-kotlin = "2.3.20"
+kotlin = "2.3.21"
 # https://mvnrepository.com/artifact/com.android.tools.build/gradle
 android = "9.1.1"
 # https://github.com/Kotlin/kotlinx.coroutines/releases
