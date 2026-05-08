@@ -72,7 +72,7 @@ fun TileFiguresOverlay(
     }
 }
 
-private fun Figure.drawable(
+fun Figure.drawable(
     player: Player,
     isField: Boolean,
 ): DrawableResource = when (this) {

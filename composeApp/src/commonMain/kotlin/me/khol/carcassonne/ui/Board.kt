@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.History
@@ -72,24 +73,30 @@ fun Board(
             is Phase.PlacingFigure -> {
                 val placingTile = phase.placedTile
                 val rotatedUiTile = placingTile.rotatedTile.toUiTile()
-                RotatedTile(
-                    rotatedUiTile = rotatedUiTile,
-                    overlay = {
-                        TileElementsOverlay(
-                            onElementClick = { onPlaceFigure(phase, it) },
-                            rotatedUiTile = rotatedUiTile,
-                            validMeeplePlacements = phase.validFigurePlacements,
-                        )
-                        phase.placedFigure?.let {
-                            TileFiguresOverlay(
-                                figures = listOf(it),
-                                rotatedUiTile = rotatedUiTile,
-                            )
-                        }
-                    },
+                FigureSelectionPopupBox(
+                    phase = phase,
+                    onPlaceFigure = onPlaceFigure,
                     modifier = Modifier
                         .coordinates(placingTile.coordinates)
-                )
+                        .zIndex(2f)
+                ) {
+                    RotatedTile(
+                        rotatedUiTile = rotatedUiTile,
+                        overlay = {
+                            TileElementsOverlay(
+                                onElementClick = { onPlaceFigure(phase, it) },
+                                rotatedUiTile = rotatedUiTile,
+                                validMeeplePlacements = phase.validFigurePlacements,
+                            )
+                            phase.placedFigure?.let {
+                                TileFiguresOverlay(
+                                    figures = listOf(it),
+                                    rotatedUiTile = rotatedUiTile,
+                                )
+                            }
+                        },
+                    )
+                }
             }
             is Phase.PlacingTile -> {
                 val openSpaces = phase.validTilePlacements
