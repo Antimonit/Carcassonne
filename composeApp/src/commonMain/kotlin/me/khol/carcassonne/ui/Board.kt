@@ -257,7 +257,7 @@ private fun BoardScoringPreview(
                         triggerPlayer = Players.green,
                         scoringPlayers = scoringPlayers,
                         feature = board.elementToFeature(placedFigure.placedElement),
-                        figures = listOf(placedFigure),
+                        figures = setOf(placedFigure),
                         points = 6,
                         board = board,
                     )

@@ -22,7 +22,7 @@ data class History(
             val triggerPlayer: Player,
             val scoringPlayers: Set<Player>,
             val feature: Feature,
-            val figures: List<PlacedFigure>,
+            val figures: Set<PlacedFigure>,
             val points: Int,
             val board: Board,
         ) : Event

@@ -180,7 +180,7 @@ private fun TileScoringOverlayPreview() {
                     triggerPlayer = Players.green,
                     scoringPlayers = setOf(Players.green),
                     feature = board.elementToFeature(placedFigure.placedElement),
-                    figures = listOf(placedFigure),
+                    figures = setOf(placedFigure),
                     points = 4,
                     board = board,
                 )

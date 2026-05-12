@@ -86,7 +86,7 @@ data class Board(
             .associateWith { centerSpace -> validTileRotations(centerSpace, tile) }
             .filterValues { it.isNotEmpty() }
 
-    fun removeFigures(figures: List<PlacedFigure>): Board = copy(
+    fun removeFigures(figures: Set<PlacedFigure>): Board = copy(
         figures = this.figures.mapValues { (_, placedFigures) ->
             placedFigures - figures
         }

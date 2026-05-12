@@ -23,7 +23,7 @@ fun scoringEvent(
             is Element.Garden -> gardenFeatures.first { garden -> figure.placedElement == garden.placedGarden }
             else -> error("Unknown element type ${figure.placedElement.rotatedElement.element::class}")
         }
-    }
+    }.mapValues { it.value.toSet() }
 
     // TODO: Ordering: Monastery, Garden, Road, City?
 
