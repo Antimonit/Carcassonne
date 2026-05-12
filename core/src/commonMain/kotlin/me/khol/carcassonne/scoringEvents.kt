@@ -29,6 +29,10 @@ internal fun List<PlayerFigure>.maxPresence(feature: Feature): Set<Player> {
         .fold(0) { presence, it ->
             presence + it.figure.presence(feature)
         }
+        // Realistically, only Mayor can provide 0 presence in a finished city.
+        // Pigs and Builders should be removed automatically shall they become
+        // the only remaining figure on a feature.
+        .filterValues { it > 0 }
     val maxPresence = presence.values.maxOrNull()
     return presence.filterValues { it == maxPresence }.keys
 }
