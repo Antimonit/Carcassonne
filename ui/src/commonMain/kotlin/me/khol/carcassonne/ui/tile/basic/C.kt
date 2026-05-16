@@ -1,9 +1,9 @@
 package me.khol.carcassonne.ui.tile.basic
 
 import androidx.compose.ui.geometry.Offset
-import carcassonne.composeapp.generated.resources.Res
-import carcassonne.composeapp.generated.resources.tile_basic_C
 import me.khol.carcassonne.tiles.Tiles
+import me.khol.carcassonne.ui.generated.resources.Res
+import me.khol.carcassonne.ui.generated.resources.tile_basic_C
 import me.khol.carcassonne.ui.tile.UiTile
 import me.khol.carcassonne.ui.tile.svgToShape
 

@@ -21,9 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
-import carcassonne.composeapp.generated.resources.Res
-import carcassonne.composeapp.generated.resources.cross
 import me.khol.carcassonne.Game
+import me.khol.carcassonne.ui.generated.resources.Res
+import me.khol.carcassonne.ui.generated.resources.cross
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.tileSpacing
 import org.jetbrains.compose.resources.painterResource

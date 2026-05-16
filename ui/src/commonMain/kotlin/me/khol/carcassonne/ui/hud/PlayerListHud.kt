@@ -22,11 +22,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import carcassonne.composeapp.generated.resources.Res
-import carcassonne.composeapp.generated.resources.ic_meeple_outline
-import carcassonne.composeapp.generated.resources.ic_star_outline
 import me.khol.carcassonne.Game
 import me.khol.carcassonne.figure.Meeple
+import me.khol.carcassonne.ui.generated.resources.Res
+import me.khol.carcassonne.ui.generated.resources.ic_meeple_outline
+import me.khol.carcassonne.ui.generated.resources.ic_star_outline
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

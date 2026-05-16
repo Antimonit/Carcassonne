@@ -16,8 +16,6 @@ import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import carcassonne.composeapp.generated.resources.Res
-import carcassonne.composeapp.generated.resources.*
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.Player
@@ -31,6 +29,8 @@ import me.khol.carcassonne.figure.Pig
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
+import me.khol.carcassonne.ui.generated.resources.Res
+import me.khol.carcassonne.ui.generated.resources.*
 import me.khol.carcassonne.ui.tile.RotatedUiTile
 import me.khol.carcassonne.ui.tile.tileSize
 import me.khol.carcassonne.ui.tile.toUiTile

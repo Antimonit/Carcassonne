@@ -47,6 +47,11 @@ kotlin {
     }
 }
 
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "me.khol.carcassonne.ui.generated.resources"
+}
+
 dependencies {
     androidRuntimeClasspath(libs.compose.ui.tooling)
 }
