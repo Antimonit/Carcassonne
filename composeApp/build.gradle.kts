@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
@@ -8,7 +7,6 @@ plugins {
     alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.compose.compiler)
-    alias(libs.plugins.compose.hotReload)
 }
 
 kotlin {
@@ -48,8 +46,6 @@ kotlin {
     }
 
     sourceSets {
-        val desktopMain by getting
-
         commonMain.dependencies {
             implementation(project(":core"))
             implementation(libs.compose.runtime)
@@ -60,9 +56,6 @@ kotlin {
             implementation(libs.compose.components.resources)
             implementation(libs.compose.ui.tooling.preview)
         }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -71,17 +64,4 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.ui.tooling)
-}
-
-compose.desktop {
-    application {
-        mainClass = "me.khol.carcassonne.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "Carcassonne"
-            packageVersion = "1.0.1"
-            vendor = "David Khol"
-        }
-    }
 }
