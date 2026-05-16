@@ -5,6 +5,7 @@ import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.PlacedFigure
 import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.fixtures.PlayerFigures
+import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
@@ -35,8 +36,8 @@ class CityFeaturesTest {
         }
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), Tiles.Basic.F.tile.rotated(Rotation.ROTATE_90), emptyList())
-            .placeTile(Coordinates(0, -2), Tiles.Basic.E.tile.rotated(Rotation.ROTATE_180), emptyList())
+            .placeTile(Tiles.Basic.F.tile.rotated(Rotation.ROTATE_90).placed(0, -1), emptyList())
+            .placeTile(Tiles.Basic.E.tile.rotated(Rotation.ROTATE_180).placed(0, -2), emptyList())
 
         newBoard.cityFeatures.run {
             assertEquals(1, size)
@@ -63,7 +64,7 @@ class CityFeaturesTest {
     fun `city features can merge`() {
         val board = Board
             .starting(startingTile = Tiles.Basic.D.tile)
-            .placeTile(Coordinates(1, 0), Tiles.Basic.K.tile.rotated(Rotation.ROTATE_0), emptyList())
+            .placeTile(Tiles.Basic.K.tile.rotated(Rotation.ROTATE_0).placed(1, 0), emptyList())
 
         assertEquals(
             expected = setOf(
@@ -86,8 +87,8 @@ class CityFeaturesTest {
         )
 
         val newBoard = board
-            .placeTile(Coordinates(0, -1), Tiles.Basic.R.tile.rotated(Rotation.ROTATE_90), emptyList())
-            .placeTile(Coordinates(1, -1), Tiles.Basic.R.tile.rotated(Rotation.ROTATE_270), emptyList())
+            .placeTile(Tiles.Basic.R.tile.rotated(Rotation.ROTATE_90).placed(0, -1), emptyList())
+            .placeTile(Tiles.Basic.R.tile.rotated(Rotation.ROTATE_270).placed(1, -1), emptyList())
 
         assertEquals(
             expected = setOf(
@@ -118,9 +119,9 @@ class CityFeaturesTest {
         )
 
         val board = Board.starting(startingTile = Tiles.Basic.D.tile)
-            .placeTile(Coordinates(1, 0), Tiles.Basic.K.tile.rotated(Rotation.ROTATE_0), listOf(figureOne))
-            .placeTile(Coordinates(0, -1), Tiles.Basic.R.tile.rotated(Rotation.ROTATE_90), listOf(figureTwo))
-            .placeTile(Coordinates(1, -1), Tiles.Basic.R.tile.rotated(Rotation.ROTATE_270), emptyList())
+            .placeTile(Tiles.Basic.K.tile.rotated(Rotation.ROTATE_0).placed(1, 0), listOf(figureOne))
+            .placeTile(Tiles.Basic.R.tile.rotated(Rotation.ROTATE_90).placed(0, -1), listOf(figureTwo))
+            .placeTile(Tiles.Basic.R.tile.rotated(Rotation.ROTATE_270).placed(1, -1), emptyList())
 
         assertEquals(
             expected = setOf(

@@ -29,6 +29,7 @@ import me.khol.carcassonne.elementToFeature
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
+import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.GridScope.coordinates
@@ -181,8 +182,7 @@ private fun BoardPreview() {
             val board = Board
                 .starting(startingTile = Tiles.Basic.D.tile)
                 .placeTile(
-                    coordinates = Coordinates(-1, 0),
-                    tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
+                    placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(-1, 0),
                     placedFigures = listOf(
                         PlacedFigure(
                             placedElement = Tiles.Basic.D.road.rotated(Rotation.ROTATE_180).placed(-1, 0),
@@ -190,11 +190,11 @@ private fun BoardPreview() {
                         ),
                     ),
                 )
-                .placeTile(coordinates = Coordinates(-2, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                .placeTile(coordinates = Coordinates(-3, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                .placeTile(coordinates = Coordinates(1, 0), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
-                .placeTile(coordinates = Coordinates(1, -1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0), placedFigures = emptyList())
-                .placeTile(coordinates = Coordinates(0, 1), tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), placedFigures = emptyList())
+                .placeTile(placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(-2, 0), placedFigures = emptyList())
+                .placeTile(placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(-3, 0), placedFigures = emptyList())
+                .placeTile(placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(1, 0), placedFigures = emptyList())
+                .placeTile(placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(1, -1), placedFigures = emptyList())
+                .placeTile(placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(0, 1), placedFigures = emptyList())
             val tile = Tiles.Basic.D.tile
             Board(
                 board = board,
@@ -241,13 +241,11 @@ private fun BoardScoringPreview(
             val board = Board
                 .starting(startingTile = Tiles.Basic.D.tile)
                 .placeTile(
-                    coordinates = Coordinates(0, -1),
-                    tile = Tiles.Basic.P.tile.rotated(Rotation.ROTATE_180),
+                    placedTile = Tiles.Basic.P.tile.rotated(Rotation.ROTATE_180).placed(0, -1),
                     placedFigures = listOf(placedFigure),
                 )
                 .placeTile(
-                    coordinates = Coordinates(1, -1),
-                    tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_270),
+                    placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_270).placed(1, -1),
                     placedFigures = listOf(placedFigure2),
                 )
             Board(

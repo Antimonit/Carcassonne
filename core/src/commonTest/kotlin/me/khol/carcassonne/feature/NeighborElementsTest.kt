@@ -4,6 +4,7 @@ import me.khol.carcassonne.Board
 import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
@@ -16,13 +17,10 @@ class NeighborElementsTest {
     fun `road neighbors`() {
         val board = Board
             .empty
-            .placeTile(Coordinates(0, 0), Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0), emptyList())
-            .placeTile(Coordinates(1, 0), Tiles.Basic.A.tile.rotated(Rotation.ROTATE_90), emptyList())
+            .placeTile(Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(0, 0), emptyList())
+            .placeTile(Tiles.Basic.A.tile.rotated(Rotation.ROTATE_90).placed(1, 0), emptyList())
 
-        val placedRoad = PlacedRoad(
-            coordinates = Coordinates(1, 0),
-            rotatedElement = Tiles.Basic.A.road.rotated(Rotation.ROTATE_90),
-        )
+        val placedRoad = Tiles.Basic.A.road.rotated(Rotation.ROTATE_90).placed(1, 0)
 
         assertContains(
             iterable = board.getTile(Coordinates(1, 0))!!.rotatedElements.all(),
@@ -30,7 +28,7 @@ class NeighborElementsTest {
         )
 
         assertEquals(
-            expected = setOf(PlacedRoad(Coordinates(0,0), Tiles.Basic.D.road.rotated(rotation = Rotation.ROTATE_0))),
+            expected = setOf(Tiles.Basic.D.road.rotated(rotation = Rotation.ROTATE_0).placed(0,0)),
             actual = placedRoad.neighborElements(board = board, key = Element.Road),
         )
     }
@@ -39,13 +37,10 @@ class NeighborElementsTest {
     fun `field neighbors`() {
         val board = Board
             .empty
-            .placeTile(Coordinates(0, 0), Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0), emptyList())
-            .placeTile(Coordinates(1, 0), Tiles.Basic.A.tile.rotated(Rotation.ROTATE_90), emptyList())
+            .placeTile(Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(0, 0), emptyList())
+            .placeTile(Tiles.Basic.A.tile.rotated(Rotation.ROTATE_90).placed(1, 0), emptyList())
 
-        val placedField = PlacedField(
-            coordinates = Coordinates(1, 0),
-            rotatedElement = Tiles.Basic.A.field.rotated(Rotation.ROTATE_90),
-        )
+        val placedField = Tiles.Basic.A.field.rotated(Rotation.ROTATE_90).placed(1, 0)
 
         assertContains(
             iterable = board.getTile(Coordinates(1, 0))!!.rotatedElements.all(),
@@ -55,8 +50,8 @@ class NeighborElementsTest {
         assertEquals(
             expected = setOf(
                 null, // the field has open edges
-                PlacedField(Coordinates(0,0), Tiles.Basic.D.fieldTop.rotated(rotation = Rotation.ROTATE_0)),
-                PlacedField(Coordinates(0,0), Tiles.Basic.D.fieldBottom.rotated(rotation = Rotation.ROTATE_0)),
+                Tiles.Basic.D.fieldTop.rotated(rotation = Rotation.ROTATE_0).placed(0,0),
+                Tiles.Basic.D.fieldBottom.rotated(rotation = Rotation.ROTATE_0).placed(0,0),
             ),
             actual = placedField.neighborElements(board = board, key = Element.Field),
         )

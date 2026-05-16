@@ -1,9 +1,9 @@
 package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
-import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.river.BB6F1
 import me.khol.carcassonne.tiles.river.BB6F10
@@ -16,15 +16,15 @@ class GardenFeaturesTest {
     @Test
     fun `garden feature`() {
         val board = Board.starting(startingTile = BB6F1)
-            .placeTile(Coordinates(0, -1), BB6F10.rotated(Rotation.ROTATE_180), emptyList())
+            .placeTile(BB6F10.rotated(Rotation.ROTATE_180).placed(0, -1), emptyList())
 
         val gardenFeatures = board.gardenFeatures
         assertEquals(1, gardenFeatures.size)
 
         val gardenFeature = gardenFeatures.first()
         assertEquals(
-            expected =Garden(
-                placedGarden = PlacedGarden(Coordinates(0, -1), Element.Garden.rotated(Rotation.ROTATE_180)),
+            expected = Garden(
+                placedGarden = Element.Garden.rotated(Rotation.ROTATE_180).placed(0, -1),
                 neighborCount = 2,
                 figures = emptyList(),
             ),

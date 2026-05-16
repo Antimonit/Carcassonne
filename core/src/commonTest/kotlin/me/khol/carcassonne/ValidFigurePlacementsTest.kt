@@ -15,8 +15,7 @@ class ValidFigurePlacementsTest {
     fun `valid figure placements`() {
         val board = Board.starting(startingTile = Tiles.Basic.D.tile)
             .placeTile(
-                coordinates = Coordinates(1, 0),
-                tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
+                placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(1, 0),
                 placedFigures = listOf(
                     PlacedFigure(
                         placedElement = Tiles.Basic.D.fieldTop.rotated(Rotation.ROTATE_180).placed(1, 0),
@@ -64,14 +63,13 @@ class ValidFigurePlacementsTest {
         repeat(7) { x ->
             val coordinates = Coordinates(x + 1, 0)
             board = board.placeTile(
-                coordinates = coordinates,
-                tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0),
+                placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_0).placed(coordinates),
                 placedFigures = listOf(
                     PlacedFigure(
                         placedElement = Tiles.Basic.D.city.rotated(Rotation.ROTATE_0).placed(coordinates),
                         figure = PlayerFigures.greenMeeple,
                     ),
-                ),
+                )
             )
         }
 

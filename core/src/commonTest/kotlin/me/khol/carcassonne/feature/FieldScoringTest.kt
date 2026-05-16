@@ -1,8 +1,8 @@
 package me.khol.carcassonne.feature
 
 import me.khol.carcassonne.Board
-import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Rotation
+import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
@@ -13,8 +13,8 @@ class FieldScoringTest {
     @Test
     fun `field with unfinished city`() {
         val board = Board.starting(startingTile = Tiles.Basic.D.tile)
-            .placeTile(Coordinates(1, 0), Tiles.Basic.V.tile.rotated(Rotation.ROTATE_90), emptyList())
-            .placeTile(Coordinates(1, -1), Tiles.Basic.V.tile.rotated(Rotation.ROTATE_0), emptyList())
+            .placeTile(Tiles.Basic.V.tile.rotated(Rotation.ROTATE_90).placed(1, 0), emptyList())
+            .placeTile(Tiles.Basic.V.tile.rotated(Rotation.ROTATE_0).placed(1, -1), emptyList())
 
         assertEquals(0, board.fieldFeatures.mapNotNull { it.points(endGame = true) }.max())
     }
@@ -22,9 +22,9 @@ class FieldScoringTest {
     @Test
     fun `finished field`() {
         val board = Board.starting(startingTile = Tiles.Basic.D.tile)
-            .placeTile(Coordinates(1, 0), Tiles.Basic.V.tile.rotated(Rotation.ROTATE_90), emptyList())
-            .placeTile(Coordinates(1, -1), Tiles.Basic.V.tile.rotated(Rotation.ROTATE_0), emptyList())
-            .placeTile(Coordinates(0, -1), Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180), emptyList())
+            .placeTile(Tiles.Basic.V.tile.rotated(Rotation.ROTATE_90).placed(1, 0), emptyList())
+            .placeTile(Tiles.Basic.V.tile.rotated(Rotation.ROTATE_0).placed(1, -1), emptyList())
+            .placeTile(Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(0, -1), emptyList())
 
         assertEquals(3, board.fieldFeatures.mapNotNull { it.points(endGame = true) }.max())
     }

@@ -14,8 +14,8 @@ class MaxPresenceTest {
 
     private val cityFeature = board.cityFeatures.first()
     private val cityFeatureWithTwoCoatOfArms = board
-        .placeTile(Coordinates(0, -1), Tiles.Basic.C.tile.rotated(Rotation.ROTATE_0), emptyList())
-        .placeTile(Coordinates(0, -2), Tiles.Basic.C.tile.rotated(Rotation.ROTATE_0), emptyList())
+        .placeTile(Tiles.Basic.C.tile.rotated(Rotation.ROTATE_0).placed(0, -1), emptyList())
+        .placeTile(Tiles.Basic.C.tile.rotated(Rotation.ROTATE_0).placed(0, -2), emptyList())
         .cityFeatures.first()
 
     @Test

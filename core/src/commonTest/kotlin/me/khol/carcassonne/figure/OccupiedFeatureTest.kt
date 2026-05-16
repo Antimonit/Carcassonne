@@ -1,7 +1,6 @@
 package me.khol.carcassonne.figure
 
 import me.khol.carcassonne.Board
-import me.khol.carcassonne.Coordinates
 import me.khol.carcassonne.Element
 import me.khol.carcassonne.ElementPosition
 import me.khol.carcassonne.PlacedFigure
@@ -10,6 +9,7 @@ import me.khol.carcassonne.Rotation
 import me.khol.carcassonne.Tile
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
+import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import kotlin.test.Test
@@ -23,21 +23,17 @@ class OccupiedFeatureTest {
         element: E,
         figure: PlayerFigure? = PlayerFigures.greenMeeple,
         rotation: Rotation = Rotation.ROTATE_0,
-    ): Board {
-        val coordinates = Coordinates(x, y)
-        return placeTile(
-            coordinates = coordinates,
-            tile = tile.rotated(rotation),
-            placedFigures = listOfNotNull(
-                figure?.let {
-                    PlacedFigure(
-                        placedElement = element.rotated(rotation).placed(coordinates),
-                        figure = it,
-                    )
-                }
-            ),
-        )
-    }
+    ): Board = placeTile(
+        placedTile = tile.rotated(rotation).placed(x, y),
+        placedFigures = listOfNotNull(
+            figure?.let {
+                PlacedFigure(
+                    placedElement = element.rotated(rotation).placed(x, y),
+                    figure = it,
+                )
+            }
+        ),
+    )
 
     @Test
     fun `placing a meeple into an occupied city should fail`() {

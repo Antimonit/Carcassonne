@@ -66,11 +66,8 @@ class Engine(
     fun confirmFigurePlacement(phase: Phase.PlacingFigure) {
         scope.launch {
             var nextGame = _game.value.let { game ->
-                val placing = phase.placedTile
-                val remainingTiles = game.remainingTiles.drop(1)
                 val placedBoard = game.board.placeTile(
-                    coordinates = placing.coordinates,
-                    tile = placing.rotatedTile,
+                    placedTile = phase.placedTile,
                     placedFigures = listOfNotNull(phase.placedFigure),
                 )
                 val tilePlacementEvent = History.Event.TilePlacement(
@@ -81,7 +78,7 @@ class Engine(
                 )
                 game.copy(
                     board = placedBoard,
-                    remainingTiles = remainingTiles,
+                    remainingTiles = game.remainingTiles.drop(1),
                     history = game.history.addEvent(tilePlacementEvent),
                 )
             }

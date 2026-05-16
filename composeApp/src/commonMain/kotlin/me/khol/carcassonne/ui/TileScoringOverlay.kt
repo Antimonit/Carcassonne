@@ -32,6 +32,7 @@ import me.khol.carcassonne.elementToFeature
 import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.fixtures.PlayerFigures
 import me.khol.carcassonne.fixtures.Players
+import me.khol.carcassonne.placed
 import me.khol.carcassonne.rotated
 import me.khol.carcassonne.tiles.Tiles
 import me.khol.carcassonne.ui.hud.uiColor
@@ -166,8 +167,7 @@ private fun TileScoringOverlayPreview() {
         val board = Board
             .starting(startingTile = Tiles.Basic.D.tile)
             .placeTile(
-                coordinates = Coordinates(x = 0, y = -1),
-                tile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180),
+                placedTile = Tiles.Basic.D.tile.rotated(Rotation.ROTATE_180).placed(0, -1),
                 placedFigures = listOf(placedFigure),
             )
         Box(

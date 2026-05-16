@@ -30,11 +30,7 @@ class FigureSupplyTest {
     fun `less figures available after placing them`() {
         val supply = board
             .placeTile(
-                coordinates = Coordinates(1, 0),
-                tile = RotatedTile(
-                    tile = A.tile,
-                    rotation = Rotation.ROTATE_90,
-                ),
+                placedTile = A.tile.rotated(Rotation.ROTATE_90).placed(1, 0),
                 placedFigures = listOf(
                     PlacedFigure(
                         placedElement = A.road.rotated(Rotation.ROTATE_90).placed(1, 0),
@@ -46,11 +42,7 @@ class FigureSupplyTest {
                 )
             )
             .placeTile(
-                coordinates = Coordinates(-1, 0),
-                tile = RotatedTile(
-                    tile = A.tile,
-                    rotation = Rotation.ROTATE_270,
-                ),
+                placedTile = A.tile.rotated(Rotation.ROTATE_270).placed(-1, 0),
                 placedFigures = listOf(
                     PlacedFigure(
                         placedElement = A.monastery.rotated(Rotation.ROTATE_270).placed(-1, 0),

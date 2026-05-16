@@ -45,8 +45,7 @@ data class Board(
         fun starting(
             startingTile: Tile,
         ) = empty.placeTile(
-            coordinates = Coordinates(0, 0),
-            tile = startingTile.rotated(Rotation.ROTATE_0),
+            placedTile = startingTile.rotated(Rotation.ROTATE_0).placed(0, 0),
             placedFigures = emptyList(),
         )
     }
@@ -57,19 +56,23 @@ data class Board(
 
     fun getFigures(placedElement: PlacedElement<*>): List<PlacedFigure> = figures[placedElement.coordinates].orEmpty().filter { it.placedElement == placedElement }
 
-    fun placeTile(coordinates: Coordinates, tile: RotatedTile, placedFigures: List<PlacedFigure>): Board {
+    fun placeTile(placedTile: PlacedTile, placedFigures: List<PlacedFigure>): Board {
+        val coordinates = placedTile.coordinates
+        val rotatedTile = placedTile.rotatedTile
+        val tile = rotatedTile.tile
+
         require(coordinates !in tiles.keys) {
-            "Cannot place tile ${tile.tile.name} at $coordinates as another tile is already placed there."
+            "Cannot place tile ${tile.name} at $coordinates as another tile is already placed there."
         }
         require(coordinates in openSpaces) {
-            "Cannot place tile ${tile.tile.name} at $coordinates as it is not connected to the rest of the board."
+            "Cannot place tile ${tile.name} at $coordinates as it is not connected to the rest of the board."
         }
-        require(tile.placed(coordinates) in possibleSpacesForTile(tile.tile).getOrElse(coordinates) { emptyList() }) {
-            "Cannot place tile ${tile.tile.name} at $coordinates as it does not match edges with one or more neighbors."
+        require(rotatedTile.placed(coordinates) in possibleSpacesForTile(tile).getOrElse(coordinates) { emptyList() }) {
+            "Cannot place tile ${tile.name} at $coordinates as it does not match edges with one or more neighbors."
         }
 
         val boardWithTile = copy(
-            tiles = tiles + (coordinates to tile),
+            tiles = tiles + (coordinates to rotatedTile),
         )
 
         placedFigures.forEach {
