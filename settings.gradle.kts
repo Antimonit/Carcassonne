@@ -18,6 +18,6 @@ dependencyResolutionManagement {
 
 include(":core")
 include(":composeApp")
-include(":android")
-include(":desktop")
-include(":web")
+include(":androidApp")
+include(":desktopApp")
+include(":webApp")
