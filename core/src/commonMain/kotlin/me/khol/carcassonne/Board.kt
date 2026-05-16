@@ -33,7 +33,9 @@ data class Board(
     val gardenFeatures: Set<Garden> by lazy { getGardenFeatures() }
 
     val allFeatures: Set<Feature> by lazy {
-        cityFeatures + roadFeatures + fieldFeatures + monasteryFeatures + gardenFeatures
+        // Ordering matters.
+        // See https://wikicarpedia.com/car/Scoring_During_the_Game
+        roadFeatures + cityFeatures + monasteryFeatures + gardenFeatures + fieldFeatures
     }
 
     companion object {
