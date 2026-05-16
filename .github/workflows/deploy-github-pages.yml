@@ -25,12 +25,12 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Build Web App
-        run: ./gradlew wasmJsBrowserDistribution
+        run: ./gradlew app:webApp:wasmJsBrowserDistribution
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
         with:
-          path: 'composeApp/build/dist/wasmJs/productionExecutable'
+          path: 'app/webApp/build/dist/wasmJs/productionExecutable'
 
   # Deploy job
   deploy:
