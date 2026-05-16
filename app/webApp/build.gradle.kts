@@ -28,7 +28,8 @@ kotlin {
     }
 
     sourceSets {
-        commonMain.dependencies {
+        // TODO: https://youtu.be/Atvl0l7fm1Y?si=TcvlN_0bxWI3t31s&t=705
+        webMain.dependencies {
             implementation(projects.core)
             implementation(projects.ui)
 
