@@ -30,7 +30,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core)
-            implementation(projects.composeApp)
+            implementation(projects.ui)
 
             implementation(libs.compose.ui)
             implementation(libs.compose.material3)
