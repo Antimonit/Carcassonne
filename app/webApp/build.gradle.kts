@@ -11,19 +11,7 @@ kotlin {
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         outputModuleName = "carcassonne"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "webApp.js"
-                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-                    static(project.projectDir.path)
-                }
-            }
-            testTask {
-                useKarma {
-                    useChromeHeadless()
-                }
-            }
-        }
+        browser()
         binaries.executable()
     }
 
