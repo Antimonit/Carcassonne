@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -34,9 +35,10 @@ tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
+@OptIn(ExperimentalKotlinGradlePluginApi::class)
 powerAssert {
     functions.addAll(
-        "kotlin.test.assertEqAAuals",
+        "kotlin.test.assertEquals",
         "kotlin.test.assertTrue",
         "kotlin.test.assertFalse",
         "kotlin.assert",
