@@ -5,24 +5,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
-import me.khol.carcassonne.figure.Abbot
-import me.khol.carcassonne.figure.Meeple
 import me.khol.carcassonne.ui.App
-import me.khol.carcassonne.ui.drawable
+import me.khol.carcassonne.ui.generated.resources.Res
+import me.khol.carcassonne.ui.generated.resources.allDrawableResources
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.preloadImageBitmap
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalResourceApi::class)
 fun main() {
     ComposeViewport {
-        val figureResources = allFigureDrawables.map {
-            preloadImageBitmap(it).value
+        val figureResources = Res.allDrawableResources.values.map {
+            preloadImage(it).value
         }
 
         val loaded = figureResources.count { it != null }
@@ -44,14 +49,11 @@ fun main() {
     }
 }
 
-private val allFigureDrawables: List<DrawableResource>
-    get() = Player.Color.entries
-        .map { Player(it.name, it) }
-        .flatMap {
-            // TODO: This is pretty brittle.
-            listOf(
-                Meeple.drawable(it, true),
-                Meeple.drawable(it, false),
-                Abbot.drawable(it, false),
-            )
-        }
+@Composable
+private fun preloadImage(
+    resource: DrawableResource,
+): State<Painter?> = remember(resource) {
+    mutableStateOf<Painter?>(null)
+}.apply {
+    value = painterResource(resource).takeIf { it.intrinsicSize != Size.Unspecified }
+}
