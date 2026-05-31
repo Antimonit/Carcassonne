@@ -10,7 +10,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.ComposeViewport
-import kotlinx.browser.document
 import me.khol.carcassonne.figure.Abbot
 import me.khol.carcassonne.figure.Meeple
 import me.khol.carcassonne.ui.App
@@ -21,7 +20,7 @@ import org.jetbrains.compose.resources.preloadImageBitmap
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalResourceApi::class)
 fun main() {
-    ComposeViewport(document.body!!) {
+    ComposeViewport {
         val figureResources = allFigureDrawables.map {
             preloadImageBitmap(it).value
         }
