@@ -2,7 +2,7 @@
 # https://github.com/JetBrains/kotlin/releases
 kotlin = "2.4.10"
 # https://mvnrepository.com/artifact/com.android.tools.build/gradle
-android = "9.2.1"
+android = "9.4.0"
 # https://github.com/Kotlin/kotlinx.coroutines/releases
 coroutines = "1.11.0"
 # https://github.com/JetBrains/compose-multiplatform/releases
