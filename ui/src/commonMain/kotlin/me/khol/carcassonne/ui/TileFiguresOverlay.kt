@@ -24,6 +24,8 @@ import me.khol.carcassonne.feature.placed
 import me.khol.carcassonne.figure.Abbot
 import me.khol.carcassonne.figure.Builder
 import me.khol.carcassonne.figure.Figure
+import me.khol.carcassonne.figure.LargeMeeple
+import me.khol.carcassonne.figure.Mayor
 import me.khol.carcassonne.figure.Meeple
 import me.khol.carcassonne.figure.Pig
 import me.khol.carcassonne.fixtures.PlayerFigures
@@ -105,7 +107,8 @@ fun Figure.drawable(
     }
     Builder -> TODO()
     Pig -> TODO()
-    else -> TODO()
+    LargeMeeple -> TODO()
+    Mayor -> TODO()
 }
 
 @Preview

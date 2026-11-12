@@ -3,7 +3,7 @@ package me.khol.carcassonne.figure
 import me.khol.carcassonne.Player
 import me.khol.carcassonne.feature.Feature
 
-interface Figure {
+sealed interface Figure {
 
     fun presence(feature: Feature): Int
 
